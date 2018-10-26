@@ -43,33 +43,46 @@ public class ventanaeleccion extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		SpringLayout sl_contentPane = new SpringLayout();
-		contentPane.setLayout(sl_contentPane);
 		
 		JButton btnNewButton_2 = new JButton("Entrenamientos");
+		btnNewButton_2.setBounds(10, 11, 167, 539);
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				new ventanaentrenamientos().setVisible(true);
+				ventanaeleccion.this.setVisible(false);
 			}
 		});
-		sl_contentPane.putConstraint(SpringLayout.NORTH, btnNewButton_2, 300, SpringLayout.NORTH, contentPane);
-		sl_contentPane.putConstraint(SpringLayout.WEST, btnNewButton_2, 10, SpringLayout.WEST, contentPane);
-		sl_contentPane.putConstraint(SpringLayout.SOUTH, btnNewButton_2, -76, SpringLayout.SOUTH, contentPane);
-		sl_contentPane.putConstraint(SpringLayout.EAST, btnNewButton_2, 177, SpringLayout.WEST, contentPane);
+		contentPane.setLayout(null);
 		contentPane.add(btnNewButton_2);
 		
 		JButton btnNewButton_1 = new JButton("Partidos");
-		sl_contentPane.putConstraint(SpringLayout.NORTH, btnNewButton_1, 0, SpringLayout.NORTH, btnNewButton_2);
-		sl_contentPane.putConstraint(SpringLayout.WEST, btnNewButton_1, 73, SpringLayout.EAST, btnNewButton_2);
-		sl_contentPane.putConstraint(SpringLayout.SOUTH, btnNewButton_1, 175, SpringLayout.NORTH, btnNewButton_2);
-		sl_contentPane.putConstraint(SpringLayout.EAST, btnNewButton_1, 240, SpringLayout.EAST, btnNewButton_2);
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new ventanapartidos().setVisible(true);
+				ventanaeleccion.this.setVisible(false);
+			}
+		});
+		btnNewButton_1.setBounds(200, 11, 167, 539);
 		contentPane.add(btnNewButton_1);
 		
 		JButton btnNewButton = new JButton("Registrar Jugadores");
-		sl_contentPane.putConstraint(SpringLayout.NORTH, btnNewButton, 0, SpringLayout.NORTH, btnNewButton_2);
-		sl_contentPane.putConstraint(SpringLayout.WEST, btnNewButton, 62, SpringLayout.EAST, btnNewButton_1);
-		sl_contentPane.putConstraint(SpringLayout.SOUTH, btnNewButton, 0, SpringLayout.SOUTH, btnNewButton_2);
-		sl_contentPane.putConstraint(SpringLayout.EAST, btnNewButton, -28, SpringLayout.EAST, contentPane);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new ventanaregistro().setVisible(true);
+				ventanaeleccion.this.setVisible(false);
+			}
+		});
+		btnNewButton.setBounds(399, 11, 167, 539);
 		contentPane.add(btnNewButton);
+		
+		JButton btnAtras = new JButton("Atras");
+		btnAtras.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new ventanalogin().setVisible(true);
+				ventanaeleccion.this.setVisible(false);
+			}
+		});
+		btnAtras.setBounds(585, 527, 89, 23);
+		contentPane.add(btnAtras);
 	}
-
 }
