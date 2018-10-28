@@ -1,10 +1,12 @@
 package datos;
 
+import datos.Jugador;
+
 public class Entrenador {
 
 	private String Nombre;
 	private String Apellido;
-	private int Plantilla;
+	private Jugador[] Plantilla;
 	
 	public String getNombre() {
 		return Nombre;
@@ -22,22 +24,17 @@ public class Entrenador {
 		Apellido = apellido;
 	}
 
-	public int getPlantilla() {
-		return Plantilla;
-	}
-
-	public void setPlantilla(int plantilla) {
-		Plantilla = plantilla;
-	}
-
 	public Entrenador(String Nombre, String Apellido) {
 		this.Nombre = Nombre;
 		this.Apellido = Apellido;
 	}
-	
-	public Entrenador(String Nombre, String Apellido, int Plantilla) {
-		this.Nombre = Nombre;
-		this.Apellido = Apellido;
-		this.Plantilla = Plantilla;
+
+	public Jugador[] getPlantilla() {
+		return Plantilla;
 	}
+
+	public void setPlantilla(Jugador[] plantilla) {
+		Plantilla = plantilla;
+	}
+	
 }
