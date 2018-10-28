@@ -1,14 +1,11 @@
-package proyectofutbol;
+package ventanas;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
@@ -16,6 +13,11 @@ import javax.swing.JComboBox;
 
 public class ventanapartidos extends JFrame  {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private JPanel contentPane;
 	public String[] formacion={"2-3-1", "2-2-2", "3-2-1","3-1-2"};
 	public JComboBox jugador1;
@@ -99,21 +101,7 @@ public class ventanapartidos extends JFrame  {
 		formaciones.setBounds(299, 528, 73, 20);
 		contentPane.add(formaciones);
 		Object eleccion= formaciones.getSelectedItem();
-	
-		
 
-        	
         }
 		  
 	}
-
-	
-	
-      
-        
-		
-	
-
-	
-
-
