@@ -22,7 +22,7 @@ public class ventanaregistro extends JFrame {
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
-	public String[] posiciones={"Delantero", "Centrocampista", "Defensa","Portero"};
+	public String[] posiciones={"Delantero", "Centrocampista", "Defensa", "Portero"};
 
 	/**
 	 * Launch the application.

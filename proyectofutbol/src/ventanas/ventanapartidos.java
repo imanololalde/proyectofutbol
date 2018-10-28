@@ -19,7 +19,7 @@ public class ventanapartidos extends JFrame  {
 	private static final long serialVersionUID = 1L;
 	
 	private JPanel contentPane;
-	public String[] formacion={"2-3-1", "2-2-2", "3-2-1","3-1-2"};
+	public String[] formacion={"2-3-1", "2-2-2", "3-2-1", "3-1-2"};
 	public JComboBox jugador1;
 
 	/**
