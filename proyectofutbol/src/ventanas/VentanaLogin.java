@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -12,7 +13,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class ventanalogin extends JFrame {
+public class VentanaLogin extends JFrame {
 
 	/**
 	 * 
@@ -20,9 +21,11 @@ public class ventanalogin extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	private JPanel contentPane;
-	private JTextField textField;
-	private JPasswordField passwordField;
-	private JButton btnNewButton_1;
+	public static JTextField textField;
+	public static JPasswordField passwordField;
+	public static JButton registrar;
+	public static JButton iniciar_sesion;
+	public static JButton siguiente;
 
 	/**
 	 * Launch the application.
@@ -31,7 +34,7 @@ public class ventanalogin extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ventanalogin frame = new ventanalogin();
+					VentanaLogin frame = new VentanaLogin();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -43,9 +46,10 @@ public class ventanalogin extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ventanalogin() {
+	public VentanaLogin() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 700, 600);
+		setTitle("Ventana Login");
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -64,21 +68,32 @@ public class ventanalogin extends JFrame {
 		passwordField = new JPasswordField();
 		contentPane.add(passwordField, "cell 1 5,growx");
 		
-		JButton btnNewButton = new JButton("Registrar");
-		btnNewButton.addActionListener(new ActionListener() {
+		registrar = new JButton("registrar");
+		registrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				//meter nuevo entrenador en base de datos
 			}
 		});
-		contentPane.add(btnNewButton, "cell 0 9");
+		contentPane.add(registrar, "cell 0 9");
 		
-		btnNewButton_1 = new JButton("Siguiente");
-		btnNewButton_1.addActionListener(new ActionListener() {
+		iniciar_sesion = new JButton("Iniciar Sesion");
+		iniciar_sesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new ventanaeleccion().setVisible(true);
-				ventanalogin.this.setVisible(false);
+				//comprobar que el entrenador esta en la base de datos
+				new VentanaEleccion().setVisible(true);
+				VentanaLogin.this.setVisible(false);
 			}
 		});
-		contentPane.add(btnNewButton_1, "cell 1 9");
+		contentPane.add(iniciar_sesion, "cell 1 9");
+		
+		siguiente = new JButton("siguiente");
+		siguiente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new VentanaEleccion().setVisible(true);
+				VentanaLogin.this.setVisible(false);
+			}
+		});
+		contentPane.add(siguiente, "cell 2 9");
 	}
 
 }

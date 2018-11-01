@@ -2,25 +2,25 @@ package datos;
 
 public class Jugador {
 
-	private String Nombre;
-	private String Apellido;
+	private String nombre;
+	private String apellido;
 	private int dorsal;
 	private String posicion;
 	
 	public String getNombre() {
-		return Nombre;
+		return nombre;
 	}
 
 	public void setNombre(String nombre) {
-		Nombre = nombre;
+		this.nombre = nombre;
 	}
 
 	public String getApellido() {
-		return Apellido;
+		return apellido;
 	}
 
 	public void setApellido(String apellido) {
-		Apellido = apellido;
+		this.apellido = apellido;
 	}
 
 	public int getDorsal() {
@@ -39,9 +39,9 @@ public class Jugador {
 		this.posicion = posicion;
 	}
 
-	public Jugador(String Nombre, String Apellido, int dorsal, String posicion) {
-		this.Nombre = Nombre;
-		this.Apellido = Apellido;
+	public Jugador(String nombre, String apellido, int dorsal, String posicion) {
+		this.nombre = nombre;
+		this.apellido = apellido;
 		this.dorsal = dorsal;
 		this.posicion = posicion;
 	}

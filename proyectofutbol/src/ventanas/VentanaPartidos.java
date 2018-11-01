@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 
-public class ventanapartidos extends JFrame  {
+public class VentanaPartidos extends JFrame  {
 
 	/**
 	 * 
@@ -29,7 +29,7 @@ public class ventanapartidos extends JFrame  {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ventanapartidos frame = new ventanapartidos();
+					VentanaPartidos frame = new VentanaPartidos();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -41,9 +41,10 @@ public class ventanapartidos extends JFrame  {
 	/**
 	 * Create the frame.
 	 */
-	public ventanapartidos() {
+	public VentanaPartidos() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 700, 600);
+		setTitle("Partidos");
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -52,8 +53,8 @@ public class ventanapartidos extends JFrame  {
 		JButton btnAtras = new JButton("Atras");
 		btnAtras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new ventanaeleccion().setVisible(true);
-				ventanapartidos.this.setVisible(false);
+				new VentanaEleccion().setVisible(true);
+				VentanaPartidos.this.setVisible(false);
 			}
 		});
 		

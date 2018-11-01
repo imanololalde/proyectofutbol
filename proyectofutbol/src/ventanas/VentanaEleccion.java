@@ -8,7 +8,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class ventanaeleccion extends JFrame {
+public class VentanaEleccion extends JFrame {
 
 	/**
 	 * 
@@ -24,7 +24,7 @@ public class ventanaeleccion extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ventanaeleccion frame = new ventanaeleccion();
+					VentanaEleccion frame = new VentanaEleccion();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -36,9 +36,10 @@ public class ventanaeleccion extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ventanaeleccion() {
+	public VentanaEleccion() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 700, 600);
+		setTitle("Ventana de Eleccion");
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -47,8 +48,8 @@ public class ventanaeleccion extends JFrame {
 		btnNewButton_2.setBounds(10, 11, 167, 539);
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new ventanaentrenamientos().setVisible(true);
-				ventanaeleccion.this.setVisible(false);
+				new VentanaEntrenamientos().setVisible(true);
+				VentanaEleccion.this.setVisible(false);
 			}
 		});
 		contentPane.setLayout(null);
@@ -57,8 +58,8 @@ public class ventanaeleccion extends JFrame {
 		JButton btnNewButton_1 = new JButton("Partidos");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new ventanapartidos().setVisible(true);
-				ventanaeleccion.this.setVisible(false);
+				new VentanaPartidos().setVisible(true);
+				VentanaEleccion.this.setVisible(false);
 			}
 		});
 		btnNewButton_1.setBounds(200, 11, 167, 539);
@@ -67,8 +68,8 @@ public class ventanaeleccion extends JFrame {
 		JButton btnNewButton = new JButton("Registrar Jugadores");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new ventanaregistro().setVisible(true);
-				ventanaeleccion.this.setVisible(false);
+				new VentanaRegistro().setVisible(true);
+				VentanaEleccion.this.setVisible(false);
 			}
 		});
 		btnNewButton.setBounds(399, 11, 167, 539);
@@ -77,8 +78,8 @@ public class ventanaeleccion extends JFrame {
 		JButton btnAtras = new JButton("Atras");
 		btnAtras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new ventanalogin().setVisible(true);
-				ventanaeleccion.this.setVisible(false);
+				new VentanaLogin().setVisible(true);
+				VentanaEleccion.this.setVisible(false);
 			}
 		});
 		btnAtras.setBounds(585, 527, 89, 23);

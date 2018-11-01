@@ -8,7 +8,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class ventanaentrenamientos extends JFrame {
+public class VentanaEntrenamientos extends JFrame {
 
 	/**
 	 * 
@@ -24,7 +24,7 @@ public class ventanaentrenamientos extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ventanaentrenamientos frame = new ventanaentrenamientos();
+					VentanaEntrenamientos frame = new VentanaEntrenamientos();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -36,7 +36,7 @@ public class ventanaentrenamientos extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ventanaentrenamientos() {
+	public VentanaEntrenamientos() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 700, 600);
 		contentPane = new JPanel();
@@ -47,8 +47,8 @@ public class ventanaentrenamientos extends JFrame {
 		JButton btnAtras = new JButton("Atras");
 		btnAtras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new ventanaeleccion().setVisible(true);
-				ventanaentrenamientos.this.setVisible(false);
+				new VentanaEleccion().setVisible(true);
+				VentanaEntrenamientos.this.setVisible(false);
 			}
 		});
 		btnAtras.setBounds(585, 527, 89, 23);
