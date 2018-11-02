@@ -12,7 +12,11 @@ public class Jugador {
 	}
 
 	public void setNombre(String nombre) {
-		this.nombre = nombre;
+		if(nombre == null) {
+			setNombre(nombre);
+		} else {
+			this.nombre = nombre;
+		}
 	}
 
 	public String getApellido() {
@@ -20,7 +24,11 @@ public class Jugador {
 	}
 
 	public void setApellido(String apellido) {
-		this.apellido = apellido;
+		if(apellido == null) {
+			setApellido(apellido);
+		} else {
+			this.apellido = apellido;
+		}
 	}
 
 	public int getDorsal() {
@@ -28,7 +36,11 @@ public class Jugador {
 	}
 
 	public void setDorsal(int dorsal) {
-		this.dorsal = dorsal;
+		if(dorsal < 0) {
+			setDorsal(dorsal);
+		} else {
+			this.dorsal = dorsal;
+		}
 	}
 
 	public String getPosicion() {

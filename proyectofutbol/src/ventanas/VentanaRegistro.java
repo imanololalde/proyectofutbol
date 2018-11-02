@@ -4,10 +4,15 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import base_de_datos.BaseDeDatos;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 
@@ -22,8 +27,11 @@ public class VentanaRegistro extends JFrame {
 	public static JTextField nombreTextField;
 	public static JTextField apellidoTextField;
 	public static JTextField dorsalTextField;
-	public static JComboBox comboBox;
+	public static JComboBox<String> comboBox;
 	public String[] posiciones={"Delantero", "Centrocampista", "Defensa", "Portero"};
+	public static String posicion;
+	public static int dorsal;
+	public static JButton registrar;
 
 	/**
 	 * Launch the application.
@@ -89,12 +97,13 @@ public class VentanaRegistro extends JFrame {
 		dorsalTextField.setBounds(62, 306, 86, 20);
 		contentPane.add(dorsalTextField);
 		dorsalTextField.setColumns(10);
+		dorsal = Integer.parseInt(dorsalTextField.getText());
 		
 		JLabel lblPosicion = new JLabel("Posicion");
-		lblPosicion.setBounds(62, 403, 46, 17);
+		lblPosicion.setBounds(62, 403, 60, 17);
 		contentPane.add(lblPosicion);
 		
-		comboBox = new JComboBox(posiciones);
+		comboBox = new JComboBox<String>(posiciones);
 		comboBox.setMaximumRowCount(4);
 		comboBox.setBounds(62, 447, 116, 20);
 		contentPane.add(comboBox);
@@ -104,7 +113,18 @@ public class VentanaRegistro extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+				posicion = comboBox.getSelectedItem().toString();
+			}
+		});
+		
+		registrar = new JButton("Registrar");
+		registrar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				BaseDeDatos.insertarJugador();
+				new VentanaEleccion().setVisible(true);
+				VentanaRegistro.this.setVisible(false);
 			}
 		});
 		

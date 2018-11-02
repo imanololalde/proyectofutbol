@@ -46,8 +46,8 @@ public class BaseDeDatos {
 			statement.executeUpdate("CREATE TABLE IF NOT EXISTS entrenador (nombre CHAR(20) PRIMARY KEY, apellido CHAR(20) NOT NULL, contraseña);");
 
 		} catch(SQLException e) {
-			JOptionPane.showConfirmDialog(null, e, "ERROR no se puede conectar", JOptionPane.OK_CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
-			System.err.println(e.getMessage());
+			e.printStackTrace();
+			JOptionPane.showInternalMessageDialog(null, "No se puede conectar a la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
 		} 
 	}
 
@@ -138,17 +138,15 @@ public class BaseDeDatos {
 	public static void insertarJugador() {
 
 		try {
-			char[] arrayContra = VentanaLogin.passwordField.getPassword();
-			String pass = new String(arrayContra);
-
-			Calendar cal1 = Calendar.getInstance();
-			int mes = cal1.get(Calendar.MONTH) + 1;
-			String fechalta =""+cal1.get(Calendar.DATE)+"/"+mes
-					+"/"+cal1.get(Calendar.YEAR);
-
-			String posicion = VentanaRegistro.comboBox.setSelectedItem(jugador);
+//			char[] arrayContra = VentanaLogin.passwordField.getPassword();
+//			String pass = new String(arrayContra);
+//
+//			Calendar cal1 = Calendar.getInstance();
+//			int mes = cal1.get(Calendar.MONTH) + 1;
+//			String fechalta =""+cal1.get(Calendar.DATE)+"/"+mes
+//					+"/"+cal1.get(Calendar.YEAR);
 			
-			jugador = new Jugador(VentanaRegistro.nombreTextField, VentanaRegistro.apellidoTextField, VentanaRegistro.dorsalTextField, posicion);
+			jugador = new Jugador(VentanaRegistro.nombreTextField.getText(), VentanaRegistro.apellidoTextField.getText(), VentanaRegistro.dorsal, VentanaRegistro.posicion);
 
 			String sentenciaSQL = new String();
 			sentenciaSQL = "INSERT INTO jugador (nombre, apellido, dorsal, posicion)";
@@ -158,7 +156,6 @@ public class BaseDeDatos {
 					//+ jugador.poblacion	+ "','" + jugador.descripcion + "');";
 
 			statement = connection.createStatement();
-			System.out.println(sentenciaSQL);
 			statement.executeUpdate(sentenciaSQL);
 			JOptionPane.showMessageDialog(null, "Guardado exitosamente");
 
@@ -166,6 +163,23 @@ public class BaseDeDatos {
 			// TODO Auto-generated catch block
 			JOptionPane.showConfirmDialog(null, ex, "ERROR a la hora de crear jugador", JOptionPane.OK_CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
 		}
+	}
+	
+	public static void insertarEntrenador() throws SQLException {
+		
+		char[] arrayContra = VentanaRegistroEntrenador.contraseinaTextField.getPassword();
+		String pass = new String(arrayContra);
+		
+		Entrenador entrenadorNuevo = new Entrenador(VentanaRegistroEntrenador.nombreTextField.getText(), VentanaRegistroEntrenador.apellidoTextField.getText(), pass);
+		
+		String sentenciaSQL = new String();
+		sentenciaSQL = "INSERT INTO entrenador (nombre, apellido, contraseña)";
+		sentenciaSQL = sentenciaSQL + " VALUES ('"
+				+entrenadorNuevo.getNombre()+ "','" +entrenadorNuevo.getApellido()+ "','" +entrenadorNuevo.getContraseña()+"');";
+		
+		statement = connection.createStatement();
+		statement.executeUpdate(sentenciaSQL);
+		JOptionPane.showInternalMessageDialog(null, "Entrenador registrado", "Correcto", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	/**
@@ -175,20 +189,18 @@ public class BaseDeDatos {
 	 */
 	public static Entrenador comprobarLogin() throws SQLException {
 
-		String entrenador = VentanaRegistro;
-		char[] arrayContra = JPaneljugador.passwordField.getPassword();
+		String entrenador = VentanaRegistroEntrenador.nombreTextField.getText();
+		char[] arrayContra = VentanaRegistroEntrenador.contraseinaTextField.getPassword();
 		String pass = new String(arrayContra); 
 
 		statement = connection.createStatement();
-		String sql ="SELECT nick, contraseña FROM jugador WHERE nick = '"+jugador+"' AND contraseña = '"+pass+"'";
+		String sql ="SELECT nombre, contraseña FROM entrenador WHERE nombre = '"+entrenador+"' AND contraseña = '"+pass+"'";
 		rs = statement.executeQuery(sql);
 
-		System.out.println(nickjugador + pass);
-
-		jugador a = new jugador(jugador, pass);
+		Entrenador registrado = new Entrenador(entrenador, pass);
 
 		rs.close();
 
-		return a;
+		return registrado;
 	}
 }

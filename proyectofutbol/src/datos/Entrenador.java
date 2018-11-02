@@ -54,15 +54,16 @@ public class Entrenador {
 		}
 	}
 	
-	public Entrenador(String nombre, String apellido) {
+	public Entrenador(String nombre, String contraseina) {
 		this.nombre = nombre;
-		this.apellido = apellido;
+		this.contraseina = contraseina;
 	}
 	
-	public Entrenador(String nombre, String apellido, String contraseina, Jugador[] plantilla) {
+	public Entrenador(String nombre, String apellido, String contraseina) {
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.contraseina = contraseina;
-		this.plantilla = plantilla;
+		this.plantilla = null;
 	}
+	
 }

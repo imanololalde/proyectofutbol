@@ -8,10 +8,14 @@ import javax.swing.border.EmptyBorder;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+
+import base_de_datos.*;
 
 public class VentanaLogin extends JFrame {
 
@@ -25,7 +29,6 @@ public class VentanaLogin extends JFrame {
 	public static JPasswordField passwordField;
 	public static JButton registrar;
 	public static JButton iniciar_sesion;
-	public static JButton siguiente;
 
 	/**
 	 * Launch the application.
@@ -34,6 +37,7 @@ public class VentanaLogin extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					BaseDeDatos.conectarBD();
 					VentanaLogin frame = new VentanaLogin();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -71,7 +75,8 @@ public class VentanaLogin extends JFrame {
 		registrar = new JButton("registrar");
 		registrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//meter nuevo entrenador en base de datos
+				new VentanaRegistroEntrenador().setVisible(true);
+				VentanaLogin.this.setVisible(false);
 			}
 		});
 		contentPane.add(registrar, "cell 0 9");
@@ -80,20 +85,19 @@ public class VentanaLogin extends JFrame {
 		iniciar_sesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//comprobar que el entrenador esta en la base de datos
-				new VentanaEleccion().setVisible(true);
-				VentanaLogin.this.setVisible(false);
+				try {
+					BaseDeDatos.comprobarLogin();
+					new VentanaEleccion().setVisible(true);
+					VentanaLogin.this.setVisible(false);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					JOptionPane.showInternalMessageDialog(null, "Entrenador no registrado", "Error", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		contentPane.add(iniciar_sesion, "cell 1 9");
 		
-		siguiente = new JButton("siguiente");
-		siguiente.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new VentanaEleccion().setVisible(true);
-				VentanaLogin.this.setVisible(false);
-			}
-		});
-		contentPane.add(siguiente, "cell 2 9");
 	}
 
 }
