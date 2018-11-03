@@ -35,7 +35,7 @@ private static final long serialVersionUID = 1L;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanaRegistro frame = new VentanaRegistro();
+					VentanaRegistroEntrenador frame = new VentanaRegistroEntrenador();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -75,7 +75,7 @@ private static final long serialVersionUID = 1L;
 		apellidoTextField.setColumns(10);
 		
 		JLabel lblContraseina = new JLabel("Contraseña");
-		lblContraseina.setBounds(62, 256, 46, 14);
+		lblContraseina.setBounds(62, 256, 60, 14);
 		contentPane.add(lblContraseina);
 		
 		contraseinaTextField = new JPasswordField();
@@ -84,7 +84,7 @@ private static final long serialVersionUID = 1L;
 		contraseinaTextField.setColumns(10);
 		
 		JLabel lblContraseina2 = new JLabel("Repita contraseña");
-		lblContraseina2.setBounds(62, 356, 46, 14);
+		lblContraseina2.setBounds(62, 356, 100, 14);
 		contentPane.add(lblContraseina2);
 		
 		contraseinaTextField2 = new JPasswordField();
@@ -93,6 +93,7 @@ private static final long serialVersionUID = 1L;
 		contraseinaTextField2.setColumns(10);
 		
 		registrar = new JButton("Registrar");
+		contentPane.add(registrar);
 		registrar.addActionListener(new ActionListener() {
 			
 			@Override

@@ -18,7 +18,7 @@ public class BaseDeDatos {
 	private static ResultSet rs;
 	private static Statement statement;
 	private static Connection connection = null;
-	static Jugador jugador;
+	private static Jugador jugador;
 	
 	/**
 	 * El servidor se conecta a la base de datos
@@ -45,6 +45,8 @@ public class BaseDeDatos {
 
 			statement.executeUpdate("CREATE TABLE IF NOT EXISTS entrenador (nombre CHAR(20) PRIMARY KEY, apellido CHAR(20) NOT NULL, contraseña);");
 
+			statement.executeUpdate("CREATE TABLE IF NOT EXISTS plantilla (cod_plantilla CHAR(20) PRIMARY KEY, nombre CHAR(20);");
+			
 		} catch(SQLException e) {
 			e.printStackTrace();
 			JOptionPane.showInternalMessageDialog(null, "No se puede conectar a la base de datos", "Error", JOptionPane.ERROR_MESSAGE);

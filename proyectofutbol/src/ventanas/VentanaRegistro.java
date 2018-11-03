@@ -9,10 +9,8 @@ import base_de_datos.BaseDeDatos;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 
@@ -118,6 +116,7 @@ public class VentanaRegistro extends JFrame {
 		});
 		
 		registrar = new JButton("Registrar");
+		contentPane.add(registrar);
 		registrar.addActionListener(new ActionListener() {
 			
 			@Override
