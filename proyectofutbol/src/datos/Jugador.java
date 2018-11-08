@@ -1,11 +1,14 @@
 package datos;
 
+import java.util.Date;
+
 public class Jugador {
 
 	private String nombre;
 	private String apellido;
 	private int dorsal;
 	private String posicion;
+	private Date fecha_naci;
 	
 	public String getNombre() {
 		return nombre;
@@ -51,11 +54,20 @@ public class Jugador {
 		this.posicion = posicion;
 	}
 
-	public Jugador(String nombre, String apellido, int dorsal, String posicion) {
+	public Date getFecha_Naci() {
+		return fecha_naci;
+	}
+
+	public void setFecha_Naci(Date fecha_naci) {
+		this.fecha_naci = fecha_naci;
+	}
+	
+	public Jugador(String nombre, String apellido, String posicion, int dorsal, Date fecha_naci, Entrenador e) {
 		this.nombre = nombre;
 		this.apellido = apellido;
-		this.dorsal = dorsal;
 		this.posicion = posicion;
+		this.dorsal = dorsal;
+		this.fecha_naci = fecha_naci;
 	}
 
 }

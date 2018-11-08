@@ -31,21 +31,21 @@ public class BaseDeDatos {
 		String urldB = "jdbc:postgresql://ec2-54-221-204-161.compute-1.amazonaws.com:5432/d7k4h8c5tjnkec";
 		String dbUrl = urldB + "?sslmode=require";
 
-		//String urldB = "postgres://jsxigzifksfofs:837a4cd59231a62c30fd00d7aa39bb2f1fe6a33465b3fb30682bb9758c629809@ec2-54-221-204-161.compute-1.amazonaws.com:5432/d7k4h8c5tjnkec";
-		//"jdbc:postgresql://hostname:port/dbname","username", "password"
-
 		Class.forName("org.postgresql.Driver");
 
 		try {
-			//connection = DriverManager.getConnection("jdbc:sqlite:5432/AlquilerdePistas");
+
 			connection = DriverManager.getConnection( dbUrl, username, password );
 			Statement statement = connection.createStatement();
 
-			statement.executeUpdate("CREATE TABLE IF NOT EXISTS jugador (nombre CHAR(20) NOT NULL, apellido CHAR(30) NOT NULL, posicion CHAR(20) NOT NULL, dorsal INT);");
+			statement.executeUpdate("CREATE TABLE IF NOT EXISTS jugador (nombre CHAR(20) NOT NULL, apellido CHAR(30) NOT NULL, posicion CHAR(20) NOT NULL, dorsal INT,"
+					+ " fecha_nacimiento DATE, entrenador CHAR(20) REFERENCES entrenador(nombre), PRIMARY KEY(nombre, apellido));");
 
-			statement.executeUpdate("CREATE TABLE IF NOT EXISTS entrenador (nombre CHAR(20) PRIMARY KEY, apellido CHAR(20) NOT NULL, contraseña);");
+			statement.executeUpdate("CREATE TABLE IF NOT EXISTS entrenador (dni VARCHAR(9), nombre CHAR(20) PRIMARY KEY, apellido CHAR(20) NOT NULL, contraseña VARCHAR(30),"
+					+ " fecha_nacimiento DATE, fecha_inscripcion DATE);");
 
-			statement.executeUpdate("CREATE TABLE IF NOT EXISTS plantilla (cod_plantilla CHAR(20) PRIMARY KEY, nombre CHAR(20);");
+			statement.executeUpdate("CREATE TABLE IF NOT EXISTS plantilla (nombre CHAR(30), nombre_entrenador CHAR(20) REFERENCES entrenador(nombre),"
+					+ " numero_jugadores INT, formacion VARCHAR(5), figura_formacion CHAR(20));");
 			
 		} catch(SQLException e) {
 			e.printStackTrace();
@@ -96,10 +96,11 @@ public class BaseDeDatos {
 			System.out.println("Apellido = " + rs.getString("apellido"));
 			System.out.println("Posición = " + rs.getString("posicion"));
 			System.out.println("Dorsal = " + rs.getInt("dorsal"));
+			System.out.println("Fecha de Nacimiento = " + rs.getDate("fecha_nacimiento"));
+			System.out.println("Entrenador = " + rs.getString("entrenador"));
 		}
 		rs.close();
-
-		return rs.getString(1)+rs.getString(2)+rs.getString(3)+rs.getInt(4);
+		return rs.getString(1)+rs.getString(2)+rs.getString(3)+rs.getInt(4)+rs.getDate(5)+rs.getString(6);
 	}
 
 	/**
@@ -112,11 +113,14 @@ public class BaseDeDatos {
 		
 		rs = statement.executeQuery("SELECT "+e.getNombre()+" FROM entrenador");
 		while(rs.next()) {
-			System.out.println("Nombre ="+rs.getString(1));
-			System.out.println("Apellido ="+rs.getString(2));
+			System.out.println("DNI ="+rs.getString(1));
+			System.out.println("Nombre ="+rs.getString(2));
+			System.out.println("Apellido ="+rs.getString(3));
+			System.out.println("Fecha de nacimiento ="+rs.getDate(5));
+			System.out.println("Fecha de inscripcion ="+rs.getDate(6));
 		}
 		rs.close();
-		return rs.getString(1)+rs.getString(2);
+		return rs.getString(1)+rs.getString(2)+rs.getString(3)+rs.getDate(5)+rs.getDate(6);
 	}
 
 	public static void eliminarJugador(Jugador a) {	
@@ -137,25 +141,26 @@ public class BaseDeDatos {
 		}
 	}
 
-	public static void insertarJugador() {
+	public static void insertarJugador(Entrenador e) {
 
 		try {
-//			char[] arrayContra = VentanaLogin.passwordField.getPassword();
-//			String pass = new String(arrayContra);
-//
+
 //			Calendar cal1 = Calendar.getInstance();
 //			int mes = cal1.get(Calendar.MONTH) + 1;
 //			String fechalta =""+cal1.get(Calendar.DATE)+"/"+mes
 //					+"/"+cal1.get(Calendar.YEAR);
 			
-			jugador = new Jugador(VentanaRegistro.nombreTextField.getText(), VentanaRegistro.apellidoTextField.getText(), VentanaRegistro.dorsal, VentanaRegistro.posicion);
+			jugador = new Jugador(VentanaRegistro.nombreTextField.getText(), VentanaRegistro.apellidoTextField.getText(),VentanaRegistro.posicion,
+					VentanaRegistro.dorsal, VentanaRegistro.fecha_nacimientoTextField, e);
 
 			String sentenciaSQL = new String();
-			sentenciaSQL = "INSERT INTO jugador (nombre, apellido, dorsal, posicion)";
+			sentenciaSQL = "INSERT INTO jugador (nombre, apellido, posicion, dorsal, fecha_nacimiento, entrenador)";
 			sentenciaSQL = sentenciaSQL + " VALUES ('"
-					+jugador.getNombre()+ "','" +jugador.getApellido()+ "','" +jugador.getDorsal()+ "','"+jugador.getPosicion()+"');"; 
-					//+ "', TO_DATE('" + jugador.fecha_alta +"', 'DD/MM/YYYY'),'"
-					//+ jugador.poblacion	+ "','" + jugador.descripcion + "');";
+					+jugador.getNombre()+ "','" +jugador.getApellido()+ "','" +jugador.getPosicion()+ "','"+jugador.getDorsal()+"','"+jugador.getFecha_Naci()+"');"; 
+			
+			
+			//+ "', TO_DATE('" + jugador.fecha_alta +"', 'DD/MM/YYYY'),'"
+			//+ jugador.poblacion	+ "','" + jugador.descripcion + "');";
 
 			statement = connection.createStatement();
 			statement.executeUpdate(sentenciaSQL);

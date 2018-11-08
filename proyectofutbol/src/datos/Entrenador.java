@@ -1,5 +1,7 @@
 package datos;
 
+import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
 
 import datos.Jugador;
@@ -10,6 +12,7 @@ public class Entrenador {
 	private String apellido;
 	private String contraseina;
 	private Jugador[] plantilla;
+	private ArrayList<Jugador> plantilla1;
 	
 	public String getNombre() {
 		return nombre;
