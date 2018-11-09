@@ -14,4 +14,31 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src/imagenes/DEF.png</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/fotillos/DEF.png</locationURI>
+		</link>
+		<link>
+			<name>src/imagenes/DEL.png</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/fotillos/DEL.png</locationURI>
+		</link>
+		<link>
+			<name>src/imagenes/MED.png</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/fotillos/MED.png</locationURI>
+		</link>
+		<link>
+			<name>src/imagenes/POR.png</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/fotillos/POR.png</locationURI>
+		</link>
+		<link>
+			<name>src/imagenes/campo bueno.jpg</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/fotillos/campo%20bueno.jpg</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>
