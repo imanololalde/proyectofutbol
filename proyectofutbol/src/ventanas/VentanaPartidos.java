@@ -71,10 +71,6 @@ public class VentanaPartidos extends JFrame  {
 		
 		
 		
-		JLabel Delantero1 = new JLabel("");
-		Delantero1.setIcon(new ImageIcon(VentanaPartidos.class.getResource("/imagenes/DEL.png")));
-		Delantero1.setBounds(307, 410, 65, 65);
-		contentPane.add(Delantero1);
 		
 		JLabel nombreportero = new JLabel();
 		nombreportero.setFont(new Font("SpaceClaim ASME CB", Font.BOLD, 11));
@@ -109,15 +105,43 @@ public class VentanaPartidos extends JFrame  {
 		JLabel nomdel = new JLabel("");
 		nomdel.setForeground(Color.WHITE);
 		nomdel.setFont(new Font("SpaceClaim ASME CB", Font.BOLD, 11));
-		nomdel.setBounds(382, 443, 89, 29);
+		nomdel.setBounds(299, 453, 89, 29);
 		contentPane.add(nomdel);
 		
 		JLabel Centro3 = new JLabel("");
+		Centro3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				seleccionCen3 = JOptionPane.showInputDialog( null,
+						   "Seleccione Centrocampista",
+						   "Selector de Centrocampista",
+						   JOptionPane.QUESTION_MESSAGE,
+						   null,
+						   new Object[] { "Aritz", "Iker", "Javier" }, 
+						   "Centrocampista");
+				 
+				 nomcen3.setText((String) seleccionCen3);
+			}
+		});
 		Centro3.setIcon(new ImageIcon(VentanaPartidos.class.getResource("/imagenes/MED.png")));
 		Centro3.setBounds(509, 330, 65, 65);
 		contentPane.add(Centro3);
 		
 		JLabel Defensa2 = new JLabel("");
+		Defensa2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				seleccionDef2 = JOptionPane.showInputDialog( null,
+						   "Seleccione Defensa Central",
+						   "Selector de Defensa Central",
+						   JOptionPane.QUESTION_MESSAGE,
+						   null,
+						   new Object[] { "Alejandro", "Joel", "Erik" }, 
+						   "Defensa Central");
+				 
+				 nomdef2.setText((String) seleccionDef2);
+			}
+		});
 		Defensa2.setIcon(new ImageIcon(VentanaPartidos.class.getResource("/imagenes/DEF.png")));
 		Defensa2.setBounds(424, 146, 65, 65);
 		contentPane.add(Defensa2);
@@ -162,11 +186,58 @@ public class VentanaPartidos extends JFrame  {
 		contentPane.add(Defensa1);
 		
 		JLabel Centro2 = new JLabel("");
+		Centro2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				seleccionCen2 = JOptionPane.showInputDialog( null,
+						   "Seleccione Centrocampista",
+						   "Selector de Centrocampista",
+						   JOptionPane.QUESTION_MESSAGE,
+						   null,
+						   new Object[] { "Hugo", "Adrian", "Luis" }, 
+						   "Centrocampista");
+				 
+				 nomcen2.setText((String) seleccionCen2);
+			}
+		});
 		Centro2.setIcon(new ImageIcon(VentanaPartidos.class.getResource("/imagenes/MED.png")));
 		Centro2.setBounds(100, 330, 65, 65);
 		contentPane.add(Centro2);
 		
 		JLabel Centro1 = new JLabel("");
+		Centro1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				seleccionCen1 = JOptionPane.showInputDialog( null,
+						   "Seleccione Centrocampista",
+						   "Selector de Centrocampista",
+						   JOptionPane.QUESTION_MESSAGE,
+						   null,
+						   new Object[] { "Tomas", "Jon N", "Martin" }, 
+						   "Centrocampista");
+				 
+				 nomcen1.setText((String) seleccionCen1);
+			}
+		});
+
+		JLabel Delantero1 = new JLabel("");
+		Delantero1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				seleccionDel = JOptionPane.showInputDialog( null,
+						   "Seleccione Delantero Centro",
+						   "Selector de Delantero Centro",
+						   JOptionPane.QUESTION_MESSAGE,
+						   null,
+						   new Object[] { "Imanol" }, 
+						   "Delantero Centro");
+				 
+				 nomdel.setText((String) seleccionDel);
+			}
+		});
+		Delantero1.setIcon(new ImageIcon(VentanaPartidos.class.getResource("/imagenes/DEL.png")));
+		Delantero1.setBounds(307, 377, 65, 65);
+		contentPane.add(Delantero1);
 		Centro1.setIcon(new ImageIcon(VentanaPartidos.class.getResource("/imagenes/MED.png")));
 		Centro1.setBounds(307, 247, 65, 65);
 		contentPane.add(Centro1);
@@ -174,6 +245,11 @@ public class VentanaPartidos extends JFrame  {
 		contentPane.add(btnAtras);
 		
 		JButton btnGuardarCambios = new JButton("Guardar cambios");
+		btnGuardarCambios.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("Portero: "+nombreportero.getText()+"; Defensas: "+nomdef1.getText()+" y "+nomdef2.getText()+"; Centrocampitas: "+nomcen1.getText()+", "+nomcen2.getText()+" y "+nomcen3.getText()+"; Delantero: "+nomdel.getText());
+			}
+		});
 		btnGuardarCambios.setBounds(10, 527, 136, 23);
 		contentPane.add(btnGuardarCambios);
 		
