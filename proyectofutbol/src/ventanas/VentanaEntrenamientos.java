@@ -7,6 +7,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JScrollPane;
+import javax.swing.JLabel;
 
 public class VentanaEntrenamientos extends JFrame {
 
@@ -54,5 +56,4 @@ public class VentanaEntrenamientos extends JFrame {
 		btnAtras.setBounds(585, 527, 89, 23);
 		contentPane.add(btnAtras);
 	}
-
 }

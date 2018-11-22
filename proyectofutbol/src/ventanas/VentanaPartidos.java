@@ -3,6 +3,7 @@ package ventanas;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -63,50 +64,72 @@ public class VentanaPartidos extends JFrame  {
 			}
 		});
 		
-		JLabel nomdef2 = new JLabel("");
+		JLabel nomdef2 = new JLabel("", SwingConstants.CENTER);
 		nomdef2.setForeground(Color.WHITE);
 		nomdef2.setFont(new Font("SpaceClaim ASME CB", Font.BOLD, 11));
 		nomdef2.setBounds(412, 222, 89, 29);
 		contentPane.add(nomdef2);
+		nomdef2.setBackground(new Color(255, 0, 0));
+		nomdef2.setOpaque(true);
+		nomdef2.setVisible(false);
 		
 		
 		
 		
-		JLabel nombreportero = new JLabel();
+		JLabel nombreportero = new JLabel("", SwingConstants.CENTER);
 		nombreportero.setFont(new Font("SpaceClaim ASME CB", Font.BOLD, 11));
 		nombreportero.setForeground(Color.WHITE);
 		nombreportero.setBounds(299, 109, 89, 29);
 		contentPane.add(nombreportero);
+		nombreportero.setBackground(new Color(255, 0, 0));
+		nombreportero.setOpaque(true);
+		nombreportero.setVisible(false);
 		
-		JLabel nomdef1 = new JLabel("");
+		JLabel nomdef1 = new JLabel("", SwingConstants.CENTER);
 		nomdef1.setForeground(Color.WHITE);
 		nomdef1.setFont(new Font("SpaceClaim ASME CB", Font.BOLD, 11));
 		nomdef1.setBounds(150, 220, 89, 29);
 		contentPane.add(nomdef1);
+		nomdef1.setBackground(new Color(255, 0, 0));
+		nomdef1.setOpaque(true);
+		nomdef1.setVisible(false);
 		
-		JLabel nomcen1 = new JLabel("");
+		
+		JLabel nomcen1 = new JLabel("", SwingConstants.CENTER);
 		nomcen1.setForeground(Color.WHITE);
 		nomcen1.setFont(new Font("SpaceClaim ASME CB", Font.BOLD, 11));
 		nomcen1.setBounds(299, 323, 89, 29);
 		contentPane.add(nomcen1);
+		nomcen1.setBackground(new Color(255, 0, 0));
+		nomcen1.setOpaque(true);
+		nomcen1.setVisible(false);
 		
-		JLabel nomcen2 = new JLabel("");
+		JLabel nomcen2 = new JLabel("", SwingConstants.CENTER);
 		nomcen2.setForeground(Color.WHITE);
 		nomcen2.setFont(new Font("SpaceClaim ASME CB", Font.BOLD, 11));
 		nomcen2.setBounds(88, 406, 89, 29);
 		contentPane.add(nomcen2);
+		nomcen2.setBackground(new Color(255, 0, 0));
+		nomcen2.setOpaque(true);
+		nomcen2.setVisible(false);
 		
-		JLabel nomcen3 = new JLabel("");
+		JLabel nomcen3 = new JLabel("",  SwingConstants.CENTER);
 		nomcen3.setForeground(Color.WHITE);
 		nomcen3.setFont(new Font("SpaceClaim ASME CB", Font.BOLD, 11));
 		nomcen3.setBounds(496, 406, 89, 29);
 		contentPane.add(nomcen3);
+		nomcen3.setBackground(new Color(255, 0, 0));
+		nomcen3.setOpaque(true);
+		nomcen3.setVisible(false);
 		
-		JLabel nomdel = new JLabel("");
+		JLabel nomdel = new JLabel("",  SwingConstants.CENTER);
 		nomdel.setForeground(Color.WHITE);
 		nomdel.setFont(new Font("SpaceClaim ASME CB", Font.BOLD, 11));
 		nomdel.setBounds(299, 453, 89, 29);
 		contentPane.add(nomdel);
+		nomdel.setBackground(new Color(255, 0, 0));
+		nomdel.setOpaque(true);
+		nomdel.setVisible(false);
 		
 		JLabel Centro3 = new JLabel("");
 		Centro3.addMouseListener(new MouseAdapter() {
@@ -121,6 +144,7 @@ public class VentanaPartidos extends JFrame  {
 						   "Centrocampista");
 				 
 				 nomcen3.setText((String) seleccionCen3);
+				 nomcen3.setVisible(true);
 			}
 		});
 		Centro3.setIcon(new ImageIcon(VentanaPartidos.class.getResource("/imagenes/MED.png")));
@@ -140,6 +164,7 @@ public class VentanaPartidos extends JFrame  {
 						   "Defensa Central");
 				 
 				 nomdef2.setText((String) seleccionDef2);
+				 nomdef2.setVisible(true);
 			}
 		});
 		Defensa2.setIcon(new ImageIcon(VentanaPartidos.class.getResource("/imagenes/DEF.png")));
@@ -159,6 +184,7 @@ public class VentanaPartidos extends JFrame  {
 						   "Portero");
 				 
 				 nombreportero.setText((String) seleccionPor);
+				 nombreportero.setVisible(true);
 				 
 			}
 		});
@@ -179,6 +205,7 @@ public class VentanaPartidos extends JFrame  {
 						   "Defensa Central");
 				 
 				 nomdef1.setText((String) seleccionDef1);
+				 nomdef1.setVisible(true);
 			}
 		});
 		Defensa1.setIcon(new ImageIcon(VentanaPartidos.class.getResource("/imagenes/DEF.png")));
@@ -198,6 +225,7 @@ public class VentanaPartidos extends JFrame  {
 						   "Centrocampista");
 				 
 				 nomcen2.setText((String) seleccionCen2);
+				 nomcen2.setVisible(true);
 			}
 		});
 		Centro2.setIcon(new ImageIcon(VentanaPartidos.class.getResource("/imagenes/MED.png")));
@@ -217,6 +245,7 @@ public class VentanaPartidos extends JFrame  {
 						   "Centrocampista");
 				 
 				 nomcen1.setText((String) seleccionCen1);
+				 nomcen1.setVisible(true);
 			}
 		});
 
@@ -233,6 +262,7 @@ public class VentanaPartidos extends JFrame  {
 						   "Delantero Centro");
 				 
 				 nomdel.setText((String) seleccionDel);
+				 nomdel.setVisible(true);
 			}
 		});
 		Delantero1.setIcon(new ImageIcon(VentanaPartidos.class.getResource("/imagenes/DEL.png")));
