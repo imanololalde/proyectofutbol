@@ -4,6 +4,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import base_de_datos.BaseDeDatos;
+import datos.Entrenador;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -20,11 +24,11 @@ public class VentanaEleccion extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void encenderVentana(Entrenador entrenador) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanaEleccion frame = new VentanaEleccion();
+					VentanaEleccion frame = new VentanaEleccion(entrenador);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -36,7 +40,7 @@ public class VentanaEleccion extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VentanaEleccion() {
+	public VentanaEleccion(Entrenador entrenador) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 700, 600);
 		setTitle("Ventana de Eleccion");
@@ -48,7 +52,7 @@ public class VentanaEleccion extends JFrame {
 		btnNewButton_2.setBounds(10, 11, 167, 539);
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new VentanaEntrenamientos().setVisible(true);
+				new VentanaEntrenamientos(entrenador).setVisible(true);
 				VentanaEleccion.this.setVisible(false);
 			}
 		});
@@ -58,7 +62,7 @@ public class VentanaEleccion extends JFrame {
 		JButton btnNewButton_1 = new JButton("Partidos");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new VentanaPartidos().setVisible(true);
+				new VentanaPartidos(entrenador).setVisible(true);
 				VentanaEleccion.this.setVisible(false);
 			}
 		});
@@ -68,7 +72,7 @@ public class VentanaEleccion extends JFrame {
 		JButton btnNewButton = new JButton("Registrar Jugadores");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new VentanaRegistro().setVisible(true);
+				new VentanaRegistro(entrenador).setVisible(true);
 				VentanaEleccion.this.setVisible(false);
 			}
 		});
@@ -84,5 +88,12 @@ public class VentanaEleccion extends JFrame {
 		});
 		btnAtras.setBounds(585, 527, 89, 23);
 		contentPane.add(btnAtras);
+		
+		try {
+			BaseDeDatos.conectarBD();
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 }

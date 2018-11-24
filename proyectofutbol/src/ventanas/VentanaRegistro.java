@@ -7,11 +7,10 @@ import javax.swing.border.EmptyBorder;
 
 import base_de_datos.BaseDeDatos;
 import datos.Entrenador;
+import datos.Jugador;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -31,7 +30,7 @@ public class VentanaRegistro extends JFrame {
 	public static JTextField nombreTextField;
 	public static JTextField apellidoTextField;
 	public static JTextField dorsalTextField;
-	public static JComboBox comboBox;
+	public static JComboBox<String> comboBox;
 	public String[] posiciones={"Delantero", "Centrocampista", "Defensa", "Portero"};
 	public static String posicion;
 	public static int dorsal;
@@ -39,16 +38,14 @@ public class VentanaRegistro extends JFrame {
 	public static JTextField fecha_nacimientoTextField;
 	private JTextField posicionTextField;
 
-	private Date parse;
-
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void encenderVentana(Entrenador entrenador) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanaRegistro frame = new VentanaRegistro();
+					VentanaRegistro frame = new VentanaRegistro(entrenador);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -60,7 +57,7 @@ public class VentanaRegistro extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VentanaRegistro() {
+	public VentanaRegistro(Entrenador entrenador) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 700, 600);
 		setTitle("Ventana de Registro");
@@ -126,6 +123,7 @@ public class VentanaRegistro extends JFrame {
 		gbc_dorsalTextField.gridy = 7;
 		contentPane.add(dorsalTextField, gbc_dorsalTextField);
 		dorsalTextField.setColumns(10);
+		dorsal = Integer.parseInt(dorsalTextField.getText());
 		
 		JLabel lblPosicion = new JLabel("Posicion");
 		GridBagConstraints gbc_lblPosicion = new GridBagConstraints();
@@ -162,9 +160,9 @@ public class VentanaRegistro extends JFrame {
 		gbc_fecha_nacimientoTextField.gridy = 11;
 		contentPane.add(fecha_nacimientoTextField, gbc_fecha_nacimientoTextField);
 		fecha_nacimientoTextField.setColumns(10);
-		parse = SimpleDateFormat.parse(fecha_nacimientoTextField.getText());
+		fecha_nacimientoTextField.setText("YYYY-MM-DD");
 		
-		comboBox = new JComboBox(posiciones);
+		comboBox = new JComboBox<String>(posiciones);
 		comboBox.setMaximumRowCount(4);
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.anchor = GridBagConstraints.WEST;
@@ -186,7 +184,7 @@ public class VentanaRegistro extends JFrame {
 		JButton bAtras = new JButton("Atras");
 		bAtras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new VentanaEleccion().setVisible(true);
+				new VentanaEleccion(entrenador).setVisible(true);
 				VentanaRegistro.this.setVisible(false);
 			}
 		});
@@ -203,11 +201,14 @@ public class VentanaRegistro extends JFrame {
 		gbc_registrar.gridx = 4;
 		gbc_registrar.gridy = 14;
 		contentPane.add(registrar, gbc_registrar);
+		
 		registrar.addActionListener(new ActionListener() {
 			
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				new VentanaEleccion().setVisible(true);
+			public void actionPerformed(ActionEvent e) {				
+				Jugador registrado = new Jugador(nombreTextField.getText(), apellidoTextField.getText(), posicion, dorsal, fecha_nacimientoTextField.getText(), entrenador);
+				BaseDeDatos.insertarJugador(registrado, entrenador);
+				new VentanaEleccion(entrenador).setVisible(true);
 				VentanaRegistro.this.setVisible(false);
 			}
 		});

@@ -2,7 +2,6 @@ package base_de_datos;
 
 import java.sql.Connection;
 
-import ventanas.*;
 import datos.*;
 
 import java.sql.DriverManager;
@@ -18,7 +17,6 @@ public class BaseDeDatos {
 	private static ResultSet rs;
 	private static Statement statement;
 	private static Connection connection = null;
-	private static Jugador jugador;
 	
 	/**
 	 * El servidor se conecta a la base de datos
@@ -141,26 +139,14 @@ public class BaseDeDatos {
 		}
 	}
 
-	public static void insertarJugador(Entrenador e) {
+	public static void insertarJugador(Jugador a, Entrenador entrenador) {
 
 		try {
-
-//			Calendar cal1 = Calendar.getInstance();
-//			int mes = cal1.get(Calendar.MONTH) + 1;
-//			String fechalta =""+cal1.get(Calendar.DATE)+"/"+mes
-//					+"/"+cal1.get(Calendar.YEAR);
-			
-			jugador = new Jugador(VentanaRegistro.nombreTextField.getText(), VentanaRegistro.apellidoTextField.getText(),VentanaRegistro.posicion,
-					VentanaRegistro.dorsal, VentanaRegistro.fecha_nacimientoTextField, e);
 
 			String sentenciaSQL = new String();
 			sentenciaSQL = "INSERT INTO jugador (nombre, apellido, posicion, dorsal, fecha_nacimiento, entrenador)";
 			sentenciaSQL = sentenciaSQL + " VALUES ('"
-					+jugador.getNombre()+ "','" +jugador.getApellido()+ "','" +jugador.getPosicion()+ "','"+jugador.getDorsal()+"','"+jugador.getFecha_Naci()+"');"; 
-			
-			
-			//+ "', TO_DATE('" + jugador.fecha_alta +"', 'DD/MM/YYYY'),'"
-			//+ jugador.poblacion	+ "','" + jugador.descripcion + "');";
+					+a.getNombre()+ "','" +a.getApellido()+ "','" +a.getPosicion()+ "','"+a.getDorsal()+"','"+a.getFecha_Naci()+"','"+entrenador.getNombre()+"');"; 
 
 			statement = connection.createStatement();
 			statement.executeUpdate(sentenciaSQL);
@@ -172,17 +158,17 @@ public class BaseDeDatos {
 		}
 	}
 	
-	public static void insertarEntrenador() throws SQLException {
+	public static void insertarEntrenador(Entrenador entrenador) throws SQLException {
 		
-		char[] arrayContra = VentanaRegistroEntrenador.contraseinaTextField.getPassword();
-		String pass = new String(arrayContra);
-		
-		Entrenador entrenadorNuevo = new Entrenador(VentanaRegistroEntrenador.nombreTextField.getText(), VentanaRegistroEntrenador.apellidoTextField.getText(), pass);
+		Calendar fecha = Calendar.getInstance();
+		int mes = fecha.get(Calendar.MONTH) + 1;
+		String fecha_inscripcion =""+fecha.get(Calendar.DATE)+"/"+mes+"/"+fecha.get(Calendar.YEAR);
 		
 		String sentenciaSQL = new String();
-		sentenciaSQL = "INSERT INTO entrenador (nombre, apellido, contraseña)";
+		sentenciaSQL = "INSERT INTO entrenador (dni, nombre, apellido, contraseña, fecha_nacimiento, fecha_inscripcion)";
 		sentenciaSQL = sentenciaSQL + " VALUES ('"
-				+entrenadorNuevo.getNombre()+ "','" +entrenadorNuevo.getApellido()+ "','" +entrenadorNuevo.getContraseña()+"');";
+				+entrenador.getNombre()+"','"+entrenador.getApellido()+"','"+entrenador.getContraseña()+"','"+entrenador.getFecha_naci()+
+				"','"+fecha_inscripcion+"')";
 		
 		statement = connection.createStatement();
 		statement.executeUpdate(sentenciaSQL);
@@ -194,20 +180,24 @@ public class BaseDeDatos {
 	 * @return Devuelve el objeto entrenador
 	 * @throws SQLException
 	 */
-	public static Entrenador comprobarLogin() throws SQLException {
-
-		String entrenador = VentanaRegistroEntrenador.nombreTextField.getText();
-		char[] arrayContra = VentanaRegistroEntrenador.contraseinaTextField.getPassword();
-		String pass = new String(arrayContra); 
+	public static Entrenador comprobarLogin(Entrenador entrenador) throws SQLException {
 
 		statement = connection.createStatement();
-		String sql ="SELECT nombre, contraseña FROM entrenador WHERE nombre = '"+entrenador+"' AND contraseña = '"+pass+"'";
+		String sql ="SELECT nombre, contraseña FROM entrenador WHERE nombre = '"+entrenador.getNombre()+"' AND contraseña = '"+entrenador.getContraseña()+"'";
 		rs = statement.executeQuery(sql);
 
-		Entrenador registrado = new Entrenador(entrenador, pass);
+		Entrenador registrado = new Entrenador(entrenador.getNombre(), entrenador.getContraseña());
 
 		rs.close();
 
 		return registrado;
+	}
+	
+	public static String convertir(char[] password) {
+		String contra = "";
+		for(int i = 0; i < password.length; i++){
+			contra+=password[i];
+		}
+		return contra;
 	}
 }

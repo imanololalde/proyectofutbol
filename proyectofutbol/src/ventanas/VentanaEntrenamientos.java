@@ -4,11 +4,12 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import datos.Entrenador;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JScrollPane;
-import javax.swing.JLabel;
 
 public class VentanaEntrenamientos extends JFrame {
 
@@ -22,11 +23,11 @@ public class VentanaEntrenamientos extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void encenderVentana(Entrenador entrenador) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanaEntrenamientos frame = new VentanaEntrenamientos();
+					VentanaEntrenamientos frame = new VentanaEntrenamientos(entrenador);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -38,7 +39,7 @@ public class VentanaEntrenamientos extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VentanaEntrenamientos() {
+	public VentanaEntrenamientos(Entrenador entrenador) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 700, 600);
 		contentPane = new JPanel();
@@ -49,7 +50,7 @@ public class VentanaEntrenamientos extends JFrame {
 		JButton btnAtras = new JButton("Atras");
 		btnAtras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new VentanaEleccion().setVisible(true);
+				new VentanaEleccion(entrenador).setVisible(true);
 				VentanaEntrenamientos.this.setVisible(false);
 			}
 		});

@@ -16,6 +16,7 @@ import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 import base_de_datos.*;
+import datos.Entrenador;
 
 public class VentanaLogin extends JFrame {
 
@@ -33,7 +34,7 @@ public class VentanaLogin extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void encenderVentana() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -82,12 +83,16 @@ public class VentanaLogin extends JFrame {
 		contentPane.add(registrar, "cell 0 9");
 		
 		iniciar_sesion = new JButton("Iniciar Sesion");
+		
 		iniciar_sesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//comprobar que el entrenador esta en la base de datos
 				try {
-					BaseDeDatos.comprobarLogin();
-					new VentanaEleccion().setVisible(true);
+					String contraseina = BaseDeDatos.convertir(passwordField.getPassword());
+					Entrenador entrenador = new Entrenador(textField.getText(),contraseina);
+					entrenador = BaseDeDatos.comprobarLogin(entrenador);
+					BaseDeDatos.cerrarConexion();
+					new VentanaEleccion(entrenador).setVisible(true);
 					VentanaLogin.this.setVisible(false);
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block

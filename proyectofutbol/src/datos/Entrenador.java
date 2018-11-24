@@ -8,11 +8,47 @@ import datos.Jugador;
 
 public class Entrenador {
 
+	private String dni;
 	private String nombre;
 	private String apellido;
 	private String contraseina;
-	private Jugador[] plantilla;
-	private ArrayList<Jugador> plantilla1;
+	private String fecha_naci;
+	private ArrayList<Jugador> plantilla;
+	
+	public String getDni() {
+		return dni;
+	}
+
+	public void setDni(String dni) {
+        if (dni.length()!=9){
+            setDni(dni);
+        } else {
+        	 String secuenciaLetrasNIF = "TRWAGMYFPDXBNJZSQVHLCKE"; 
+             dni = dni.toUpperCase();
+
+             String numeroNIF = dni.substring(0, dni.length()-1);
+
+             //Si es un NIE reemplazamos letra inicial por su valor numérico.
+             numeroNIF = numeroNIF.replace("X", "0").replace("Y", "1").replace("Z", "2");
+
+             char letraNIF = dni.charAt(8);
+             int i = Integer.parseInt(numeroNIF) % 23;
+             if (letraNIF == secuenciaLetrasNIF.charAt(i)) {
+            	 this.dni = dni;
+             } else {
+            	 setDni(dni);
+             }
+             
+        }
+	}
+
+	public String getFecha_naci() {
+		return fecha_naci;
+	}
+
+	public void setFecha_naci(String fecha_naci) {
+		this.fecha_naci = fecha_naci;
+	}
 	
 	public String getNombre() {
 		return nombre;
@@ -42,19 +78,13 @@ public class Entrenador {
 			this.contraseina = contraseina;
 		}
 	}
-	
-	public Jugador[] getPlantilla() {
+
+	public ArrayList<Jugador> getPlantilla() {
 		return plantilla;
 	}
 
-	public void setPlantilla(Jugador[] plantilla) {
+	public void setPlantilla(ArrayList<Jugador> plantilla) {
 		this.plantilla = plantilla;
-	}
-	
-	public void verPlantilla(Jugador[] plantilla) {
-		while(plantilla != null) {
-			System.out.println(plantilla);
-		}
 	}
 	
 	public Entrenador(String nombre, String contraseina) {
@@ -62,11 +92,13 @@ public class Entrenador {
 		this.contraseina = contraseina;
 	}
 	
-	public Entrenador(String nombre, String apellido, String contraseina) {
+	public Entrenador(String dni, String nombre, String apellido, String contraseina, String fecha_naci, ArrayList<Jugador> plantilla) {
+		this.dni = dni;
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.contraseina = contraseina;
-		this.plantilla = null;
+		this.fecha_naci = fecha_naci;
+		this.plantilla = plantilla;
 	}
 	
 }

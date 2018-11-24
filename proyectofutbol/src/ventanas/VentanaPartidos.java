@@ -5,6 +5,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+
+import datos.Entrenador;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -31,11 +34,11 @@ public class VentanaPartidos extends JFrame  {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void encenderVentana(Entrenador entrenador) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanaPartidos frame = new VentanaPartidos();
+					VentanaPartidos frame = new VentanaPartidos(entrenador);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -47,7 +50,7 @@ public class VentanaPartidos extends JFrame  {
 	/**
 	 * Create the frame.
 	 */
-	public VentanaPartidos() {
+	public VentanaPartidos(Entrenador entrenador) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 700, 600);
 		setTitle("Partidos");
@@ -59,7 +62,7 @@ public class VentanaPartidos extends JFrame  {
 		JButton btnAtras = new JButton("Atras");
 		btnAtras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new VentanaEleccion().setVisible(true);
+				new VentanaEleccion(entrenador).setVisible(true);
 				VentanaPartidos.this.setVisible(false);
 			}
 		});
@@ -277,23 +280,23 @@ public class VentanaPartidos extends JFrame  {
 		JButton btnGuardarCambios = new JButton("Guardar cambios");
 		btnGuardarCambios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("Portero: "+nombreportero.getText()+"; Defensas: "+nomdef1.getText()+" y "+nomdef2.getText()+"; Centrocampitas: "+nomcen1.getText()+", "+nomcen2.getText()+" y "+nomcen3.getText()+"; Delantero: "+nomdel.getText());
+				System.out.println("Portero: "+nombreportero.getText()+
+						"; Defensas: "+nomdef1.getText()+" y "+nomdef2.getText()+
+						"; Centrocampitas: "+nomcen1.getText()+", "+nomcen2.getText()+" y "+nomcen3.getText()+
+						"; Delantero: "+nomdel.getText());
 			}
 		});
 		btnGuardarCambios.setBounds(10, 527, 136, 23);
 		contentPane.add(btnGuardarCambios);
 		
-		JComboBox formaciones = new JComboBox(formacion);
+		JComboBox<String> formaciones = new JComboBox<String>(formacion);
 		formaciones.setBounds(299, 528, 73, 20);
 		contentPane.add(formaciones);
-		
-		
 		
 		JLabel Campo = new JLabel("");
 		Campo.setIcon(new ImageIcon(VentanaPartidos.class.getResource("/imagenes/campo bueno.jpg")));
 		Campo.setBounds(10, 0, 664, 505);
 		contentPane.add(Campo);
-		
 		
 		Object eleccion= formaciones.getSelectedItem();
 		

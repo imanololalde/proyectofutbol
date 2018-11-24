@@ -15,11 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import base_de_datos.BaseDeDatos;
-import java.awt.BorderLayout;
-import javax.swing.BoxLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
+import datos.Entrenador;
 import net.miginfocom.swing.MigLayout;
 
 public class VentanaRegistroEntrenador extends JFrame {
@@ -27,6 +23,7 @@ public class VentanaRegistroEntrenador extends JFrame {
 private static final long serialVersionUID = 1L;
 	
 	private JPanel contentPane;
+	private JTextField dniTextField;
 	public static JTextField nombreTextField;
 	public static JTextField apellidoTextField;
 	public static JPasswordField contraseinaTextField;
@@ -34,14 +31,13 @@ private static final long serialVersionUID = 1L;
 	public static JButton registrar;
 	private JButton btnAtras;
 	private JLabel lblDni;
-	private JTextField textField;
 	private JLabel lblFechaDeNacimiento;
 	private JTextField fecha_naciTextField;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void encenderVentana() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -69,9 +65,9 @@ private static final long serialVersionUID = 1L;
 		lblDni = new JLabel("DNI");
 		contentPane.add(lblDni, "cell 1 2");
 		
-		textField = new JTextField();
-		contentPane.add(textField, "cell 5 2 3 1,alignx center");
-		textField.setColumns(10);
+		dniTextField = new JTextField();
+		contentPane.add(dniTextField, "cell 5 2 3 1,alignx center");
+		dniTextField.setColumns(10);
 		
 		JLabel lblNombre = new JLabel("Nombre");
 		contentPane.add(lblNombre, "cell 1 4,alignx left,aligny center");
@@ -114,25 +110,30 @@ private static final long serialVersionUID = 1L;
 		
 		fecha_naciTextField = new JTextField();
 		contentPane.add(fecha_naciTextField, "cell 5 12 3 1,alignx center");
-		fecha_naciTextField.setText("dd/mm/yyyy");
+		fecha_naciTextField.setText("yyyy/mm/dd");
 		fecha_naciTextField.setColumns(10);
 		contentPane.add(btnAtras, "cell 0 20,alignx center,aligny center");
 		
 		registrar = new JButton("Registrar");
 		contentPane.add(registrar, "cell 16 20,alignx left,aligny center");
 		registrar.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(contraseinaTextField == contraseinaTextField2) {
+				String contraseina1 = BaseDeDatos.convertir(contraseinaTextField.getPassword());
+				String contraseina2 = BaseDeDatos.convertir(contraseinaTextField2.getPassword());
+				if(contraseina1.equals(contraseina2)) {
 					try {
-						BaseDeDatos.insertarEntrenador();
+						Entrenador entrenador = new Entrenador(dniTextField.getText(), nombreTextField.getText(), 
+								apellidoTextField.getText(), contraseina2, fecha_naciTextField.getText(), null);
+						BaseDeDatos.insertarEntrenador(entrenador);
+						BaseDeDatos.cerrarConexion();
 						new VentanaLogin().setVisible(true);
 						VentanaRegistroEntrenador.this.setVisible(false);
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						//e1.printStackTrace();
 						JOptionPane.showInternalMessageDialog(null, "Entrenador no registrado", "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				} else {
@@ -140,6 +141,7 @@ private static final long serialVersionUID = 1L;
 					contraseinaTextField2.setText(null);
 					JOptionPane.showInternalMessageDialog(null, "Contraseñas diferentes", "Precaucion", JOptionPane.WARNING_MESSAGE);
 				}
+
 			}
 		});
 	}
