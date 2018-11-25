@@ -32,22 +32,21 @@ public class BaseDeDatos {
 		Class.forName("org.postgresql.Driver");
 
 		try {
-
 			connection = DriverManager.getConnection( dbUrl, username, password );
 			Statement statement = connection.createStatement();
 
-			statement.executeUpdate("CREATE TABLE IF NOT EXISTS jugador (nombre CHAR(20) NOT NULL, apellido CHAR(30) NOT NULL, posicion CHAR(20) NOT NULL, dorsal INT,"
-					+ " fecha_nacimiento DATE, entrenador CHAR(20) REFERENCES entrenador(nombre), PRIMARY KEY(nombre, apellido));");
-
-			statement.executeUpdate("CREATE TABLE IF NOT EXISTS entrenador (dni VARCHAR(9), nombre CHAR(20) PRIMARY KEY, apellido CHAR(20) NOT NULL, contraseña VARCHAR(30),"
-					+ " fecha_nacimiento DATE, fecha_inscripcion DATE);");
+			statement.executeUpdate("CREATE TABLE IF NOT EXISTS entrenador (dni VARCHAR(9) NOT NULL PRIMARY KEY, nombre CHAR(20) NOT NULL, apellido CHAR(20) NOT NULL, contraseña VARCHAR(30),"
+					+ " fecha_nacimiento DATE, fecha_inscripcion DATE)");
+			
+			statement.executeUpdate("CREATE TABLE IF NOT EXISTS jugador (nombre CHAR(20) NOT NULL PRIMARY KEY, apellido CHAR(30) NOT NULL UNIQUE, posicion CHAR(20) NOT NULL, dorsal INT,"
+					+ " fecha_nacimiento DATE, entrenador CHAR(20) REFERENCES entrenador(nombre))");
 
 			statement.executeUpdate("CREATE TABLE IF NOT EXISTS plantilla (nombre CHAR(30), nombre_entrenador CHAR(20) REFERENCES entrenador(nombre),"
-					+ " numero_jugadores INT, formacion VARCHAR(5), figura_formacion CHAR(20));");
+					+ " numero_jugadores INT, formacion VARCHAR(5), figura_formacion CHAR(20), PRIMARY KEY(nombre, nombre_entrenador))");
 			
 		} catch(SQLException e) {
 			e.printStackTrace();
-			JOptionPane.showInternalMessageDialog(null, "No se puede conectar a la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "No se puede conectar a la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
 		} 
 	}
 
@@ -57,7 +56,6 @@ public class BaseDeDatos {
 			try {
 				rs.close();
 			}catch(Exception e) {
-				JOptionPane.showInputDialog(e);
 				e.printStackTrace();
 			}
 		}
@@ -65,7 +63,6 @@ public class BaseDeDatos {
 			try {
 				statement.close();
 			}catch(Exception e) {
-				JOptionPane.showInputDialog(e);
 				e.printStackTrace();
 			}
 		}
@@ -73,7 +70,6 @@ public class BaseDeDatos {
 			try {
 				connection.close();
 			}catch(Exception e) {
-				JOptionPane.showInputDialog(e);
 				e.printStackTrace();
 			}
 		}
@@ -142,13 +138,13 @@ public class BaseDeDatos {
 	public static void insertarJugador(Jugador a, Entrenador entrenador) {
 
 		try {
-
 			String sentenciaSQL = new String();
 			sentenciaSQL = "INSERT INTO jugador (nombre, apellido, posicion, dorsal, fecha_nacimiento, entrenador)";
 			sentenciaSQL = sentenciaSQL + " VALUES ('"
 					+a.getNombre()+ "','" +a.getApellido()+ "','" +a.getPosicion()+ "','"+a.getDorsal()+"','"+a.getFecha_Naci()+"','"+entrenador.getNombre()+"');"; 
 
 			statement = connection.createStatement();
+			statement.setQueryTimeout(30);
 			statement.executeUpdate(sentenciaSQL);
 			JOptionPane.showMessageDialog(null, "Guardado exitosamente");
 
@@ -171,8 +167,9 @@ public class BaseDeDatos {
 				"','"+fecha_inscripcion+"')";
 		
 		statement = connection.createStatement();
+		statement.setQueryTimeout(30);
 		statement.executeUpdate(sentenciaSQL);
-		JOptionPane.showInternalMessageDialog(null, "Entrenador registrado", "Correcto", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(null, "Entrenador registrado", "Correcto", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	/**

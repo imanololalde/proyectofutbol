@@ -125,21 +125,22 @@ private static final long serialVersionUID = 1L;
 				String contraseina2 = BaseDeDatos.convertir(contraseinaTextField2.getPassword());
 				if(contraseina1.equals(contraseina2)) {
 					try {
+						BaseDeDatos.conectarBD();
 						Entrenador entrenador = new Entrenador(dniTextField.getText(), nombreTextField.getText(), 
-								apellidoTextField.getText(), contraseina2, fecha_naciTextField.getText(), null);
+								apellidoTextField.getText(), contraseina2, fecha_naciTextField.getText());
 						BaseDeDatos.insertarEntrenador(entrenador);
 						BaseDeDatos.cerrarConexion();
-						new VentanaLogin().setVisible(true);
+						new VentanaEleccion(entrenador).setVisible(true);
 						VentanaRegistroEntrenador.this.setVisible(false);
-					} catch (SQLException e1) {
+					} catch (SQLException | ClassNotFoundException e1) {
 						// TODO Auto-generated catch block
 						//e1.printStackTrace();
-						JOptionPane.showInternalMessageDialog(null, "Entrenador no registrado", "Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Entrenador no registrado", "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				} else {
 					contraseinaTextField.setText(null);
 					contraseinaTextField2.setText(null);
-					JOptionPane.showInternalMessageDialog(null, "Contraseñas diferentes", "Precaucion", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Contraseñas diferentes", "Precaucion", JOptionPane.WARNING_MESSAGE);
 				}
 
 			}

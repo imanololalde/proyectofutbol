@@ -123,7 +123,6 @@ public class VentanaRegistro extends JFrame {
 		gbc_dorsalTextField.gridy = 7;
 		contentPane.add(dorsalTextField, gbc_dorsalTextField);
 		dorsalTextField.setColumns(10);
-		dorsal = Integer.parseInt(dorsalTextField.getText());
 		
 		JLabel lblPosicion = new JLabel("Posicion");
 		GridBagConstraints gbc_lblPosicion = new GridBagConstraints();
@@ -205,7 +204,8 @@ public class VentanaRegistro extends JFrame {
 		registrar.addActionListener(new ActionListener() {
 			
 			@Override
-			public void actionPerformed(ActionEvent e) {				
+			public void actionPerformed(ActionEvent e) {	
+				dorsal = Integer.parseInt(dorsalTextField.getText());
 				Jugador registrado = new Jugador(nombreTextField.getText(), apellidoTextField.getText(), posicion, dorsal, fecha_nacimientoTextField.getText(), entrenador);
 				BaseDeDatos.insertarJugador(registrado, entrenador);
 				new VentanaEleccion(entrenador).setVisible(true);

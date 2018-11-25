@@ -89,11 +89,5 @@ public class VentanaEleccion extends JFrame {
 		btnAtras.setBounds(585, 527, 89, 23);
 		contentPane.add(btnAtras);
 		
-		try {
-			BaseDeDatos.conectarBD();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 	}
 }

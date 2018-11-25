@@ -38,7 +38,6 @@ public class VentanaLogin extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					//BaseDeDatos.conectarBD();
 					VentanaLogin frame = new VentanaLogin();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -88,16 +87,21 @@ public class VentanaLogin extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				//comprobar que el entrenador esta en la base de datos
 				try {
+					BaseDeDatos.conectarBD();
 					String contraseina = BaseDeDatos.convertir(passwordField.getPassword());
 					Entrenador entrenador = new Entrenador(textField.getText(),contraseina);
-					entrenador = BaseDeDatos.comprobarLogin(entrenador);
+					Entrenador nuevoEntrenador = BaseDeDatos.comprobarLogin(entrenador);
 					BaseDeDatos.cerrarConexion();
-					new VentanaEleccion(entrenador).setVisible(true);
-					VentanaLogin.this.setVisible(false);
-				} catch (SQLException e1) {
+					if(nuevoEntrenador != null){
+						new VentanaEleccion(nuevoEntrenador).setVisible(true);
+						VentanaLogin.this.setVisible(false);
+					} else {
+						JOptionPane.showConfirmDialog(null, "Entrenador no registrado", "Error", JOptionPane.INFORMATION_MESSAGE);
+					}
+					
+				} catch (SQLException | ClassNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-					JOptionPane.showInternalMessageDialog(null, "Entrenador no registrado", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
