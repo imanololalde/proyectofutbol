@@ -1,9 +1,7 @@
 package ventanas;
 
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -37,23 +35,16 @@ private static final long serialVersionUID = 1L;
 	/**
 	 * Launch the application.
 	 */
-	public static void encenderVentana() {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaRegistroEntrenador frame = new VentanaRegistroEntrenador();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	public VentanaRegistroEntrenador() {
+		VentanaRegistroEntrenador frame = new VentanaRegistroEntrenador();
+		frame.setVisible(true);
+		inicializar();
 	}
 
 	/**
 	 * Create the frame.
 	 */
-	public VentanaRegistroEntrenador() {
+	private void inicializar() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 700, 600);
 		setTitle("Ventana de Registro");
@@ -124,19 +115,14 @@ private static final long serialVersionUID = 1L;
 				String contraseina1 = BaseDeDatos.convertir(contraseinaTextField.getPassword());
 				String contraseina2 = BaseDeDatos.convertir(contraseinaTextField2.getPassword());
 				if(contraseina1.equals(contraseina2)) {
-					try {
-						BaseDeDatos.conectarBD();
-						Entrenador entrenador = new Entrenador(dniTextField.getText(), nombreTextField.getText(), 
-								apellidoTextField.getText(), contraseina2, fecha_naciTextField.getText());
-						BaseDeDatos.insertarEntrenador(entrenador);
-						BaseDeDatos.cerrarConexion();
-						new VentanaEleccion(entrenador).setVisible(true);
-						VentanaRegistroEntrenador.this.setVisible(false);
-					} catch (SQLException | ClassNotFoundException e1) {
-						// TODO Auto-generated catch block
-						//e1.printStackTrace();
-						JOptionPane.showMessageDialog(null, "Entrenador no registrado", "Error", JOptionPane.ERROR_MESSAGE);
-					}
+					BaseDeDatos.conectarBD();
+					Entrenador entrenador = new Entrenador(dniTextField.getText(), nombreTextField.getText(), 
+							apellidoTextField.getText(), contraseina2, fecha_naciTextField.getText());
+					BaseDeDatos.insertarEntrenador(entrenador);
+					BaseDeDatos.cerrarConexion();
+					new VentanaEleccion(entrenador).setVisible(true);
+					VentanaRegistroEntrenador.this.setVisible(false);
+					JOptionPane.showMessageDialog(null, "Entrenador no registrado", "Error", JOptionPane.ERROR_MESSAGE);
 				} else {
 					contraseinaTextField.setText(null);
 					contraseinaTextField2.setText(null);

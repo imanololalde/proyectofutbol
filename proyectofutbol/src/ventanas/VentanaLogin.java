@@ -1,6 +1,5 @@
 package ventanas;
 
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -12,7 +11,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 import base_de_datos.*;
@@ -34,23 +32,16 @@ public class VentanaLogin extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void encenderVentana() {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaLogin frame = new VentanaLogin();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	public VentanaLogin() {
+		this.setSize(580,400);
+		this.setVisible(true);
+		inicializar();
 	}
 
 	/**
 	 * Create the frame.
 	 */
-	public VentanaLogin() {
+	private void inicializar() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 700, 600);
 		setTitle("Ventana Login");
@@ -86,23 +77,16 @@ public class VentanaLogin extends JFrame {
 		iniciar_sesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//comprobar que el entrenador esta en la base de datos
-				try {
-					BaseDeDatos.conectarBD();
-					String contraseina = BaseDeDatos.convertir(passwordField.getPassword());
-					Entrenador entrenador = new Entrenador(textField.getText(),contraseina);
-					Entrenador nuevoEntrenador = BaseDeDatos.comprobarLogin(entrenador);
-					BaseDeDatos.cerrarConexion();
-					if(nuevoEntrenador != null){
-						new VentanaEleccion(nuevoEntrenador).setVisible(true);
-						VentanaLogin.this.setVisible(false);
-					} else {
-						JOptionPane.showConfirmDialog(null, "Entrenador no registrado", "Error", JOptionPane.INFORMATION_MESSAGE);
-					}
-					
-				} catch (SQLException | ClassNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				BaseDeDatos.conectarBD();
+
+				String contraseina = BaseDeDatos.convertir(passwordField.getPassword());
+				Entrenador entrenador = new Entrenador(textField.getText(),contraseina);
+
+				Entrenador nuevoEntrenador = BaseDeDatos.comprobarLogin(entrenador);
+				BaseDeDatos.cerrarConexion();
+				new VentanaEleccion(nuevoEntrenador).setVisible(true);
+				VentanaLogin.this.setVisible(false);
+				JOptionPane.showConfirmDialog(null, "Entrenador no registrado", "Error", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		contentPane.add(iniciar_sesion, "cell 1 9");

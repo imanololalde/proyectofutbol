@@ -1,6 +1,5 @@
 package ventanas;
 
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -34,23 +33,16 @@ public class VentanaPartidos extends JFrame  {
 	/**
 	 * Launch the application.
 	 */
-	public static void encenderVentana(Entrenador entrenador) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaPartidos frame = new VentanaPartidos(entrenador);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	public VentanaPartidos(Entrenador entrenador) {
+		
+		this.setVisible(true);
+		inicializar(entrenador);
 	}
 
 	/**
 	 * Create the frame.
 	 */
-	public VentanaPartidos(Entrenador entrenador) {
+	private void inicializar(Entrenador entrenador) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 700, 600);
 		setTitle("Partidos");
@@ -75,9 +67,6 @@ public class VentanaPartidos extends JFrame  {
 		nomdef2.setBackground(new Color(255, 0, 0));
 		nomdef2.setOpaque(true);
 		nomdef2.setVisible(false);
-		
-		
-		
 		
 		JLabel nombreportero = new JLabel("", SwingConstants.CENTER);
 		nombreportero.setFont(new Font("SpaceClaim ASME CB", Font.BOLD, 11));
@@ -298,8 +287,7 @@ public class VentanaPartidos extends JFrame  {
 		Campo.setBounds(10, 0, 664, 505);
 		contentPane.add(Campo);
 		
-		Object eleccion= formaciones.getSelectedItem();
-		
+		//Object eleccion= formaciones.getSelectedItem();		
 
         }
 	}
