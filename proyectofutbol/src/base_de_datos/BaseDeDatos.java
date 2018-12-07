@@ -36,9 +36,9 @@ public class BaseDeDatos {
 					+ " fecha_nacimiento DATE, fecha_inscripcion DATE)");
 			
 			statement.executeUpdate("CREATE TABLE IF NOT EXISTS jugador (nombre CHAR(20) NOT NULL, apellido CHAR(30) NOT NULL, posicion CHAR(20) NOT NULL, dorsal INT,"
-					+ " fecha_nacimiento DATE, entrenador CHAR(20) REFERENCES entrenador(nombre), PRIMARY KEY(nombre, apellido))");
+					+ " fecha_nacimiento DATE, nombre_entrenador CHAR(20), FOREIGN KEY (nombre_entrenador) REFERENCES entrenador (nombre), PRIMARY KEY (nombre, apellido))");
 
-			statement.executeUpdate("CREATE TABLE IF NOT EXISTS plantilla (nombre CHAR(30), nombre_entrenador CHAR(20) REFERENCES entrenador(nombre),"
+			statement.executeUpdate("CREATE TABLE IF NOT EXISTS plantilla (nombre CHAR(30) NOT NULL, nombre_entrenador CHAR(20) FOREIGN KEY (nombre_entrenador) REFERENCES entrenador(nombre),"
 					+ " numero_jugadores INT, formacion VARCHAR(5), figura_formacion CHAR(20), PRIMARY KEY(nombre, nombre_entrenador))");
 			
 			log(Level.INFO, "Base de datos conectada", null);
@@ -155,23 +155,32 @@ public class BaseDeDatos {
 		}
 	}
 	
-	public static void insertarEntrenador(Entrenador entrenador) {
+	/**
+	 * Inserta un entrenador en la base de datos
+	 * @param entrenador
+	 * @return True si ha sido insertado y false si no se ha conseguido
+	 * @throws SQLException
+	 */
+	public static boolean insertarEntrenador(Entrenador entrenador) {
 		try {
 			statement = connection.createStatement();
 			Calendar fecha = Calendar.getInstance();
 			int mes = fecha.get(Calendar.MONTH) + 1;	//empieza en el mes 0
 			String fecha_inscripcion =""+fecha.get(Calendar.DATE)+"/"+mes+"/"+fecha.get(Calendar.YEAR);
+			
 			String sentenciaSQL = new String();
 			sentenciaSQL = "INSERT INTO entrenador (dni, nombre, apellido, contraseña, fecha_nacimiento, fecha_inscripcion)";
-			sentenciaSQL = sentenciaSQL + " VALUES ('"
+			sentenciaSQL = sentenciaSQL + " VALUES ('"+entrenador.getDni()+"','"
 					+entrenador.getNombre()+"','"+entrenador.getApellido()+"','"+entrenador.getContraseña()+"','"+entrenador.getFecha_naci()+
 					"','"+fecha_inscripcion+"')";
 			
 			statement.setQueryTimeout(30);
 			statement.executeUpdate(sentenciaSQL);
 			log(Level.INFO, entrenador + "añadido a la base de datos", null);
+			return true;
 		}catch (SQLException e) {
 			log(Level.SEVERE, "Error a la hora de insertar al entrenador " + entrenador.getNombre(), e);
+			return false;
 		}		
 	}
 

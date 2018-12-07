@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -108,15 +109,23 @@ private static final long serialVersionUID = 1L;
 				// TODO Auto-generated method stub
 				String contraseina1 = BaseDeDatos.convertir(contraseinaTextField.getPassword());
 				String contraseina2 = BaseDeDatos.convertir(contraseinaTextField2.getPassword());
+				
+				Calendar fecha = Calendar.getInstance();
+				int mes = fecha.get(Calendar.MONTH) + 1;	//empieza en el mes 0
+				String fecha_inscripcion =""+fecha.get(Calendar.DATE)+"/"+mes+"/"+fecha.get(Calendar.YEAR);
+				
 				if(contraseina1.equals(contraseina2)) {
 					BaseDeDatos.conectarBD();
 					Entrenador entrenador = new Entrenador(dniTextField.getText(), nombreTextField.getText(), 
-							apellidoTextField.getText(), contraseina2, fecha_naciTextField.getText());
-					BaseDeDatos.insertarEntrenador(entrenador);
-					BaseDeDatos.cerrarConexion();
-					new VentanaEleccion(entrenador).setVisible(true);
-					VentanaRegistroEntrenador.this.setVisible(false);
-					JOptionPane.showMessageDialog(null, "Entrenador no registrado", "Error", JOptionPane.ERROR_MESSAGE);
+							apellidoTextField.getText(), contraseina2, fecha_naciTextField.getText(), fecha_inscripcion);
+					boolean correcto = true;
+					if(correcto == BaseDeDatos.insertarEntrenador(entrenador)) {
+						BaseDeDatos.cerrarConexion();
+						new VentanaEleccion(entrenador).setVisible(true);
+						VentanaRegistroEntrenador.this.setVisible(false);
+					} else {
+						JOptionPane.showMessageDialog(null, "Entrenador no registrado", "Error", JOptionPane.ERROR_MESSAGE);
+					}
 				} else {
 					contraseinaTextField.setText(null);
 					contraseinaTextField2.setText(null);

@@ -41,7 +41,7 @@ public class TestBaseDeDatos {
 	}
 
 	@Test
-	public void initCrearCerrarTest() {
+	public void CrearCerrarTest() {
 		
 	}
 
