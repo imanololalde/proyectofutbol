@@ -2,12 +2,13 @@ package ventanas;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 import datos.Entrenador;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 
 public class VentanaEleccion extends JFrame {
@@ -17,14 +18,14 @@ public class VentanaEleccion extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private JPanel contentPane;
+	private JPanel panelPrincipal;
+	private JPanel botones;
 
 	/**
 	 * Launch the application.
 	 */
 	public VentanaEleccion(Entrenador entrenador) {
-
-		
+		this.setSize(580,400);
 		this.setVisible(true);
 		inicializar(entrenador);
 	}
@@ -34,52 +35,50 @@ public class VentanaEleccion extends JFrame {
 	 */
 	private void inicializar(Entrenador entrenador) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 700, 600);
 		setTitle("Ventana de Eleccion");
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
+		setLocationRelativeTo(null);
+		//Paneles
+		panelPrincipal = new JPanel(new GridLayout(1, 3));
+		botones = new JPanel(new BorderLayout());
+		//Componentes
+		JButton bEntrena = new JButton("Entrenamientos");
+		JButton bPartidos = new JButton("Partidos");
+		JButton bRegistro = new JButton("Registrar Jugadores");
+		JButton bAtras = new JButton("Atras");
+		//Asigancion
+		panelPrincipal.add(bEntrena, new GridLayout(1, 1));
+		panelPrincipal.add(bPartidos, new GridLayout(1, 2));
+		panelPrincipal.add(bRegistro, new GridLayout(1, 3));
+		botones.add(bAtras, BorderLayout.EAST);
+		getContentPane().add( panelPrincipal, BorderLayout.CENTER );
+		getContentPane().add( botones, BorderLayout.SOUTH );
 		
-		JButton btnNewButton_2 = new JButton("Entrenamientos");
-		btnNewButton_2.setBounds(10, 11, 167, 539);
-		btnNewButton_2.addActionListener(new ActionListener() {
+		bEntrena.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new VentanaEntrenamientos(entrenador).setVisible(true);
 				VentanaEleccion.this.setVisible(false);
 			}
 		});
-		contentPane.setLayout(null);
-		contentPane.add(btnNewButton_2);
 		
-		JButton btnNewButton_1 = new JButton("Partidos");
-		btnNewButton_1.addActionListener(new ActionListener() {
+		bPartidos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new VentanaPartidos(entrenador).setVisible(true);
 				VentanaEleccion.this.setVisible(false);
 			}
 		});
-		btnNewButton_1.setBounds(200, 11, 167, 539);
-		contentPane.add(btnNewButton_1);
 		
-		JButton btnNewButton = new JButton("Registrar Jugadores");
-		btnNewButton.addActionListener(new ActionListener() {
+		bRegistro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new VentanaRegistro(entrenador).setVisible(true);
 				VentanaEleccion.this.setVisible(false);
 			}
 		});
-		btnNewButton.setBounds(399, 11, 167, 539);
-		contentPane.add(btnNewButton);
 		
-		JButton btnAtras = new JButton("Atras");
-		btnAtras.addActionListener(new ActionListener() {
+		bAtras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new VentanaLogin().setVisible(true);
 				VentanaEleccion.this.setVisible(false);
 			}
 		});
-		btnAtras.setBounds(585, 527, 89, 23);
-		contentPane.add(btnAtras);
-		
 	}
 }

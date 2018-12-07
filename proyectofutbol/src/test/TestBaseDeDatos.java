@@ -19,7 +19,7 @@ public class TestBaseDeDatos {
 	private Jugador[] jugadores;
 	private ArrayList<Jugador> lJugadores;
 	private Entrenador e1, e2, e3;
-	private Plantilla p1, p2;
+	private Plantilla p1;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -32,9 +32,8 @@ public class TestBaseDeDatos {
 		jugadores = new Jugador[] { j1, j2, j3 };
 		lJugadores = (ArrayList<Jugador>) Arrays.asList(jugadores);
 		p1 = new Plantilla(e1);
-		p2 = new Plantilla(e2);
 		
-		p2.addPlantilla(lJugadores);
+		p1.addPlantilla(lJugadores);
 	}
 
 	@After

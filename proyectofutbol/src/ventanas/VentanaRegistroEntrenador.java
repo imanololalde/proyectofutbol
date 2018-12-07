@@ -1,5 +1,7 @@
 package ventanas;
 
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -10,34 +12,34 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
 
 import base_de_datos.BaseDeDatos;
 import datos.Entrenador;
-import net.miginfocom.swing.MigLayout;
+
+import javax.swing.SwingConstants;
 
 public class VentanaRegistroEntrenador extends JFrame {
 
 private static final long serialVersionUID = 1L;
 	
-	private JPanel contentPane;
+	private JPanel panelLabels;
+	private JPanel panelPrincipal;
+	private JPanel botones;
 	private JTextField dniTextField;
-	public static JTextField nombreTextField;
-	public static JTextField apellidoTextField;
-	public static JPasswordField contraseinaTextField;
-	public static JPasswordField contraseinaTextField2;
-	public static JButton registrar;
-	private JButton btnAtras;
-	private JLabel lblDni;
-	private JLabel lblFechaDeNacimiento;
+	private JTextField nombreTextField;
+	private JTextField apellidoTextField;
+	private JPasswordField contraseinaTextField;
+	private JPasswordField contraseinaTextField2;
 	private JTextField fecha_naciTextField;
+	private JButton bregistrar;
+	private JButton batras;
 
 	/**
 	 * Launch the application.
 	 */
 	public VentanaRegistroEntrenador() {
-		VentanaRegistroEntrenador frame = new VentanaRegistroEntrenador();
-		frame.setVisible(true);
+		this.setSize(580,400);
+		this.setVisible(true);
 		inicializar();
 	}
 
@@ -46,70 +48,62 @@ private static final long serialVersionUID = 1L;
 	 */
 	private void inicializar() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 700, 600);
 		setTitle("Ventana de Registro");
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[][][6px][45px,grow][6px][65px][6px][103px][6px][85px][][][][][][][]", "[25px][][][][][][][][][][][][][][][][][][][][]"));
-		
-		lblDni = new JLabel("DNI");
-		contentPane.add(lblDni, "cell 1 2");
-		
-		dniTextField = new JTextField();
-		contentPane.add(dniTextField, "cell 5 2 3 1,alignx center");
-		dniTextField.setColumns(10);
-		
+		setLocationRelativeTo(null);
+		//Paneles
+		panelLabels = new JPanel(new GridLayout(6, 1));
+		panelPrincipal = new JPanel(new GridLayout(6, 1));
+		botones = new JPanel(new BorderLayout());
+		//Componentes
+		JLabel lblDni = new JLabel("DNI");
+		lblDni.setHorizontalAlignment(SwingConstants.CENTER);
 		JLabel lblNombre = new JLabel("Nombre");
-		contentPane.add(lblNombre, "cell 1 4,alignx left,aligny center");
-		
-		nombreTextField = new JTextField();
-		contentPane.add(nombreTextField, "cell 5 4 3 1,alignx center,aligny center");
-		nombreTextField.setColumns(10);
-		
+		lblNombre.setHorizontalAlignment(SwingConstants.CENTER);
 		JLabel lblApellido = new JLabel("Apellido");
-		contentPane.add(lblApellido, "cell 1 6,alignx left,aligny center");
-		
-		apellidoTextField = new JTextField();
-		contentPane.add(apellidoTextField, "cell 5 6 3 1,alignx center,aligny center");
-		apellidoTextField.setColumns(10);
-		
+		lblApellido.setHorizontalAlignment(SwingConstants.CENTER);
 		JLabel lblContraseina = new JLabel("Contraseña");
-		contentPane.add(lblContraseina, "cell 1 8,alignx left,aligny center");
-		
+		lblContraseina.setHorizontalAlignment(SwingConstants.CENTER);
+		JLabel lblContraseina2 = new JLabel("Repita contraseña");
+		lblContraseina2.setHorizontalAlignment(SwingConstants.CENTER);
+		JLabel lblFechaDeNacimiento = new JLabel("Fecha de Nacimiento");
+		lblFechaDeNacimiento.setHorizontalAlignment(SwingConstants.CENTER);
+		dniTextField = new JTextField();
+		nombreTextField = new JTextField();
+		apellidoTextField = new JTextField();
 		contraseinaTextField = new JPasswordField();
-		contentPane.add(contraseinaTextField, "cell 5 8 3 1,alignx center,aligny center");
-		contraseinaTextField.setColumns(10);
+		contraseinaTextField2 = new JPasswordField();
+		fecha_naciTextField = new JTextField();
+		fecha_naciTextField.setText("yyyy/mm/dd");
+		fecha_naciTextField.setHorizontalAlignment(SwingConstants.CENTER);
+		bregistrar = new JButton("Registrar");
+		batras = new JButton("Atras");
+		//Asignacion
+		panelLabels.add(lblDni, new GridLayout(1, 1));
+		panelLabels.add(lblNombre, new GridLayout(2, 1));
+		panelLabels.add(lblApellido, new GridLayout(3, 1));
+		panelLabels.add(lblContraseina, new GridLayout(4, 1));
+		panelLabels.add(lblContraseina2, new GridLayout(5, 1));
+		panelLabels.add(lblFechaDeNacimiento, new GridLayout(6, 1));
+		panelPrincipal.add(dniTextField, new GridLayout(1, 1));
+		panelPrincipal.add(nombreTextField, new GridLayout(2, 1));
+		panelPrincipal.add(apellidoTextField, new GridLayout(3, 1));
+		panelPrincipal.add(contraseinaTextField, new GridLayout(4, 1));
+		panelPrincipal.add(contraseinaTextField2, new GridLayout(5, 1));
+		panelPrincipal.add(fecha_naciTextField, new GridLayout(6, 1));
+		botones.add(bregistrar, BorderLayout.CENTER);
+		botones.add(batras, BorderLayout.EAST);
+		getContentPane().add( panelLabels, BorderLayout.WEST );
+		getContentPane().add( panelPrincipal, BorderLayout.CENTER );
+		getContentPane().add( botones, BorderLayout.SOUTH );
 		
-		btnAtras = new JButton("Atras");
-		btnAtras.addActionListener(new ActionListener() {
+		batras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				new VentanaLogin().setVisible(true);
 				VentanaRegistroEntrenador.this.setVisible(false);
 			}
 		});
 		
-		JLabel lblContraseina2 = new JLabel("Repita contraseña");
-		contentPane.add(lblContraseina2, "cell 1 10,alignx left,aligny center");
-		
-		contraseinaTextField2 = new JPasswordField();
-		contentPane.add(contraseinaTextField2, "cell 5 10 3 1,alignx center,aligny center");
-		contraseinaTextField2.setColumns(10);
-		
-		lblFechaDeNacimiento = new JLabel("Fecha de Nacimiento");
-		contentPane.add(lblFechaDeNacimiento, "cell 1 12");
-		
-		fecha_naciTextField = new JTextField();
-		contentPane.add(fecha_naciTextField, "cell 5 12 3 1,alignx center");
-		fecha_naciTextField.setText("yyyy/mm/dd");
-		fecha_naciTextField.setColumns(10);
-		contentPane.add(btnAtras, "cell 0 20,alignx center,aligny center");
-		
-		registrar = new JButton("Registrar");
-		contentPane.add(registrar, "cell 16 20,alignx left,aligny center");
-		registrar.addActionListener(new ActionListener() {
-
-			@Override
+		bregistrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				String contraseina1 = BaseDeDatos.convertir(contraseinaTextField.getPassword());
@@ -128,9 +122,7 @@ private static final long serialVersionUID = 1L;
 					contraseinaTextField2.setText(null);
 					JOptionPane.showMessageDialog(null, "Contraseñas diferentes", "Precaucion", JOptionPane.WARNING_MESSAGE);
 				}
-
 			}
 		});
 	}
-	
 }

@@ -24,16 +24,19 @@ public class BaseDeDatos {
 	 * @throws SQLException 
 	 */
 	public static void conectarBD() {
+		String user = "postgres";
+		String password = "proyectoProgramacion";
+		
 		try {
 			Class.forName("org.postgresql.Driver");
-			connection = DriverManager.getConnection("jdbc:postgresql:Futbol");
+			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/Futbol", user, password);
 			Statement statement = connection.createStatement();
 
 			statement.executeUpdate("CREATE TABLE IF NOT EXISTS entrenador (dni VARCHAR(9) NOT NULL PRIMARY KEY, nombre CHAR(20) NOT NULL, apellido CHAR(20) NOT NULL, contraseña VARCHAR(30),"
 					+ " fecha_nacimiento DATE, fecha_inscripcion DATE)");
 			
-			statement.executeUpdate("CREATE TABLE IF NOT EXISTS jugador (nombre CHAR(20) NOT NULL PRIMARY KEY, apellido CHAR(30) NOT NULL UNIQUE, posicion CHAR(20) NOT NULL, dorsal INT,"
-					+ " fecha_nacimiento DATE, entrenador CHAR(20) REFERENCES entrenador(nombre))");
+			statement.executeUpdate("CREATE TABLE IF NOT EXISTS jugador (nombre CHAR(20) NOT NULL, apellido CHAR(30) NOT NULL, posicion CHAR(20) NOT NULL, dorsal INT,"
+					+ " fecha_nacimiento DATE, entrenador CHAR(20) REFERENCES entrenador(nombre), PRIMARY KEY(nombre, apellido))");
 
 			statement.executeUpdate("CREATE TABLE IF NOT EXISTS plantilla (nombre CHAR(30), nombre_entrenador CHAR(20) REFERENCES entrenador(nombre),"
 					+ " numero_jugadores INT, formacion VARCHAR(5), figura_formacion CHAR(20), PRIMARY KEY(nombre, nombre_entrenador))");
