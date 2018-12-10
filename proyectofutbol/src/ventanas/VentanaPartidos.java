@@ -97,7 +97,7 @@ public class VentanaPartidos extends JFrame  {
 		nomdef1.setOpaque(true);
 		nomdef1.setVisible(false);
 		
-		
+		 
 		JLabel nomcen1 = new JLabel("", SwingConstants.CENTER);
 		nomcen1.setForeground(Color.WHITE);
 		nomcen1.setFont(new Font("SpaceClaim ASME CB", Font.BOLD, 11));
