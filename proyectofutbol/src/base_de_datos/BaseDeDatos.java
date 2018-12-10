@@ -9,8 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
-
-import javax.swing.JOptionPane;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class BaseDeDatos {
 
@@ -21,37 +21,33 @@ public class BaseDeDatos {
 	/**
 	 * El servidor se conecta a la base de datos
 	 * @throws ClassNotFoundException
+	 * @throws SQLException 
 	 */
-	public static void conectarBD() throws ClassNotFoundException {
-
-		String username = "jsxigzifksfofs";
-		String password = "837a4cd59231a62c30fd00d7aa39bb2f1fe6a33465b3fb30682bb9758c629809";
-		String urldB = "jdbc:postgresql://ec2-54-221-204-161.compute-1.amazonaws.com:5432/d7k4h8c5tjnkec";
-		String dbUrl = urldB + "?sslmode=require";
-
-		Class.forName("org.postgresql.Driver");
-
+	public static void conectarBD() {
+		String user = "postgres";
+		String password = "proyectoProgramacion";
+		
 		try {
-			connection = DriverManager.getConnection( dbUrl, username, password );
+			Class.forName("org.postgresql.Driver");
+			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/Futbol", user, password);
 			Statement statement = connection.createStatement();
 
 			statement.executeUpdate("CREATE TABLE IF NOT EXISTS entrenador (dni VARCHAR(9) NOT NULL PRIMARY KEY, nombre CHAR(20) NOT NULL, apellido CHAR(20) NOT NULL, contraseña VARCHAR(30),"
 					+ " fecha_nacimiento DATE, fecha_inscripcion DATE)");
 			
-			statement.executeUpdate("CREATE TABLE IF NOT EXISTS jugador (nombre CHAR(20) NOT NULL PRIMARY KEY, apellido CHAR(30) NOT NULL UNIQUE, posicion CHAR(20) NOT NULL, dorsal INT,"
-					+ " fecha_nacimiento DATE, entrenador CHAR(20) REFERENCES entrenador(nombre))");
+			statement.executeUpdate("CREATE TABLE IF NOT EXISTS jugador (nombre CHAR(20) NOT NULL, apellido CHAR(30) NOT NULL, posicion CHAR(20) NOT NULL, dorsal INT,"
+					+ " fecha_nacimiento DATE, nombre_entrenador CHAR(20), FOREIGN KEY (nombre_entrenador) REFERENCES entrenador (nombre), PRIMARY KEY (nombre, apellido))");
 
-			statement.executeUpdate("CREATE TABLE IF NOT EXISTS plantilla (nombre CHAR(30), nombre_entrenador CHAR(20) REFERENCES entrenador(nombre),"
+			statement.executeUpdate("CREATE TABLE IF NOT EXISTS plantilla (nombre CHAR(30) NOT NULL, nombre_entrenador CHAR(20) FOREIGN KEY (nombre_entrenador) REFERENCES entrenador(nombre),"
 					+ " numero_jugadores INT, formacion VARCHAR(5), figura_formacion CHAR(20), PRIMARY KEY(nombre, nombre_entrenador))");
 			
-		} catch(SQLException e) {
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "No se puede conectar a la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
-		} 
+			log(Level.INFO, "Base de datos conectada", null);
+		} catch(ClassNotFoundException | SQLException e) {
+			log(Level.SEVERE, "Error en conexión de base de datos", e);
+		}
 	}
 
 	public static void cerrarConexion() {
-
 		if (rs!=null) {
 			try {
 				rs.close();
@@ -73,6 +69,7 @@ public class BaseDeDatos {
 				e.printStackTrace();
 			}
 		}
+		log(Level.INFO, "Base de datos cerrada", null);
 	}
 	
 	/**
@@ -81,20 +78,25 @@ public class BaseDeDatos {
 	 * @return Nombre, Apellido, Dorsal y Posicion 
 	 * @throws SQLException
 	 */
-	public static String verJugador(Jugador a) throws SQLException {
-		
-		rs = statement.executeQuery("SELECT "+a.getNombre()+" FROM jugador");
-		while(rs.next()) {
-			// Se saca por consola info de la tabla
-			System.out.println("Nombre = " + rs.getString("nombre"));
-			System.out.println("Apellido = " + rs.getString("apellido"));
-			System.out.println("Posición = " + rs.getString("posicion"));
-			System.out.println("Dorsal = " + rs.getInt("dorsal"));
-			System.out.println("Fecha de Nacimiento = " + rs.getDate("fecha_nacimiento"));
-			System.out.println("Entrenador = " + rs.getString("entrenador"));
+	public static String verJugador(Jugador jugador) {
+		try {
+			rs = statement.executeQuery("SELECT "+jugador.getNombre()+" FROM jugador");
+			while(rs.next()) {
+				// Se saca por consola info de la tabla
+				System.out.println("Nombre = " + rs.getString("nombre"));
+				System.out.println("Apellido = " + rs.getString("apellido"));
+				System.out.println("Posición = " + rs.getString("posicion"));
+				System.out.println("Dorsal = " + rs.getInt("dorsal"));
+				System.out.println("Fecha de Nacimiento = " + rs.getDate("fecha_nacimiento"));
+				System.out.println("Entrenador = " + rs.getString("entrenador"));
+			}
+			rs.close();
+			log(Level.INFO, "Seleccionado el jugador " + jugador.getNombre(), null);
+			return rs.getString(1)+rs.getString(2)+rs.getString(3)+rs.getInt(4)+rs.getDate(5)+rs.getString(6);
+		} catch (SQLException e) {
+			log(Level.SEVERE, "Error a la hora de seleccionar jugador", e);
+			return null;
 		}
-		rs.close();
-		return rs.getString(1)+rs.getString(2)+rs.getString(3)+rs.getInt(4)+rs.getDate(5)+rs.getString(6);
 	}
 
 	/**
@@ -103,73 +105,83 @@ public class BaseDeDatos {
 	 * @return Nombres y apellidos
 	 * @throws SQLException
 	 */
-	public static String verEntrenador(Entrenador e) throws SQLException {
-		
-		rs = statement.executeQuery("SELECT "+e.getNombre()+" FROM entrenador");
-		while(rs.next()) {
-			System.out.println("DNI ="+rs.getString(1));
-			System.out.println("Nombre ="+rs.getString(2));
-			System.out.println("Apellido ="+rs.getString(3));
-			System.out.println("Fecha de nacimiento ="+rs.getDate(5));
-			System.out.println("Fecha de inscripcion ="+rs.getDate(6));
+	public static String verEntrenador(Entrenador entrenador) {
+		try {
+			rs = statement.executeQuery("SELECT "+entrenador.getNombre()+" FROM entrenador");
+			while(rs.next()) {
+				System.out.println("DNI ="+rs.getString(1));
+				System.out.println("Nombre ="+rs.getString(2));
+				System.out.println("Apellido ="+rs.getString(3));
+				System.out.println("Fecha de nacimiento ="+rs.getDate(5));
+				System.out.println("Fecha de inscripcion ="+rs.getDate(6));
+			}
+			rs.close();
+			log(Level.INFO, "Seleccionado el entrenador " + entrenador.getNombre(), null);
+			return rs.getString(1)+rs.getString(2)+rs.getString(3)+rs.getDate(5)+rs.getDate(6);
+		} catch (SQLException e) {
+			log(Level.SEVERE, "Error a la hora de seleccionar entrenador", e);
+			return null;
 		}
-		rs.close();
-		return rs.getString(1)+rs.getString(2)+rs.getString(3)+rs.getDate(5)+rs.getDate(6);
 	}
 
-	public static void eliminarJugador(Jugador a) {	
-
+	public static void eliminarJugador(Jugador jugador) {	
 		try {
 			statement = connection.createStatement();
-			String sql ="DELETE FROM jugador WHERE nombre = '"+a.getNombre()+"' AND apellido = '"+a.getApellido()+"' AND"
-					+ " posicion = '"+a.getPosicion()+"' AND dorsal = '"+a.getDorsal()+"';";
-			ResultSet resultado = statement.executeQuery(sql);
-			JOptionPane.showMessageDialog(null, "El jugador ha sido eliminado exitosamente", 
-					"Operación Exitosa", JOptionPane.INFORMATION_MESSAGE);
-			resultado.close();
-			statement.close();
+			String sql ="DELETE FROM jugador WHERE nombre = '"+jugador.getNombre()+"' AND apellido = '"
+					+jugador.getApellido()+"' AND"
+					+ " posicion = '"+jugador.getPosicion()+"' AND dorsal = '"+jugador.getDorsal()+"';";
+			rs = statement.executeQuery(sql);
+			rs.close();
+			log(Level.INFO, jugador + "eliminado de la base de datos", null);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, e, "Alert", JOptionPane.ERROR_MESSAGE);
+			log(Level.SEVERE, "Error a la hora de eliminar jugador", e);
 		}
 	}
 
-	public static void insertarJugador(Jugador a, Entrenador entrenador) {
-
+	public static void insertarJugador(Jugador jugador, Entrenador entrenador) {
 		try {
 			String sentenciaSQL = new String();
+			statement = connection.createStatement();
 			sentenciaSQL = "INSERT INTO jugador (nombre, apellido, posicion, dorsal, fecha_nacimiento, entrenador)";
 			sentenciaSQL = sentenciaSQL + " VALUES ('"
-					+a.getNombre()+ "','" +a.getApellido()+ "','" +a.getPosicion()+ "','"+a.getDorsal()+"','"+a.getFecha_Naci()+"','"+entrenador.getNombre()+"');"; 
+					+jugador.getNombre()+ "','" +jugador.getApellido()+ "','" +jugador.getPosicion()
+					+ "','"+jugador.getDorsal()+"','"+jugador.getFecha_Naci()+"','"+entrenador.getNombre()+"');"; 
 
-			statement = connection.createStatement();
 			statement.setQueryTimeout(30);
 			statement.executeUpdate(sentenciaSQL);
-			JOptionPane.showMessageDialog(null, "Guardado exitosamente");
-
-		} catch (SQLException ex) {
-			// TODO Auto-generated catch block
-			JOptionPane.showConfirmDialog(null, ex, "ERROR a la hora de crear jugador", JOptionPane.OK_CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
+			log(Level.INFO, jugador + "añadido a la base de datos", null);
+		} catch (SQLException e) {
+			log(Level.SEVERE, "Error a la hora de insertar al jugador " + jugador.getNombre(), e);
 		}
 	}
 	
-	public static void insertarEntrenador(Entrenador entrenador) throws SQLException {
-		
-		Calendar fecha = Calendar.getInstance();
-		int mes = fecha.get(Calendar.MONTH) + 1;
-		String fecha_inscripcion =""+fecha.get(Calendar.DATE)+"/"+mes+"/"+fecha.get(Calendar.YEAR);
-		
-		String sentenciaSQL = new String();
-		sentenciaSQL = "INSERT INTO entrenador (dni, nombre, apellido, contraseña, fecha_nacimiento, fecha_inscripcion)";
-		sentenciaSQL = sentenciaSQL + " VALUES ('"
-				+entrenador.getNombre()+"','"+entrenador.getApellido()+"','"+entrenador.getContraseña()+"','"+entrenador.getFecha_naci()+
-				"','"+fecha_inscripcion+"')";
-		
-		statement = connection.createStatement();
-		statement.setQueryTimeout(30);
-		statement.executeUpdate(sentenciaSQL);
-		JOptionPane.showMessageDialog(null, "Entrenador registrado", "Correcto", JOptionPane.INFORMATION_MESSAGE);
+	/**
+	 * Inserta un entrenador en la base de datos
+	 * @param entrenador
+	 * @return True si ha sido insertado y false si no se ha conseguido
+	 * @throws SQLException
+	 */
+	public static boolean insertarEntrenador(Entrenador entrenador) {
+		try {
+			statement = connection.createStatement();
+			Calendar fecha = Calendar.getInstance();
+			int mes = fecha.get(Calendar.MONTH) + 1;	//empieza en el mes 0
+			String fecha_inscripcion =""+fecha.get(Calendar.DATE)+"/"+mes+"/"+fecha.get(Calendar.YEAR);
+			
+			String sentenciaSQL = new String();
+			sentenciaSQL = "INSERT INTO entrenador (dni, nombre, apellido, contraseña, fecha_nacimiento, fecha_inscripcion)";
+			sentenciaSQL = sentenciaSQL + " VALUES ('"+entrenador.getDni()+"','"
+					+entrenador.getNombre()+"','"+entrenador.getApellido()+"','"+entrenador.getContraseña()+"','"+entrenador.getFecha_naci()+
+					"','"+fecha_inscripcion+"')";
+			
+			statement.setQueryTimeout(30);
+			statement.executeUpdate(sentenciaSQL);
+			log(Level.INFO, entrenador + "añadido a la base de datos", null);
+			return true;
+		}catch (SQLException e) {
+			log(Level.SEVERE, "Error a la hora de insertar al entrenador " + entrenador.getNombre(), e);
+			return false;
+		}		
 	}
 
 	/**
@@ -177,17 +189,20 @@ public class BaseDeDatos {
 	 * @return Devuelve el objeto entrenador
 	 * @throws SQLException
 	 */
-	public static Entrenador comprobarLogin(Entrenador entrenador) throws SQLException {
-
-		statement = connection.createStatement();
-		String sql ="SELECT nombre, contraseña FROM entrenador WHERE nombre = '"+entrenador.getNombre()+"' AND contraseña = '"+entrenador.getContraseña()+"'";
-		rs = statement.executeQuery(sql);
-
-		Entrenador registrado = new Entrenador(entrenador.getNombre(), entrenador.getContraseña());
-
-		rs.close();
-
-		return registrado;
+	public static Entrenador comprobarLogin(Entrenador entrenador) {
+		try {
+			statement = connection.createStatement();
+			String sql ="SELECT nombre, contraseña FROM entrenador WHERE nombre = '"
+					+entrenador.getNombre()+"' AND contraseña = '"+entrenador.getContraseña()+"'";
+			rs = statement.executeQuery(sql);
+			Entrenador registrado = new Entrenador(entrenador.getNombre(), entrenador.getContraseña());
+			rs.close();
+			log(Level.INFO, "Usuario y contraseña correctos " + entrenador, null);
+			return registrado;
+		}catch (SQLException e) {
+			log(Level.SEVERE, "Error en usuario y contraseña " + entrenador.getNombre(), e);
+			return null;
+		}
 	}
 	
 	public static String convertir(char[] password) {
@@ -196,5 +211,18 @@ public class BaseDeDatos {
 			contra+=password[i];
 		}
 		return contra;
+	}
+	
+	private static Logger logger = null;
+	
+	private static void log(Level level, String msg, Throwable excepcion) {
+		if (logger==null) {  
+			logger = Logger.getLogger(BaseDeDatos.class.getName());  
+			logger.setLevel(Level.ALL);  
+		}
+		if (excepcion==null)
+			logger.log(level, msg);
+		else
+			logger.log(level, msg, excepcion);
 	}
 }

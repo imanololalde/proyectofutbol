@@ -1,10 +1,6 @@
 package datos;
 
-import java.util.ArrayList;
-
 import javax.swing.JOptionPane;
-
-import datos.Jugador;
 
 public class Entrenador {
 
@@ -13,6 +9,7 @@ public class Entrenador {
 	private String apellido;
 	private String contraseina;
 	private String fecha_naci;
+	private String fecha_inscri;
 	
 	public String getDni() {
 		return dni;
@@ -24,12 +21,9 @@ public class Entrenador {
 		} else {
 			String secuenciaLetrasNIF = "TRWAGMYFPDXBNJZSQVHLCKE"; 
 			dni = dni.toUpperCase();
-
 			String numeroNIF = dni.substring(0, dni.length()-1);
-
 			//Si es un NIE reemplazamos letra inicial por su valor numérico.
 			numeroNIF = numeroNIF.replace("X", "0").replace("Y", "1").replace("Z", "2");
-
 			char letraNIF = dni.charAt(8);
 			int i = Integer.parseInt(numeroNIF) % 23;
 			if (letraNIF == secuenciaLetrasNIF.charAt(i)) {
@@ -76,19 +70,26 @@ public class Entrenador {
 			this.contraseina = contraseina;
 		}
 	}
+	
+	public String getFecha_inscri() {
+		return fecha_inscri;
+	}
+
+	public void setFecha_inscri(String fecha_inscri) {
+		this.fecha_inscri = fecha_inscri;
+	}
 
 	public Entrenador(String nombre, String contraseina) {
 		this.nombre = nombre;
 		this.contraseina = contraseina;
 	}
 	
-	public Entrenador(String dni, String nombre, String apellido, String contraseina, String fecha_naci) {
+	public Entrenador(String dni, String nombre, String apellido, String contraseina, String fecha_naci, String fecha_inscri) {
 		this.dni = dni;
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.contraseina = contraseina;
 		this.fecha_naci = fecha_naci;
-		
+		this.fecha_inscri = fecha_inscri;
 	}
-	
 }

@@ -1,5 +1,7 @@
 package datos;
 
+import javax.swing.JOptionPane;
+
 public class Jugador {
 
 	private String nombre;
@@ -14,6 +16,7 @@ public class Jugador {
 
 	public void setNombre(String nombre) {
 		if(nombre == null) {
+			JOptionPane.showMessageDialog(null, "Debe escribir un nombre");
 			setNombre(nombre);
 		} else {
 			this.nombre = nombre;
@@ -26,6 +29,7 @@ public class Jugador {
 
 	public void setApellido(String apellido) {
 		if(apellido == null) {
+			JOptionPane.showMessageDialog(null, "Debe escribir un apellido");
 			setApellido(apellido);
 		} else {
 			this.apellido = apellido;
@@ -38,6 +42,7 @@ public class Jugador {
 
 	public void setDorsal(int dorsal) {
 		if(dorsal < 0) {
+			JOptionPane.showMessageDialog(null, "El dorsal debe ser un número positivo");
 			setDorsal(dorsal);
 		} else {
 			this.dorsal = dorsal;
@@ -61,11 +66,11 @@ public class Jugador {
 	}
 	
 	public Jugador(String nombre, String apellido, String posicion, int dorsal, String fecha_naci, Entrenador entrenador) {
+		super();
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.posicion = posicion;
 		this.dorsal = dorsal;
 		this.fecha_naci = fecha_naci;
 	}
-
 }
