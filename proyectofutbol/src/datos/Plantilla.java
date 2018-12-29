@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Plantilla {
 
 	private String nombre;
+	private String formacion;
 	private Entrenador entrenador;
 	private ArrayList<Jugador> plantilla;
 	
@@ -19,6 +20,14 @@ public class Plantilla {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public String getFormacion() {
+		return formacion;
+	}
+
+	public void setFormacion(String formacion) {
+		this.formacion = formacion;
 	}
 
 	public Entrenador getEntrenador() {

@@ -23,7 +23,7 @@ public class BaseDeDatos {
 	 * @throws ClassNotFoundException
 	 * @throws SQLException 
 	 */
-	public static void conectarBD() {
+	public static boolean conectarBD() {
 		String user = "postgres";
 		String password = "proyectoProgramacion";
 		
@@ -36,14 +36,16 @@ public class BaseDeDatos {
 					+ " fecha_nacimiento DATE, fecha_inscripcion DATE)");
 			
 			statement.executeUpdate("CREATE TABLE IF NOT EXISTS jugador (nombre CHAR(20) NOT NULL, apellido CHAR(30) NOT NULL, posicion CHAR(20) NOT NULL, dorsal INT,"
-					+ " fecha_nacimiento DATE, nombre_entrenador CHAR(20), FOREIGN KEY (nombre_entrenador) REFERENCES entrenador (nombre), PRIMARY KEY (nombre, apellido))");
+					+ " fecha_nacimiento DATE, dni_ent VARCHAR(9), FOREIGN KEY (dni_ent) REFERENCES entrenador (dni), PRIMARY KEY (nombre, apellido))");
 
-			statement.executeUpdate("CREATE TABLE IF NOT EXISTS plantilla (nombre CHAR(30) NOT NULL, nombre_entrenador CHAR(20) FOREIGN KEY (nombre_entrenador) REFERENCES entrenador(nombre),"
-					+ " numero_jugadores INT, formacion VARCHAR(5), figura_formacion CHAR(20), PRIMARY KEY(nombre, nombre_entrenador))");
+			statement.executeUpdate("CREATE TABLE IF NOT EXISTS plantilla (nombre CHAR(30) NOT NULL, dni_ent CHAR(20), FOREIGN KEY (dni_ent) REFERENCES entrenador (dni),"
+					+ " numero_jugadores INT, formacion VARCHAR(5), PRIMARY KEY(nombre, dni_ent))");
 			
 			log(Level.INFO, "Base de datos conectada", null);
+			return true;
 		} catch(ClassNotFoundException | SQLException e) {
 			log(Level.SEVERE, "Error en conexión de base de datos", e);
+			return false;
 		}
 	}
 
@@ -124,7 +126,13 @@ public class BaseDeDatos {
 		}
 	}
 
-	public static void eliminarJugador(Jugador jugador) {	
+	/**
+	 * Elimina un jugador de la base de datos
+	 * @param jugador
+	 * @return True si se ha eliminado y false si no se ha conseguido borrar
+	 * @throws SQLException
+	 */
+	public static boolean eliminarJugador(Jugador jugador) {	
 		try {
 			statement = connection.createStatement();
 			String sql ="DELETE FROM jugador WHERE nombre = '"+jugador.getNombre()+"' AND apellido = '"
@@ -133,25 +141,35 @@ public class BaseDeDatos {
 			rs = statement.executeQuery(sql);
 			rs.close();
 			log(Level.INFO, jugador + "eliminado de la base de datos", null);
+			return true;
 		} catch (SQLException e) {
 			log(Level.SEVERE, "Error a la hora de eliminar jugador", e);
+			return false;
 		}
 	}
 
-	public static void insertarJugador(Jugador jugador, Entrenador entrenador) {
+	/**
+	 * Inserta un jugador en la base de datos. Se necesita un entrenador para saber de quien es el jugador.
+	 * @param jugador, entrenador
+	 * @return True si ha sido insertado y false si no se ha conseguido.
+	 * @throws SQLException
+	 */
+	public static boolean insertarJugador(Jugador jugador, Entrenador entrenador) {
 		try {
 			String sentenciaSQL = new String();
 			statement = connection.createStatement();
 			sentenciaSQL = "INSERT INTO jugador (nombre, apellido, posicion, dorsal, fecha_nacimiento, entrenador)";
 			sentenciaSQL = sentenciaSQL + " VALUES ('"
 					+jugador.getNombre()+ "','" +jugador.getApellido()+ "','" +jugador.getPosicion()
-					+ "','"+jugador.getDorsal()+"','"+jugador.getFecha_Naci()+"','"+entrenador.getNombre()+"');"; 
+					+ "','"+jugador.getDorsal()+"','"+jugador.getFecha_Naci()+"','"+entrenador.getDni()+"');"; 
 
 			statement.setQueryTimeout(30);
 			statement.executeUpdate(sentenciaSQL);
 			log(Level.INFO, jugador + "añadido a la base de datos", null);
+			return true;
 		} catch (SQLException e) {
 			log(Level.SEVERE, "Error a la hora de insertar al jugador " + jugador.getNombre(), e);
+			return false;
 		}
 	}
 	
