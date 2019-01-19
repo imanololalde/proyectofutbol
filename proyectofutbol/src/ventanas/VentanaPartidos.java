@@ -98,17 +98,16 @@ public class VentanaPartidos extends JFrame  {
 		nombre_def2.setOpaque(true);
 		nombre_def2.setVisible(false);
 		
-<<<<<<< HEAD
-		 
+
 		JLabel nomcen1 = new JLabel("", SwingConstants.CENTER);
 		nomcen1.setForeground(Color.WHITE);
 		nomcen1.setFont(new Font("SpaceClaim ASME CB", Font.BOLD, 11));
 		nomcen1.setBounds(299, 323, 89, 29);
-		contentPane.add(nomcen1);
+		panelPrincipal.add(nomcen1);
 		nomcen1.setBackground(new Color(255, 0, 0));
 		nomcen1.setOpaque(true);
 		nomcen1.setVisible(false);
-=======
+
 		JLabel nombre_cen1 = new JLabel("", SwingConstants.CENTER);
 		nombre_cen1.setForeground(Color.WHITE);
 		nombre_cen1.setFont(new Font("SpaceClaim ASME CB", Font.BOLD, 11));
@@ -124,7 +123,7 @@ public class VentanaPartidos extends JFrame  {
 		nombre_cen2.setBackground(new Color(255, 0, 0));
 		nombre_cen2.setOpaque(true);
 		nombre_cen2.setVisible(false);
->>>>>>> branch 'master' of https://github.com/imanololalde/proyectofutbol.git
+
 		
 		JLabel nombre_cen3 = new JLabel("",  SwingConstants.CENTER);
 		nombre_cen3.setForeground(Color.WHITE);
