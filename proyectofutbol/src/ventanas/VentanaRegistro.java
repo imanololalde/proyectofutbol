@@ -112,6 +112,7 @@ public class VentanaRegistro extends JFrame {
 			public void actionPerformed(ActionEvent e) {	
 				dorsal = Integer.parseInt(dorsalTextField.getText());
 				Jugador registrado = new Jugador(nombreTextField.getText(), apellidoTextField.getText(), posicion, dorsal, fecha_nacimientoTextField.getText(), entrenador);
+				BaseDeDatos.conectarBD();
 				BaseDeDatos.insertarJugador(registrado, entrenador);
 				new VentanaEleccion(entrenador).setVisible(true);
 				VentanaRegistro.this.setVisible(false);

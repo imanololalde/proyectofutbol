@@ -61,10 +61,10 @@ public class VentanaLogin extends JFrame {
 		iniciar_sesion = new JButton("Iniciar Sesion");
 		salir = new JButton("Salir");
 		//Asignacion
-		contentPane.add(lblUsuario, BorderLayout.NORTH);
-		contentPane.add(lblContrasea, BorderLayout.SOUTH);
-		panelText.add(textField, BorderLayout.NORTH);
-		panelText.add(passwordField, BorderLayout.SOUTH);
+		contentPane.add(lblUsuario);
+		contentPane.add(lblContrasea);
+		panelText.add(textField);
+		panelText.add(passwordField);
 		botones.add(registrar);
 		botones.add(iniciar_sesion);
 		botones.add(salir);
@@ -100,7 +100,8 @@ public class VentanaLogin extends JFrame {
 		
 		salir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				setVisible(false);
+				dispose(); 
 			}
 		});
 	}
