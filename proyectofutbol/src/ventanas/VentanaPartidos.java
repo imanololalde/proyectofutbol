@@ -5,7 +5,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import datos.Entrenador;
-import net.miginfocom.layout.Grid;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -20,6 +19,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Component;
 
 public class VentanaPartidos extends JFrame  {
 
@@ -29,10 +29,10 @@ public class VentanaPartidos extends JFrame  {
 	private static final long serialVersionUID = 1L;
 	
 	private JPanel panelPrincipal;
-	private JPanel panelFondo;
 	private JPanel botones;
 	public String[] formacion={"2-3-1", "2-2-2", "3-2-1", "3-1-2"};
 	public Object seleccionPor, seleccionDef1, seleccionDef2, seleccionCen1, seleccionCen2, seleccionCen3,seleccionDel;
+	private JLabel lblNewLabel;
 
 	/**
 	 * Launch the application.
@@ -52,32 +52,29 @@ public class VentanaPartidos extends JFrame  {
 		setLocationRelativeTo(null);
 		setResizable(false);
 		//Paneles
-
-		GridLayout panelLayout = new GridLayout(8, 3);
-		
-		panelPrincipal = new JPanel();
-		panelPrincipal.setLayout(panelLayout);
-		panelFondo = new JPanel(new BorderLayout());
-		panelFondo.setOpaque(false);
+		panelPrincipal = new JPanel(new BorderLayout());
 		botones = new JPanel(new BorderLayout());
 		
-		getContentPane().add(panelPrincipal);
-		getContentPane().add(panelFondo);
 		getContentPane().add(botones, BorderLayout.SOUTH);
+		getContentPane().add(panelPrincipal, BorderLayout.CENTER);
 		
 		//Componentes
-		JLabel etiqueta[] = new JLabel[24];
-		for(int i = 0; i < 24; i++){
-			etiqueta[i]= new JLabel("etiqueta " +i);
-			panelPrincipal.add(etiqueta[i]);
-		}
+//		lblNewLabel = new JLabel("New label");
+//		lblNewLabel.setAutoscrolls(true);
+//		lblNewLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+//		lblNewLabel.setIcon(new ImageIcon(VentanaPartidos.class.getResource("/imagenes/campo bueno.jpg")));
+//		panelPrincipal.add(lblNewLabel, BorderLayout.CENTER);
+		
+		JPanelConFondo fondo = new JPanelConFondo("/imagenes/campo bueno.jpg");
+		fondo.setImagen("/imagenes/campo bueno.jpg");
+		panelPrincipal.add(fondo, BorderLayout.CENTER);
+		
 		JButton btnAtras = new JButton("Atras");
 		JButton btnGuardarCambios = new JButton("Guardar cambios");
 		
 		JLabel nombre_por = new JLabel("", SwingConstants.CENTER);
 		nombre_por.setFont(new Font("SpaceClaim ASME CB", Font.BOLD, 11));
 		nombre_por.setForeground(Color.WHITE);
-		panelPrincipal.add(nombre_por, new GridLayout(2, 2));
 		nombre_por.setBackground(new Color(255, 0, 0));
 		nombre_por.setOpaque(true);
 		nombre_por.setVisible(false);
@@ -85,7 +82,6 @@ public class VentanaPartidos extends JFrame  {
 		JLabel nombre_def1 = new JLabel("", SwingConstants.CENTER);
 		nombre_def1.setForeground(Color.WHITE);
 		nombre_def1.setFont(new Font("SpaceClaim ASME CB", Font.BOLD, 11));
-		panelPrincipal.add(nombre_def1, new GridLayout(4, 1));
 		nombre_def1.setBackground(new Color(255, 0, 0));
 		nombre_def1.setOpaque(true);
 		nombre_def1.setVisible(false);
@@ -93,7 +89,6 @@ public class VentanaPartidos extends JFrame  {
 		JLabel nombre_def2 = new JLabel("", SwingConstants.CENTER);
 		nombre_def2.setForeground(Color.WHITE);
 		nombre_def2.setFont(new Font("SpaceClaim ASME CB", Font.BOLD, 11));
-		panelPrincipal.add(nombre_def2, new GridLayout(4, 3));
 		nombre_def2.setBackground(new Color(255, 0, 0));
 		nombre_def2.setOpaque(true);
 		nombre_def2.setVisible(false);
@@ -101,7 +96,6 @@ public class VentanaPartidos extends JFrame  {
 		JLabel nombre_cen1 = new JLabel("", SwingConstants.CENTER);
 		nombre_cen1.setForeground(Color.WHITE);
 		nombre_cen1.setFont(new Font("SpaceClaim ASME CB", Font.BOLD, 11));
-		panelPrincipal.add(nombre_cen1, new GridLayout(6, 1));
 		nombre_cen1.setBackground(new Color(255, 0, 0));
 		nombre_cen1.setOpaque(true);
 		nombre_cen1.setVisible(false);
@@ -109,7 +103,6 @@ public class VentanaPartidos extends JFrame  {
 		JLabel nombre_cen2 = new JLabel("", SwingConstants.CENTER);
 		nombre_cen2.setForeground(Color.WHITE);
 		nombre_cen2.setFont(new Font("SpaceClaim ASME CB", Font.BOLD, 11));
-		panelPrincipal.add(nombre_cen2, new GridLayout(6, 2));
 		nombre_cen2.setBackground(new Color(255, 0, 0));
 		nombre_cen2.setOpaque(true);
 		nombre_cen2.setVisible(false);
@@ -117,7 +110,6 @@ public class VentanaPartidos extends JFrame  {
 		JLabel nombre_cen3 = new JLabel("",  SwingConstants.CENTER);
 		nombre_cen3.setForeground(Color.WHITE);
 		nombre_cen3.setFont(new Font("SpaceClaim ASME CB", Font.BOLD, 11));
-		panelPrincipal.add(nombre_cen3, new GridLayout(6, 3));
 		nombre_cen3.setBackground(new Color(255, 0, 0));
 		nombre_cen3.setOpaque(true);
 		nombre_cen3.setVisible(false);
@@ -125,20 +117,11 @@ public class VentanaPartidos extends JFrame  {
 		JLabel nombre_del1 = new JLabel("",  SwingConstants.CENTER);
 		nombre_del1.setForeground(Color.WHITE);
 		nombre_del1.setFont(new Font("SpaceClaim ASME CB", Font.BOLD, 11));
-		panelPrincipal.add(nombre_del1, new GridLayout(8, 2));
 		nombre_del1.setBackground(new Color(255, 0, 0));
 		nombre_del1.setOpaque(true);
 		
 		botones.add(btnGuardarCambios, BorderLayout.WEST);
 		botones.add(btnAtras, BorderLayout.EAST);
-		
-		JLabel Campo = new JLabel("");
-		Campo.setIcon(new ImageIcon(VentanaPartidos.class.getResource("/imagenes/campo bueno.jpg")));
-//		panelPrincipal = new JPanel(new BorderLayout());
-//		panelPrincipal.setBackground(Campo.getBackground());
-		Campo.setFont(panelFondo.getFont());
-		getContentPane().add(Campo, BorderLayout.CENTER);
-		//panelPrincipal.add(Campo);
 		
 		JLabel img_cen3 = new JLabel("");
 		img_cen3.setHorizontalAlignment(SwingConstants.CENTER);
@@ -282,26 +265,20 @@ public class VentanaPartidos extends JFrame  {
 						"; Delantero: "+nombre_del1.getText());
 			}
 		});
+		
 		img_por.setIcon(new ImageIcon(VentanaPartidos.class.getResource("/imagenes/POR.png")));
-		panelPrincipal.add(img_por, new GridLayout(3, 1));
 		
 		img_def1.setIcon(new ImageIcon(VentanaPartidos.class.getResource("/imagenes/DEF.png")));
-		panelPrincipal.add(img_def1, new GridLayout(3, 1));
 		
 		img_def2.setIcon(new ImageIcon(VentanaPartidos.class.getResource("/imagenes/DEF.png")));
-		panelPrincipal.add(img_def2, new GridLayout(3, 3));
 		
 		img_cen1.setIcon(new ImageIcon(VentanaPartidos.class.getResource("/imagenes/MED.png")));
-		panelPrincipal.add(img_cen1, new GridLayout(5, 1));
 		
 		img_cen2.setIcon(new ImageIcon(VentanaPartidos.class.getResource("/imagenes/MED.png")));
-		panelPrincipal.add(img_cen2, new GridLayout(5, 2));
 		
 		img_cen3.setIcon(new ImageIcon(VentanaPartidos.class.getResource("/imagenes/MED.png")));
-		panelPrincipal.add(img_cen3, new GridLayout(5, 3));
 		
 		img_del1.setIcon(new ImageIcon(VentanaPartidos.class.getResource("/imagenes/DEL.png")));
-		panelPrincipal.add(img_del1, new GridLayout(7, 2));
 		
 		JComboBox formaciones = new JComboBox(formacion);
 		botones.add(formaciones, BorderLayout.CENTER);
@@ -311,19 +288,19 @@ public class VentanaPartidos extends JFrame  {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if((boolean) formaciones.getItemAt(1)) {
+				if(formaciones.getSelectedItem().toString().equals("2-3-1")) {
+					img_por.setLocation(panelPrincipal.getWidth()/2, panelPrincipal.getHeight()/4);
+					img_def1.setLocation(panelPrincipal.getWidth()/4, panelPrincipal.getHeight()/3);
+					img_def2.setLocation(panelPrincipal.getWidth()/4, panelPrincipal.getHeight()/3);
+					img_cen1.setLocation(panelPrincipal.getWidth()/3, panelPrincipal.getHeight()/2);
+					img_cen2.setLocation(panelPrincipal.getWidth()/2, panelPrincipal.getHeight()/2);
+					img_cen3.setLocation(panelPrincipal.getWidth(), panelPrincipal.getHeight()/2);
+					img_del1.setLocation(panelPrincipal.getWidth()/2, panelPrincipal.getHeight());
+				} else if(formaciones.getSelectedItem().toString().equals("2-2-2")) {
 					
-				}
-				
-				if((boolean) formaciones.getItemAt(2)) {
+				} else if(formaciones.getSelectedItem().toString().equals("3-2-1")) {
 					
-				}
-				
-				if((boolean) formaciones.getItemAt(3)) {
-					
-				}
-				
-				if((boolean) formaciones.getItemAt(4)) {
+				} else if(formaciones.getSelectedItem().toString().equals("3-1-2")) {
 					
 				}
 			}

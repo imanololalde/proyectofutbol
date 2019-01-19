@@ -21,6 +21,13 @@ public class VentanaEntrenamientos extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	private ImageIcon fotos[] = {new ImageIcon((getClass().getResource("scr/entrenamientos/ejercicio1.jpg"))), 
+			new ImageIcon((getClass().getResource("scr/entrenamientos/ejercicio2.jpg"))),
+			new ImageIcon((getClass().getResource("scr/entrenamientos/ejercicio3.jpg"))),
+			new ImageIcon((getClass().getResource("scr/entrenamientos/ejercicio4.jpg"))),
+			new ImageIcon((getClass().getResource("scr/entrenamientos/ejercicio5.jpg"))),
+			new ImageIcon((getClass().getResource("scr/entrenamientos/ejercicio6.jpg"))),
+			new ImageIcon((getClass().getResource("scr/entrenamientos/ejercicio7.jpg")))};
 	private JPanel panelPrincipal;
 	private JPanel panelSecundario;
 	private JPanel botones;
@@ -40,7 +47,7 @@ public class VentanaEntrenamientos extends JFrame {
 	 */
 	private void inicializar(Entrenador entrenador) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Ventana de Entrenamientos");
+		setTitle("Ventana de Entrenamientos "+entrenador.getNombre());
 		setLocationRelativeTo(null);
 		//Paneles
 		panelPrincipal = new JPanel(new GridLayout(2, 5));
@@ -53,7 +60,7 @@ public class VentanaEntrenamientos extends JFrame {
 		botones.add(bAtras, BorderLayout.EAST);
 		panelPrincipal.add(entrenamientos, new GridLayout(1, 1));
 		panelPrincipal.setLayout(new BorderLayout(0, 0));
-		list = new JList();
+		list = new JList(fotos);
 		panelSecundario.add(list);
 		
 		JLabel entrena = new JLabel("");

@@ -35,7 +35,7 @@ public class VentanaEleccion extends JFrame {
 	 */
 	private void inicializar(Entrenador entrenador) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Ventana de Eleccion");
+		setTitle("Ventana de Eleccion "+entrenador.getNombre());
 		setLocationRelativeTo(null);
 		//Paneles
 		panelPrincipal = new JPanel(new GridLayout(1, 3));

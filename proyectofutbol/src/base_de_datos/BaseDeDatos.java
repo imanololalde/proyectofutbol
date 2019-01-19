@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 public class BaseDeDatos {
 
-	private static ResultSet rs;
+	public static ResultSet rs;
 	private static Statement statement;
 	private static Connection connection = null;
 	
@@ -82,6 +82,7 @@ public class BaseDeDatos {
 	 */
 	public static String verJugador(Jugador jugador) {
 		try {
+			statement = connection.createStatement();
 			rs = statement.executeQuery("SELECT "+jugador.getNombre()+" FROM jugador");
 			while(rs.next()) {
 				// Se saca por consola info de la tabla
@@ -100,26 +101,46 @@ public class BaseDeDatos {
 			return null;
 		}
 	}
+	
+	/**
+	 * Visualiza todos los jugadores que hay en la base de datos para crear una tabla
+	 * @return Nombre y apellido de los jugadores guardados
+	 */
+	public static ResultSet creadorTabla(String consulta) {
+		try {
+			statement = connection.createStatement();
+			rs = statement.executeQuery(consulta);
+			rs.close();
+			log(Level.INFO, "Lista de jugadores", null);
+			return rs;
+		} catch (SQLException e) {
+			log(Level.SEVERE, "Error, no se han podidio visualizar los jugadores", e);
+			return null;
+		}
+	}
 
 	/**
-	 * Visualiza los nombres y apellidos de los entrenadores
+	 * Visualiza toda la información guardada que hay del entrenador
 	 * @param Entrenador
-	 * @return Nombres y apellidos
+	 * @return Entrenador
 	 * @throws SQLException
 	 */
-	public static String verEntrenador(Entrenador entrenador) {
+	public static Entrenador verEntrenador(Entrenador entrenador) {
 		try {
-			rs = statement.executeQuery("SELECT "+entrenador.getNombre()+" FROM entrenador");
-			while(rs.next()) {
-				System.out.println("DNI ="+rs.getString(1));
-				System.out.println("Nombre ="+rs.getString(2));
-				System.out.println("Apellido ="+rs.getString(3));
-				System.out.println("Fecha de nacimiento ="+rs.getDate(5));
-				System.out.println("Fecha de inscripcion ="+rs.getDate(6));
+			statement = connection.createStatement();
+			rs = statement.executeQuery("SELECT * FROM entrenador WHERE nombre = '"+entrenador.getNombre()+"' AND contraseña = '"+entrenador.getContraseña()+"';");
+			while (rs.next()){
+				System.out.println("DNI = "+rs.getString(1));
+				System.out.println("Nombre = "+rs.getString(2));
+				System.out.println("Apellido = "+rs.getString(3));
+				System.out.println("Contraseña = "+rs.getString(4));
+				System.out.println("Fecha de nacimiento = "+rs.getDate(5));
+				System.out.println("Fecha de inscripcion = "+rs.getDate(6));
 			}
 			rs.close();
 			log(Level.INFO, "Seleccionado el entrenador " + entrenador.getNombre(), null);
-			return rs.getString(1)+rs.getString(2)+rs.getString(3)+rs.getDate(5)+rs.getDate(6);
+			Entrenador entrenadorCompleto = new Entrenador(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDate(5).toString(), rs.getDate(6).toString());
+			return entrenadorCompleto;
 		} catch (SQLException e) {
 			log(Level.SEVERE, "Error a la hora de seleccionar entrenador", e);
 			return null;
@@ -158,12 +179,11 @@ public class BaseDeDatos {
 		try {
 			String sentenciaSQL = new String();
 			statement = connection.createStatement();
-			sentenciaSQL = "INSERT INTO jugador (nombre, apellido, posicion, dorsal, fecha_nacimiento, entrenador)";
+			sentenciaSQL = "INSERT INTO jugador (nombre, apellido, posicion, dorsal, fecha_nacimiento, dni_ent)";
 			sentenciaSQL = sentenciaSQL + " VALUES ('"
 					+jugador.getNombre()+ "','" +jugador.getApellido()+ "','" +jugador.getPosicion()
 					+ "','"+jugador.getDorsal()+"','"+jugador.getFecha_Naci()+"','"+entrenador.getDni()+"');"; 
 
-			statement.setQueryTimeout(30);
 			statement.executeUpdate(sentenciaSQL);
 			log(Level.INFO, jugador + "añadido a la base de datos", null);
 			return true;
@@ -210,7 +230,7 @@ public class BaseDeDatos {
 	public static Entrenador comprobarLogin(Entrenador entrenador) {
 		try {
 			statement = connection.createStatement();
-			String sql ="SELECT nombre, contraseña FROM entrenador WHERE nombre = '"
+			String sql ="SELECT * FROM entrenador WHERE nombre = '"
 					+entrenador.getNombre()+"' AND contraseña = '"+entrenador.getContraseña()+"'";
 			rs = statement.executeQuery(sql);
 			Entrenador registrado = new Entrenador(entrenador.getNombre(), entrenador.getContraseña());
