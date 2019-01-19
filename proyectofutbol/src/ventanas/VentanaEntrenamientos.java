@@ -7,15 +7,23 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import datos.Ejercicios;
+import datos.NumeroImagen;
 
 import javax.swing.JProgressBar;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
+import javax.imageio.ImageIO;
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
+import java.awt.HeadlessException;
 
 public class VentanaEntrenamientos extends JFrame {
 
@@ -23,6 +31,23 @@ public class VentanaEntrenamientos extends JFrame {
 	public int numIni;
 	public int numPP;
 	public int numF;
+	
+	public int numero;
+	
+	
+	public VentanaEntrenamientos(int numero) throws HeadlessException {
+		super();
+		this.numero = numero;
+	}
+
+	public int getNumero() {
+		return numero;
+	}
+
+	public void setNumero(int numero) {
+		this.numero = numero;
+	}
+
 	/**
 	 * Launch the application.
 	 */
@@ -43,7 +68,8 @@ public class VentanaEntrenamientos extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VentanaEntrenamientos() {
+	public VentanaEntrenamientos(){
+		
 		Ejercicios[] todos= {
 				//parte inicial
 				new Ejercicios("Derribar Cono",10,"Parte Inicial"),
@@ -70,14 +96,14 @@ public class VentanaEntrenamientos extends JFrame {
 				new Ejercicios("Partido reducido profundidad",15,"Parte Final"),
 				};
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 513);
+		setBounds(100, 100, 800, 537);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JLabel PI = new JLabel(numIni+" de 30 minutos");
-		PI.setBounds(621, 142, 110, 14);
+		PI.setBounds(621, 123, 110, 14);
 		contentPane.add(PI);
 		
 		JLabel PP = new JLabel("0 de 40 minutos");
@@ -85,11 +111,11 @@ public class VentanaEntrenamientos extends JFrame {
 		contentPane.add(PP);
 		
 		JLabel PF = new JLabel("0 de 15 minutos");
-		PF.setBounds(621, 433, 110, 14);
+		PF.setBounds(621, 419, 110, 14);
 		contentPane.add(PF);
 		
 		JProgressBar progressBarPI = new JProgressBar();
-		progressBarPI.setBounds(535, 83, 219, 48);
+		progressBarPI.setBounds(535, 64, 219, 48);
 		contentPane.add(progressBarPI);
 		progressBarPI.setMaximum(30);
 		
@@ -99,12 +125,13 @@ public class VentanaEntrenamientos extends JFrame {
 		progressBarPP.setMaximum(40);
 		
 		JProgressBar progressBarPF = new JProgressBar();
-		progressBarPF.setBounds(535, 374, 219, 48);
+		progressBarPF.setBounds(535, 360, 219, 48);
 		contentPane.add(progressBarPF);
 		progressBarPF.setMaximum(15);
 		
 		JLabel lblEntrenamientos = new JLabel("Entrenamientos");
-		lblEntrenamientos.setBounds(297, 11, 132, 14);
+		lblEntrenamientos.setFont(new Font("Trebuchet MS", Font.BOLD, 15));
+		lblEntrenamientos.setBounds(333, 11, 150, 48);
 		contentPane.add(lblEntrenamientos);
 		
 		JLabel lblParteInicial = new JLabel("Parte Inicial");
@@ -139,26 +166,26 @@ public class VentanaEntrenamientos extends JFrame {
 			xpp++;
 			}
 		};
-		System.out.println(x);
+		
 		
 		JComboBox comboBoxPI = new JComboBox(ejpi);
 		comboBoxPI.setBounds(10, 83, 315, 20);
 		contentPane.add(comboBoxPI);
 		
 		JComboBox comboBoxPP = new JComboBox(ejpp);
-		comboBoxPP.setBounds(10, 230, 315, 20);
+		comboBoxPP.setBounds(10, 231, 315, 20);
 		contentPane.add(comboBoxPP);
 		
 		JComboBox comboBoxPF = new JComboBox(ejpf);
-		comboBoxPF.setBounds(10, 384, 315, 20);
+		comboBoxPF.setBounds(10, 374, 315, 20);
 		contentPane.add(comboBoxPF);
 		
 		JLabel lblParteFinalDuracion = new JLabel("Parte Final");
-		lblParteFinalDuracion.setBounds(10, 359, 150, 14);
+		lblParteFinalDuracion.setBounds(10, 335, 150, 14);
 		contentPane.add(lblParteFinalDuracion);
 		
 		JLabel lblPartePrincipal = new JLabel("Parte Principal");
-		lblPartePrincipal.setBounds(10, 205, 150, 14);
+		lblPartePrincipal.setBounds(10, 184, 150, 14);
 		contentPane.add(lblPartePrincipal);
 		
 		
@@ -172,10 +199,14 @@ public class VentanaEntrenamientos extends JFrame {
 				if(comboBoxPI.getSelectedItem().toString().equals(todos[i].getNombre())&& numIni<30) {
 					
 					numIni = numIni+todos[i].getDuracion();
+					if(numIni<=30) {
 					progressBarPI.setValue(numIni);
 					
 					PI.setText(Integer.toString(numIni)+" de 30 minutos");
-					
+					}else { 
+						JOptionPane.showMessageDialog(null, "Sobrepasas el tiempo de entrenamiento.", "Error", JOptionPane.WARNING_MESSAGE );
+						numIni = numIni-todos[i].getDuracion();
+					}
 					System.out.println(	comboBoxPI.getSelectedItem().toString());
 				};
 				
@@ -185,6 +216,15 @@ public class VentanaEntrenamientos extends JFrame {
 		contentPane.add(btnAnadir);
 		
 		JButton btnInfo = new JButton("Info");
+		btnInfo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)  {
+				int r=1;
+			setNumero(r);
+		
+			System.out.println();
+			new ImagenEjercicio().setVisible(true);
+				 
+		}});
 		btnInfo.setBounds(236, 114, 89, 23);
 		contentPane.add(btnInfo);
 		
@@ -193,19 +233,23 @@ public class VentanaEntrenamientos extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				for(int i=0;i<todos.length;i++) {
 					if(comboBoxPP.getSelectedItem().toString().equals(todos[i].getNombre())&& numPP<40) {
-						
+						System.out.println();
 						numPP = numPP+todos[i].getDuracion();
+						if(numPP<=40) {
 						progressBarPP.setValue(numPP);
 						
 						PP.setText(Integer.toString(numPP)+" de 40 minutos");
-						
+						}else { 
+							JOptionPane.showMessageDialog(null, "Sobrepasas el tiempo de entrenamiento.", "Error", JOptionPane.WARNING_MESSAGE );
+							numPP=numPP-todos[i].getDuracion();
+						}
 						System.out.println(	comboBoxPP.getSelectedItem().toString());
 					};
 					
 				}
 			}
 		});
-		btnAnadir_1.setBounds(10, 261, 89, 23);
+		btnAnadir_1.setBounds(10, 270, 89, 23);
 		contentPane.add(btnAnadir_1);
 		
 		JButton btnInfo_1 = new JButton("Info");
@@ -220,7 +264,7 @@ public class VentanaEntrenamientos extends JFrame {
 				}
 			}
 		});
-		btnInfo_1.setBounds(236, 261, 89, 23);
+		btnInfo_1.setBounds(236, 270, 89, 23);
 		contentPane.add(btnInfo_1);
 		
 		JButton btnAnadir_2 = new JButton("Anadir");
@@ -230,34 +274,80 @@ public class VentanaEntrenamientos extends JFrame {
 					if(comboBoxPF.getSelectedItem().toString().equals(todos[i].getNombre())&& numF<15) {
 						
 						numF = numF+todos[i].getDuracion();
+						if(numF<=15) {
 						progressBarPF.setValue(numF);
 						
 						PF.setText(Integer.toString(numF)+" de 15 minutos");
-						
+						}else { 
+							JOptionPane.showMessageDialog(null, "Sobrepasas el tiempo de entrenamiento.", "Error", JOptionPane.WARNING_MESSAGE );
+							numF=numF-todos[i].getDuracion();
+						}
 						System.out.println(	comboBoxPF.getSelectedItem().toString());
 					};
 					
 				}
 			}
 		});
-		btnAnadir_2.setBounds(10, 415, 89, 23);
+		btnAnadir_2.setBounds(10, 405, 89, 23);
 		contentPane.add(btnAnadir_2);
 		
 		JButton btnInfo_2 = new JButton("Info");
-		btnInfo_2.setBounds(236, 415, 89, 23);
+		btnInfo_2.setBounds(236, 405, 89, 23);
 		contentPane.add(btnInfo_2);
 		
 		JLabel lblParteInicial_1 = new JLabel("Parte Inicial");
-		lblParteInicial_1.setBounds(621, 58, 69, 14);
+		lblParteInicial_1.setBounds(621, 39, 69, 14);
 		contentPane.add(lblParteInicial_1);
 		
 		JLabel lblPartePrincipal_1 = new JLabel("Parte Principal");
-		lblPartePrincipal_1.setBounds(621, 190, 94, 14);
+		lblPartePrincipal_1.setBounds(621, 184, 94, 14);
 		contentPane.add(lblPartePrincipal_1);
 		
 		JLabel lblParteFinal = new JLabel("Parte Final");
-		lblParteFinal.setBounds(621, 349, 69, 14);
+		lblParteFinal.setBounds(621, 335, 69, 14);
 		contentPane.add(lblParteFinal);
+		
+		JButton eliminarPI = new JButton("Eliminar");
+		eliminarPI.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				progressBarPI.setValue(0);
+				numIni=0;
+				PI.setText(Integer.toString(numIni)+" de 30 minutos");
+			}
+		});
+		eliminarPI.setBounds(126, 114, 89, 23);
+		contentPane.add(eliminarPI);
+		
+		JButton eliminarPP = new JButton("Eliminar");
+		eliminarPP.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				progressBarPP.setValue(0);
+				numPP=0;
+				PP.setText(Integer.toString(numPP)+" de 40 minutos");
+				
+			}
+		});
+		eliminarPP.setBounds(126, 270, 89, 23);
+		contentPane.add(eliminarPP);
+		
+		JButton eliminarPF = new JButton("Eliminar");
+		eliminarPF.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				progressBarPF.setValue(0);
+				numF=0;
+				PF.setText(Integer.toString(numF)+" de 15 minutos");
+			}
+		});
+		eliminarPF.setBounds(126, 405, 89, 23);
+		contentPane.add(eliminarPF);
+		
+		JButton Atras = new JButton("Atras");
+		Atras.setBounds(665, 464, 89, 23);
+		contentPane.add(Atras);
+		
+		JButton cambios = new JButton("Guardar cambios");
+		cambios.setBounds(10, 464, 132, 23);
+		contentPane.add(cambios);
 		
 		
 	}
