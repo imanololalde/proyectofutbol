@@ -51,6 +51,7 @@ public class VentanaRegistro extends JFrame {
 	public VentanaRegistro(Entrenador entrenador) {
 		this.setSize(580,400);
 		this.setVisible(true);
+		BaseDeDatos.conectarBD();
 		inicializar(entrenador);
 	}
 
@@ -107,6 +108,8 @@ public class VentanaRegistro extends JFrame {
 		botones.add(bborrar, new GridLayout(1, 2));
 		botones.add(bguardar, new GridLayout(1, 3));
 		botones.add(batras, new GridLayout(1, 4));
+		bborrar.setEnabled(false);
+		bguardar.setEnabled(false);
 		panelMenu.add(ainadirJugador);
 		panelMenu.add(eliminarJugador);
 		panelMenu.add(editarJugador);
@@ -120,6 +123,9 @@ public class VentanaRegistro extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				panelPrincipal.setVisible(true);
 				panelLabels.setVisible(true);
+				bborrar.setEnabled(false);
+				bregistrar.setEnabled(true);
+				bguardar.setEnabled(false);
 			}
 		});
 		
@@ -127,17 +133,13 @@ public class VentanaRegistro extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				panelPrincipal.setVisible(false);
 				panelLabels.setVisible(false);
-				JPanel pEliminar = new JPanel();
+				bborrar.setEnabled(true);
+				bguardar.setEnabled(true);
+				bregistrar.setEnabled(false);
+				JPanel pEliminar = new JPanel(new BorderLayout());
 				getContentPane().add(pEliminar, BorderLayout.CENTER);
-				DefaultTableModel modelo = new DefaultTableModel();
-				modelo.setColumnIdentifiers(new Object[]{"nombre","apellido","posicion"});
-				try {
-					while(BaseDeDatos.rs.next()) {
-						modelo.addRow(new Object[]{BaseDeDatos.rs.getString("nombre"), BaseDeDatos.rs.getString(2)});
-					}
-				} catch(Exception ex) {
-					System.out.println(ex);
-				}
+				JTable tabla = BaseDeDatos.creadorTabla();
+				pEliminar.add(tabla, BorderLayout.CENTER);
 			}
 		});
 		
@@ -145,6 +147,13 @@ public class VentanaRegistro extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				panelPrincipal.setVisible(false);
 				panelLabels.setVisible(false);
+				bguardar.setEnabled(true);
+				bborrar.setEnabled(true);
+				bregistrar.setEnabled(false);
+				JPanel pEditar = new JPanel();
+				getContentPane().add(pEditar, BorderLayout.CENTER);
+				JTable tabla = BaseDeDatos.creadorTabla();
+				pEditar.add(tabla);
 			}
 		});
 		
@@ -168,7 +177,6 @@ public class VentanaRegistro extends JFrame {
 					JOptionPane.showMessageDialog(null, "Debe rellenar los datos", "Atención", JOptionPane.WARNING_MESSAGE);
 				} else {
 					dorsal = Integer.parseInt(dorsalTextField.getText());
-					BaseDeDatos.conectarBD();
 					Entrenador entrenadorCompleto = BaseDeDatos.verEntrenador(entrenador);
 					Jugador registrado = new Jugador(nombreTextField.getText(), apellidoTextField.getText(), posicion, dorsal, fecha_nacimientoTextField.getText(), entrenadorCompleto);
 					if(BaseDeDatos.insertarJugador(registrado, entrenadorCompleto)) {
@@ -181,5 +189,17 @@ public class VentanaRegistro extends JFrame {
 				
 			}
 		});
+		
+		bguardar.addActionListener(
+				(l)->{
+					
+				}
+				);
+		
+		bborrar.addActionListener(
+				(l)->{
+					
+				}
+				);
 	}
 }

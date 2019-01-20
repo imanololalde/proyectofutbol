@@ -6,11 +6,15 @@ import datos.*;
 
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class BaseDeDatos {
 
@@ -106,13 +110,25 @@ public class BaseDeDatos {
 	 * Visualiza todos los jugadores que hay en la base de datos para crear una tabla
 	 * @return Nombre y apellido de los jugadores guardados
 	 */
-	public static ResultSet creadorTabla(String consulta) {
+	public static JTable creadorTabla() {
 		try {
 			statement = connection.createStatement();
-			rs = statement.executeQuery(consulta);
+			rs = statement.executeQuery("SELECT * FROM jugador");
+			DefaultTableModel modelo = new DefaultTableModel();
+			JTable tabla = new JTable(modelo);
+			while(rs.next()) {
+				ResultSetMetaData metaDatos = rs.getMetaData();
+				int numeroColumnas = metaDatos.getColumnCount();
+				Object[] etiquetas = new Object[numeroColumnas];
+				for (int i = 0; i < numeroColumnas; i++) {
+					etiquetas[i] = metaDatos.getColumnLabel(i + 1);
+				}
+				modelo.setColumnIdentifiers(etiquetas);
+			}
+			
 			rs.close();
 			log(Level.INFO, "Lista de jugadores", null);
-			return rs;
+			return tabla;
 		} catch (SQLException e) {
 			log(Level.SEVERE, "Error, no se han podidio visualizar los jugadores", e);
 			return null;
@@ -129,6 +145,7 @@ public class BaseDeDatos {
 		try {
 			statement = connection.createStatement();
 			rs = statement.executeQuery("SELECT * FROM entrenador WHERE nombre = '"+entrenador.getNombre()+"' AND contraseña = '"+entrenador.getContraseña()+"';");
+			Entrenador entrenadorCompleto = null;
 			while (rs.next()){
 				System.out.println("DNI = "+rs.getString(1));
 				System.out.println("Nombre = "+rs.getString(2));
@@ -136,10 +153,10 @@ public class BaseDeDatos {
 				System.out.println("Contraseña = "+rs.getString(4));
 				System.out.println("Fecha de nacimiento = "+rs.getDate(5));
 				System.out.println("Fecha de inscripcion = "+rs.getDate(6));
+				entrenadorCompleto = new Entrenador(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDate(5).toString(), rs.getDate(6).toString());
 			}
 			rs.close();
 			log(Level.INFO, "Seleccionado el entrenador " + entrenador.getNombre(), null);
-			Entrenador entrenadorCompleto = new Entrenador(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDate(5).toString(), rs.getDate(6).toString());
 			return entrenadorCompleto;
 		} catch (SQLException e) {
 			log(Level.SEVERE, "Error a la hora de seleccionar entrenador", e);
