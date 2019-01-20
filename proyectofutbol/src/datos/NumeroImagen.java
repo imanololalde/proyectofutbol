@@ -3,7 +3,7 @@ package datos;
 public class NumeroImagen {
 	 int numeroImagen;
 
-	public NumeroImagen(int numeroImagen) {
+	public NumeroImagen() {
 		super();
 		this.numeroImagen = numeroImagen;
 	}

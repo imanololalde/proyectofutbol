@@ -31,21 +31,23 @@ public class VentanaEntrenamientos extends JFrame {
 	public int numIni;
 	public int numPP;
 	public int numF;
+	public static int eleccion;
 	
-	public int numero;
 	
 	
-	public VentanaEntrenamientos(int numero) throws HeadlessException {
+	
+
+	public VentanaEntrenamientos(int eleccion) throws HeadlessException {
 		super();
-		this.numero = numero;
+		VentanaEntrenamientos.eleccion = eleccion;
 	}
 
-	public int getNumero() {
-		return numero;
+	public static int getEleccion() {
+		return eleccion;
 	}
 
-	public void setNumero(int numero) {
-		this.numero = numero;
+	public void setEleccion(int eleccion) {
+		VentanaEntrenamientos.eleccion = eleccion;
 	}
 
 	/**
@@ -131,7 +133,7 @@ public class VentanaEntrenamientos extends JFrame {
 		
 		JLabel lblEntrenamientos = new JLabel("Entrenamientos");
 		lblEntrenamientos.setFont(new Font("Trebuchet MS", Font.BOLD, 15));
-		lblEntrenamientos.setBounds(333, 11, 150, 48);
+		lblEntrenamientos.setBounds(317, 11, 150, 48);
 		contentPane.add(lblEntrenamientos);
 		
 		JLabel lblParteInicial = new JLabel("Parte Inicial");
@@ -218,13 +220,16 @@ public class VentanaEntrenamientos extends JFrame {
 		JButton btnInfo = new JButton("Info");
 		btnInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e)  {
-				int r=1;
-			setNumero(r);
-		
-			System.out.println();
+				int seleccionadoI;
+				for(int i=0;i<ejpi.length;i++) {
+			if(comboBoxPI.getSelectedItem().toString().equals(todos[i].getNombre())) {
+				seleccionadoI=i;
+		VentanaEntrenamientos eleccion = new VentanaEntrenamientos();
+		eleccion.setEleccion(seleccionadoI);
+			
 			new ImagenEjercicio().setVisible(true);
-				 
-		}});
+			}
+		}}});
 		btnInfo.setBounds(236, 114, 89, 23);
 		contentPane.add(btnInfo);
 		
@@ -255,10 +260,14 @@ public class VentanaEntrenamientos extends JFrame {
 		JButton btnInfo_1 = new JButton("Info");
 		btnInfo_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int seleccionadosP;
 				for(int i=0;i<todos.length;i++) {
 					if(comboBoxPP.getSelectedItem().toString().equals(todos[i].getNombre())) {
-						Icon eleder;
-						
+						seleccionadosP=i;
+						VentanaEntrenamientos eleccion = new VentanaEntrenamientos();
+						eleccion.setEleccion(seleccionadosP);
+							
+							new ImagenEjercicio().setVisible(true);
 					};
 					
 				}
@@ -292,6 +301,21 @@ public class VentanaEntrenamientos extends JFrame {
 		contentPane.add(btnAnadir_2);
 		
 		JButton btnInfo_2 = new JButton("Info");
+		btnInfo_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int seleccionadosF;
+				for(int i=0;i<todos.length;i++) {
+					if(comboBoxPF.getSelectedItem().toString().equals(todos[i].getNombre())) {
+						seleccionadosF=i;
+						VentanaEntrenamientos eleccion = new VentanaEntrenamientos();
+						eleccion.setEleccion(seleccionadosF);
+							
+							new ImagenEjercicio().setVisible(true);
+					};
+					
+				}
+			}
+		});
 		btnInfo_2.setBounds(236, 405, 89, 23);
 		contentPane.add(btnInfo_2);
 		
