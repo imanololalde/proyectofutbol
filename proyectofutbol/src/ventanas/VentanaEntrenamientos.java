@@ -32,7 +32,9 @@ public class VentanaEntrenamientos extends JFrame {
 	public int numPP;
 	public int numF;
 	public static int eleccion;
-	
+	public int z=0;
+	public int q=0;
+	public int er=0;
 	
 	
 	
@@ -71,6 +73,9 @@ public class VentanaEntrenamientos extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaEntrenamientos(){
+		String[] ultimoPI= new String[3];
+		String[] ultimoPP=new String[12];
+		String[] ultimoPF=new String[2];
 		
 		Ejercicios[] todos= {
 				//parte inicial
@@ -202,12 +207,17 @@ public class VentanaEntrenamientos extends JFrame {
 					
 					numIni = numIni+todos[i].getDuracion();
 					if(numIni<=30) {
+						
 					progressBarPI.setValue(numIni);
 					
+					
 					PI.setText(Integer.toString(numIni)+" de 30 minutos");
+					ultimoPI[z]=todos[i].getNombre();
+					z++;
 					}else { 
 						JOptionPane.showMessageDialog(null, "Sobrepasas el tiempo de entrenamiento.", "Error", JOptionPane.WARNING_MESSAGE );
 						numIni = numIni-todos[i].getDuracion();
+						z--;
 					}
 					System.out.println(	comboBoxPI.getSelectedItem().toString());
 				};
@@ -244,9 +254,12 @@ public class VentanaEntrenamientos extends JFrame {
 						progressBarPP.setValue(numPP);
 						
 						PP.setText(Integer.toString(numPP)+" de 40 minutos");
+						ultimoPI[q]=comboBoxPP.getSelectedItem().toString();
+						q++;
 						}else { 
 							JOptionPane.showMessageDialog(null, "Sobrepasas el tiempo de entrenamiento.", "Error", JOptionPane.WARNING_MESSAGE );
 							numPP=numPP-todos[i].getDuracion();
+							q--;
 						}
 						System.out.println(	comboBoxPP.getSelectedItem().toString());
 					};
@@ -287,9 +300,12 @@ public class VentanaEntrenamientos extends JFrame {
 						progressBarPF.setValue(numF);
 						
 						PF.setText(Integer.toString(numF)+" de 15 minutos");
+						ultimoPF[er]=todos[i].getNombre();
+						er++;
 						}else { 
 							JOptionPane.showMessageDialog(null, "Sobrepasas el tiempo de entrenamiento.", "Error", JOptionPane.WARNING_MESSAGE );
 							numF=numF-todos[i].getDuracion();
+						er--;
 						}
 						System.out.println(	comboBoxPF.getSelectedItem().toString());
 					};
@@ -337,6 +353,9 @@ public class VentanaEntrenamientos extends JFrame {
 				progressBarPI.setValue(0);
 				numIni=0;
 				PI.setText(Integer.toString(numIni)+" de 30 minutos");
+				for (int i =0; i< ultimoPI.length; i++)
+					   ultimoPI[i] = null;
+				z=0;
 			}
 		});
 		eliminarPI.setBounds(126, 114, 89, 23);
@@ -348,6 +367,9 @@ public class VentanaEntrenamientos extends JFrame {
 				progressBarPP.setValue(0);
 				numPP=0;
 				PP.setText(Integer.toString(numPP)+" de 40 minutos");
+				for (int i =0; i< ultimoPP.length; i++)
+					   ultimoPP[i] = null;
+				q=0;
 				
 			}
 		});
@@ -360,16 +382,34 @@ public class VentanaEntrenamientos extends JFrame {
 				progressBarPF.setValue(0);
 				numF=0;
 				PF.setText(Integer.toString(numF)+" de 15 minutos");
+				for (int i =0; i< ultimoPF.length; i++)
+					   ultimoPF[i] = null;
+				er=0;
 			}
 		});
 		eliminarPF.setBounds(126, 405, 89, 23);
 		contentPane.add(eliminarPF);
 		
 		JButton Atras = new JButton("Atras");
+		Atras.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			
+				
+				
+			}
+		});
 		Atras.setBounds(665, 464, 89, 23);
 		contentPane.add(Atras);
 		
 		JButton cambios = new JButton("Guardar cambios");
+		cambios.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Parte inicial: "+ultimoPI[0]+", "+ultimoPI[1]+" y "+ultimoPI[2]
+						+"; "+"Parte Principal: "+ultimoPP[0]+", "+ultimoPP[1]+" y "+ultimoPP[2]+
+						"; "+"Parte Final: "+ultimoPF[0]);
+				
+			}
+		});
 		cambios.setBounds(10, 464, 132, 23);
 		contentPane.add(cambios);
 		
