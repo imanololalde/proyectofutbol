@@ -1,7 +1,7 @@
 package datos;
 
 public class Ejercicios {
-
+	
 	String nombre;
 	int duracion;
 	String parte;
@@ -36,5 +36,5 @@ public class Ejercicios {
 	public void setParte(String parte) {
 		this.parte = parte;
 	}
-	
+
 }
