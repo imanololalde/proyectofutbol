@@ -52,7 +52,7 @@ public class Posiciones extends JLabel {
 		imgPosicion.add(new ImageIcon(Posiciones.class.getResource("/imagenes/DEF.png")));
 		imgPosicion.add(new ImageIcon(Posiciones.class.getResource("/imagenes/MED.png")));
 		imgPosicion.add(new ImageIcon(Posiciones.class.getResource("/imagenes/DEL.png")));
-		
+	
 		return imgPosicion.get(posicion);
 	}
 }
