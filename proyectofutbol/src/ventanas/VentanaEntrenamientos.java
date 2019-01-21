@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import datos.Ejercicios;
+import datos.Entrenador;
 
 import javax.swing.JProgressBar;
 import javax.swing.JLabel;
@@ -53,25 +54,19 @@ public class VentanaEntrenamientos extends JFrame {
 	 * Launch the application.
 	 */
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaEntrenamientos frame = new VentanaEntrenamientos();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	public VentanaEntrenamientos(Entrenador entrenador) {
+		setVisible(true);
+		inicializar(entrenador);
 	}
 
 	/**
 	 * Create the frame.
 	 */
-	public VentanaEntrenamientos() {
-		setLocationByPlatform(true);
+	public  void inicializar(Entrenador entrenador) {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
 		setTitle("Entrenamientos");
+		setSize(800, 537);
 		String[] ultimoPI= new String[3];
 		String[] ultimoPP=new String[12];
 		String[] ultimoPF=new String[2];
@@ -101,8 +96,7 @@ public class VentanaEntrenamientos extends JFrame {
 				new Ejercicios("Partido reducido amplitud",15,"Parte Final"),
 				new Ejercicios("Partido reducido profundidad",15,"Parte Final"),
 				};
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 537);
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -202,8 +196,6 @@ public class VentanaEntrenamientos extends JFrame {
 		btnAnadir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			
-				
-			
 				for(int i=0;i<ejpi.length;i++) {
 				if(comboBoxPI.getSelectedItem().toString().equals(todos[i].getNombre())&& numIni<30) {
 					
@@ -212,11 +204,10 @@ public class VentanaEntrenamientos extends JFrame {
 						
 					progressBarPI.setValue(numIni);
 					
-					
 					PI.setText(Integer.toString(numIni)+" de 30 minutos");
 					ultimoPI[z]=todos[i].getNombre();
 					z++;
-					}else { 
+					} else { 
 						JOptionPane.showMessageDialog(null, "Sobrepasas el tiempo de entrenamiento.", "Error", JOptionPane.WARNING_MESSAGE );
 						numIni = numIni-todos[i].getDuracion();
 						z--;
@@ -234,14 +225,14 @@ public class VentanaEntrenamientos extends JFrame {
 			public void actionPerformed(ActionEvent e)  {
 				int seleccionadoI;
 				for(int i=0;i<ejpi.length;i++) {
-			if(comboBoxPI.getSelectedItem().toString().equals(todos[i].getNombre())) {
-				seleccionadoI=i;
-		VentanaEntrenamientos eleccion = new VentanaEntrenamientos();
-		eleccion.setEleccion(seleccionadoI);
-			
-			new ImagenEjercicio().setVisible(true);
-			}
-		}}});
+					if(comboBoxPI.getSelectedItem().toString().equals(todos[i].getNombre())) {
+						seleccionadoI=i;
+						VentanaEntrenamientos eleccion = new VentanaEntrenamientos(entrenador);
+						eleccion.setEleccion(seleccionadoI);
+						new ImagenEjercicio().setVisible(true);
+					}
+				}
+		}});
 		btnInfo.setBounds(236, 114, 89, 23);
 		contentPane.add(btnInfo);
 		
@@ -258,7 +249,7 @@ public class VentanaEntrenamientos extends JFrame {
 						PP.setText(Integer.toString(numPP)+" de 40 minutos");
 						ultimoPI[q]=comboBoxPP.getSelectedItem().toString();
 						q++;
-						}else { 
+						} else { 
 							JOptionPane.showMessageDialog(null, "Sobrepasas el tiempo de entrenamiento.", "Error", JOptionPane.WARNING_MESSAGE );
 							numPP=numPP-todos[i].getDuracion();
 							q--;
@@ -279,10 +270,9 @@ public class VentanaEntrenamientos extends JFrame {
 				for(int i=0;i<todos.length;i++) {
 					if(comboBoxPP.getSelectedItem().toString().equals(todos[i].getNombre())) {
 						seleccionadosP=i;
-						VentanaEntrenamientos eleccion = new VentanaEntrenamientos();
+						VentanaEntrenamientos eleccion = new VentanaEntrenamientos(entrenador);
 						eleccion.setEleccion(seleccionadosP);
-							
-							new ImagenEjercicio().setVisible(true);
+						new ImagenEjercicio().setVisible(true);
 					};
 					
 				}
@@ -304,10 +294,10 @@ public class VentanaEntrenamientos extends JFrame {
 						PF.setText(Integer.toString(numF)+" de 15 minutos");
 						ultimoPF[er]=todos[i].getNombre();
 						er++;
-						}else { 
+						} else { 
 							JOptionPane.showMessageDialog(null, "Sobrepasas el tiempo de entrenamiento.", "Error", JOptionPane.WARNING_MESSAGE );
 							numF=numF-todos[i].getDuracion();
-						er--;
+							er--;
 						}
 						System.out.println(	comboBoxPF.getSelectedItem().toString());
 					};
@@ -325,10 +315,9 @@ public class VentanaEntrenamientos extends JFrame {
 				for(int i=0;i<todos.length;i++) {
 					if(comboBoxPF.getSelectedItem().toString().equals(todos[i].getNombre())) {
 						seleccionadosF=i;
-						VentanaEntrenamientos eleccion = new VentanaEntrenamientos();
+						VentanaEntrenamientos eleccion = new VentanaEntrenamientos(entrenador);
 						eleccion.setEleccion(seleccionadosF);
-							
-							new ImagenEjercicio().setVisible(true);
+						new ImagenEjercicio().setVisible(true);
 					};
 					
 				}
@@ -355,9 +344,11 @@ public class VentanaEntrenamientos extends JFrame {
 				progressBarPI.setValue(0);
 				numIni=0;
 				PI.setText(Integer.toString(numIni)+" de 30 minutos");
-				for (int i =0; i< ultimoPI.length; i++)
-					   ultimoPI[i] = null;
-				z=0;
+				for (int i =0; i< ultimoPI.length; i++) {
+					ultimoPI[i] = null;
+					z=0;
+				}
+
 			}
 		});
 		eliminarPI.setBounds(126, 114, 89, 23);
@@ -369,9 +360,10 @@ public class VentanaEntrenamientos extends JFrame {
 				progressBarPP.setValue(0);
 				numPP=0;
 				PP.setText(Integer.toString(numPP)+" de 40 minutos");
-				for (int i =0; i< ultimoPP.length; i++)
-					   ultimoPP[i] = null;
-				q=0;
+				for (int i =0; i< ultimoPP.length; i++) {
+					ultimoPP[i] = null;
+					q=0;
+				}
 				
 			}
 		});
@@ -384,9 +376,11 @@ public class VentanaEntrenamientos extends JFrame {
 				progressBarPF.setValue(0);
 				numF=0;
 				PF.setText(Integer.toString(numF)+" de 15 minutos");
-				for (int i =0; i< ultimoPF.length; i++)
-					   ultimoPF[i] = null;
-				er=0;
+				for (int i =0; i< ultimoPF.length; i++) {
+					ultimoPF[i] = null;
+					er=0;
+				}
+				
 			}
 		});
 		eliminarPF.setBounds(126, 405, 89, 23);
@@ -395,9 +389,8 @@ public class VentanaEntrenamientos extends JFrame {
 		JButton Atras = new JButton("Atras");
 		Atras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			
-				
-				
+				new VentanaEleccion(entrenador).setVisible(true);
+				VentanaEntrenamientos.this.setVisible(false);
 			}
 		});
 		Atras.setBounds(665, 464, 89, 23);
@@ -409,91 +402,89 @@ public class VentanaEntrenamientos extends JFrame {
 				System.out.println("Parte inicial: "+ultimoPI[0]+", "+ultimoPI[1]+" y "+ultimoPI[2]
 						+"; "+"Parte Principal: "+ultimoPP[0]+", "+ultimoPP[1]+" y "+ultimoPP[2]+
 						"; "+"Parte Final: "+ultimoPF[0]);
-				
 			}
 		});
 		cambios.setBounds(10, 464, 132, 23);
 		contentPane.add(cambios);
 		
 		contentPane.addComponentListener(new ComponentAdapter() {
-		    public void componentResized(ComponentEvent componentEvent) {
-		        // do stuff
-		    	System.out.println(contentPane.getX());
-		    	if(contentPane.getWidth()<=1000) {
-		    	//parte inicial
-		    		progressBarPI.setBounds(535, 64, 219, 48);
-		    	lblParteInicial_1.setBounds(621, 39, 69, 14);
-		    	PI.setBounds(621, 123, 110, 14);
-		    	//parte PRINCIAPL
-	    		progressBarPP.setBounds(535,  215, 219, 48);
-	    	lblPartePrincipal_1.setBounds(621,184, 94, 14);
-	    	PP.setBounds(621, 274, 110, 14);
-	    	// parte Final
-	    	progressBarPF.setBounds(535, 360, 219, 48);
-	    	PF.setBounds(621, 419, 110, 14);
-	    	lblParteFinal.setBounds(621, 335, 69, 14);
-	    	//botones
-	    	Atras.setBounds(665, 464, 89, 23);
-	    	cambios.setBounds(10, 464, 132, 23);
-	    	//partescomboIni
-	    	eliminarPI.setBounds(126, 114, 89, 23);
-	    	btnInfo.setBounds(236, 114, 89, 23);
-			btnAnadir.setBounds(10, 114, 89, 23);
-			comboBoxPI.setBounds(10, 73, 315, 20);
-			lblParteInicial.setBounds(10, 29, 84, 14);
-			//partescomboPP
-			eliminarPP.setBounds(126, 270, 89, 23);
-			btnInfo_1.setBounds(236, 270, 89, 23);
-			btnAnadir_1.setBounds(10, 270, 89, 23);
-			comboBoxPP.setBounds(10, 231, 315, 20);
-			lblPartePrincipal.setBounds(10, 184, 150, 14);
-			//parte final combo
-			eliminarPF.setBounds(126, 400, 89, 23);
-			btnInfo_2.setBounds(236, 400, 89, 23);
-			btnAnadir_2.setBounds(10, 400, 89, 23);
-			comboBoxPF.setBounds(10, 364, 315, 20);
-			lblParteFinalDuracion.setBounds(10, 335, 150, 14);
-			//LABEL
-			lblEntrenamientos.setBounds(317, 11, 111, 19);
-			}else {
-		    	//parte inicial
-		    	lblParteInicial_1.setBounds(1200, 39, 69*2, 14*2);
-		    	PI.setBounds(1200, 153, 110*2, 14*2);
-		    	progressBarPI.setBounds(1100, 64, 300, 48*2);
-		    	//parte PRINCIAPL
-	    		progressBarPP.setBounds(1100, 308, 300, 48*2);
-	    	lblPartePrincipal_1.setBounds(1200,289, 94, 14);
-	    	PP.setBounds(1200, 419, 110, 14);
-	       	// parte Final
-	    	progressBarPF.setBounds(1100, 520, 300, 48*2);
-	    	PF.setBounds(1200, 624, 110, 14);
-	    	lblParteFinal.setBounds(1200, 495, 69, 14);
-	    	//botones
-	    	Atras.setBounds(1400, 700, 89, 23);
-	    	cambios.setBounds(10, 700, 132, 23);
-	    	//partescomboIni
-	    	eliminarPI.setBounds(126, 134, 89, 23);
-	    	btnInfo.setBounds(236, 134, 89, 23);
-			btnAnadir.setBounds(10, 134, 89, 23);
-			comboBoxPI.setBounds(10, 83, 315, 20);
-			lblParteInicial.setBounds(10, 39, 84, 14);
-			//partescomboPP
-			eliminarPP.setBounds(126, 390, 89, 23);
-			btnInfo_1.setBounds(236, 390, 89, 23);
-			btnAnadir_1.setBounds(10, 390, 89, 23);
-			comboBoxPP.setBounds(10, 341, 315, 20);
-			lblPartePrincipal.setBounds(10, 294, 150, 14);
-			//parte final combo
-			eliminarPF.setBounds(126, 602, 89, 23);
-			btnInfo_2.setBounds(236, 602, 89, 23);
-			btnAnadir_2.setBounds(10, 602, 89, 23);
-			comboBoxPF.setBounds(10, 566, 315, 20);
-			lblParteFinalDuracion.setBounds(10, 527, 150, 14);
-			//LABEL
-			lblEntrenamientos.setBounds(700, 11, 111, 19);
-			} }
+			public void componentResized(ComponentEvent componentEvent) {
+				// do stuff
+				System.out.println(contentPane.getX());
+				if(contentPane.getWidth()<=1000) {
+					//parte inicial
+					progressBarPI.setBounds(535, 64, 219, 48);
+					lblParteInicial_1.setBounds(621, 39, 69, 14);
+					PI.setBounds(621, 123, 110, 14);
+					//parte PRINCIAPL
+					progressBarPP.setBounds(535,  215, 219, 48);
+					lblPartePrincipal_1.setBounds(621,184, 94, 14);
+					PP.setBounds(621, 274, 110, 14);
+					// parte Final
+					progressBarPF.setBounds(535, 360, 219, 48);
+					PF.setBounds(621, 419, 110, 14);
+					lblParteFinal.setBounds(621, 335, 69, 14);
+					//botones
+					Atras.setBounds(665, 464, 89, 23);
+					cambios.setBounds(10, 464, 132, 23);
+					//partescomboIni
+					eliminarPI.setBounds(126, 114, 89, 23);
+					btnInfo.setBounds(236, 114, 89, 23);
+					btnAnadir.setBounds(10, 114, 89, 23);
+					comboBoxPI.setBounds(10, 73, 315, 20);
+					lblParteInicial.setBounds(10, 29, 84, 14);
+					//partescomboPP
+					eliminarPP.setBounds(126, 270, 89, 23);
+					btnInfo_1.setBounds(236, 270, 89, 23);
+					btnAnadir_1.setBounds(10, 270, 89, 23);
+					comboBoxPP.setBounds(10, 231, 315, 20);
+					lblPartePrincipal.setBounds(10, 184, 150, 14);
+					//parte final combo
+					eliminarPF.setBounds(126, 400, 89, 23);
+					btnInfo_2.setBounds(236, 400, 89, 23);
+					btnAnadir_2.setBounds(10, 400, 89, 23);
+					comboBoxPF.setBounds(10, 364, 315, 20);
+					lblParteFinalDuracion.setBounds(10, 335, 150, 14);
+					//LABEL
+					lblEntrenamientos.setBounds(317, 11, 111, 19);
+				} else {
+					//parte inicial
+					lblParteInicial_1.setBounds(1200, 39, 69*2, 14*2);
+					PI.setBounds(1200, 153, 110*2, 14*2);
+					progressBarPI.setBounds(1100, 64, 300, 48*2);
+					//parte PRINCIAPL
+					progressBarPP.setBounds(1100, 308, 300, 48*2);
+					lblPartePrincipal_1.setBounds(1200,289, 94, 14);
+					PP.setBounds(1200, 419, 110, 14);
+					// parte Final
+					progressBarPF.setBounds(1100, 520, 300, 48*2);
+					PF.setBounds(1200, 624, 110, 14);
+					lblParteFinal.setBounds(1200, 495, 69, 14);
+					//botones
+					Atras.setBounds(1400, 700, 89, 23);
+					cambios.setBounds(10, 700, 132, 23);
+					//partescomboIni
+					eliminarPI.setBounds(126, 134, 89, 23);
+					btnInfo.setBounds(236, 134, 89, 23);
+					btnAnadir.setBounds(10, 134, 89, 23);
+					comboBoxPI.setBounds(10, 83, 315, 20);
+					lblParteInicial.setBounds(10, 39, 84, 14);
+					//partescomboPP
+					eliminarPP.setBounds(126, 390, 89, 23);
+					btnInfo_1.setBounds(236, 390, 89, 23);
+					btnAnadir_1.setBounds(10, 390, 89, 23);
+					comboBoxPP.setBounds(10, 341, 315, 20);
+					lblPartePrincipal.setBounds(10, 294, 150, 14);
+					//parte final combo
+					eliminarPF.setBounds(126, 602, 89, 23);
+					btnInfo_2.setBounds(236, 602, 89, 23);
+					btnAnadir_2.setBounds(10, 602, 89, 23);
+					comboBoxPF.setBounds(10, 566, 315, 20);
+					lblParteFinalDuracion.setBounds(10, 527, 150, 14);
+					//LABEL
+					lblEntrenamientos.setBounds(700, 11, 111, 19);
+				} }
 		});
-		
-		
+
 	}
 }

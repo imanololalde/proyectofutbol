@@ -114,18 +114,16 @@ public class BaseDeDatos {
 		try {
 			statement = connection.createStatement();
 			rs = statement.executeQuery("SELECT * FROM jugador");
+			ResultSetMetaData metaDatos = rs.getMetaData();
+			int numeroColumnas = metaDatos.getColumnCount();
 			DefaultTableModel modelo = new DefaultTableModel();
 			JTable tabla = new JTable(modelo);
-			while(rs.next()) {
-				ResultSetMetaData metaDatos = rs.getMetaData();
-				int numeroColumnas = metaDatos.getColumnCount();
+			for (int i = 0; i < numeroColumnas; i++) {
 				Object[] etiquetas = new Object[numeroColumnas];
-				for (int i = 0; i < numeroColumnas; i++) {
-					etiquetas[i] = metaDatos.getColumnLabel(i + 1);
-				}
+				etiquetas[i] = metaDatos.getColumnLabel(i + 1);
 				modelo.setColumnIdentifiers(etiquetas);
+				modelo.addRow(etiquetas);
 			}
-			
 			rs.close();
 			log(Level.INFO, "Lista de jugadores", null);
 			return tabla;

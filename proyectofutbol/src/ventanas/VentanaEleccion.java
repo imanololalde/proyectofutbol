@@ -56,7 +56,7 @@ public class VentanaEleccion extends JFrame {
 		
 		bEntrena.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new VentanaEntrenamientos().setVisible(true);
+				new VentanaEntrenamientos(entrenador).setVisible(true);
 				VentanaEleccion.this.setVisible(false);
 			}
 		});

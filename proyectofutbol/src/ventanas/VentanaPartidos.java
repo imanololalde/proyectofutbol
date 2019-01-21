@@ -77,80 +77,13 @@ public class VentanaPartidos extends JFrame  {
 		campo.setMaximumSize(panelPrincipal.getSize());
 		panelPrincipal.add(campo);
 		
+		JComboBox formaciones = new JComboBox(formacion);
 		JButton btnAtras = new JButton("Atras");
 		JButton btnGuardarCambios = new JButton("Guardar cambios");
-		
-<<<<<<< HEAD
-=======
-		JLabel nombre_por = new JLabel("", SwingConstants.CENTER);
-		nombre_por.setFont(new Font("SpaceClaim ASME CB", Font.BOLD, 11));
-		nombre_por.setForeground(Color.WHITE);
-		panelPrincipal.add(nombre_por, new GridLayout(2, 2));
-		nombre_por.setBackground(new Color(255, 0, 0));
-		nombre_por.setOpaque(true);
-		nombre_por.setVisible(false);
-		
-		JLabel nombre_def1 = new JLabel("", SwingConstants.CENTER);
-		nombre_def1.setForeground(Color.WHITE);
-		nombre_def1.setFont(new Font("SpaceClaim ASME CB", Font.BOLD, 11));
-		panelPrincipal.add(nombre_def1, new GridLayout(4, 1));
-		nombre_def1.setBackground(new Color(255, 0, 0));
-		nombre_def1.setOpaque(true);
-		nombre_def1.setVisible(false);
-		
-		JLabel nombre_def2 = new JLabel("", SwingConstants.CENTER);
-		nombre_def2.setForeground(Color.WHITE);
-		nombre_def2.setFont(new Font("SpaceClaim ASME CB", Font.BOLD, 11));
-		panelPrincipal.add(nombre_def2, new GridLayout(4, 3));
-		nombre_def2.setBackground(new Color(255, 0, 0));
-		nombre_def2.setOpaque(true);
-		nombre_def2.setVisible(false);
-		
 
-		JLabel nomcen1 = new JLabel("", SwingConstants.CENTER);
-		nomcen1.setForeground(Color.WHITE);
-		nomcen1.setFont(new Font("SpaceClaim ASME CB", Font.BOLD, 11));
-		nomcen1.setBounds(299, 323, 89, 29);
-		panelPrincipal.add(nomcen1);
-		nomcen1.setBackground(new Color(255, 0, 0));
-		nomcen1.setOpaque(true);
-		nomcen1.setVisible(false);
-
-		JLabel nombre_cen1 = new JLabel("", SwingConstants.CENTER);
-		nombre_cen1.setForeground(Color.WHITE);
-		nombre_cen1.setFont(new Font("SpaceClaim ASME CB", Font.BOLD, 11));
-		panelPrincipal.add(nombre_cen1, new GridLayout(6, 1));
-		nombre_cen1.setBackground(new Color(255, 0, 0));
-		nombre_cen1.setOpaque(true);
-		nombre_cen1.setVisible(false);
-		
-		JLabel nombre_cen2 = new JLabel("", SwingConstants.CENTER);
-		nombre_cen2.setForeground(Color.WHITE);
-		nombre_cen2.setFont(new Font("SpaceClaim ASME CB", Font.BOLD, 11));
-		panelPrincipal.add(nombre_cen2, new GridLayout(6, 2));
-		nombre_cen2.setBackground(new Color(255, 0, 0));
-		nombre_cen2.setOpaque(true);
-		nombre_cen2.setVisible(false);
-
-		
-		JLabel nombre_cen3 = new JLabel("",  SwingConstants.CENTER);
-		nombre_cen3.setForeground(Color.WHITE);
-		nombre_cen3.setFont(new Font("SpaceClaim ASME CB", Font.BOLD, 11));
-		panelPrincipal.add(nombre_cen3, new GridLayout(6, 3));
-		nombre_cen3.setBackground(new Color(255, 0, 0));
-		nombre_cen3.setOpaque(true);
-		nombre_cen3.setVisible(false);
-		
-		JLabel nombre_del1 = new JLabel("",  SwingConstants.CENTER);
-		nombre_del1.setForeground(Color.WHITE);
-		nombre_del1.setFont(new Font("SpaceClaim ASME CB", Font.BOLD, 11));
-		panelPrincipal.add(nombre_del1, new GridLayout(8, 2));
-		nombre_del1.setBackground(new Color(255, 0, 0));
-		nombre_del1.setOpaque(true);
-		
->>>>>>> branch 'master' of https://github.com/imanololalde/proyectofutbol.git
 		botones.add(btnGuardarCambios, BorderLayout.WEST);
 		botones.add(btnAtras, BorderLayout.EAST);
+		botones.add(formaciones, BorderLayout.CENTER);
 		
 		btnAtras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -168,17 +101,18 @@ public class VentanaPartidos extends JFrame  {
 			}
 		});
 		
-		JComboBox formaciones = new JComboBox(formacion);
-		botones.add(formaciones, BorderLayout.CENTER);
-		
 		if(formaciones.getSelectedIndex() == 1) {
 			layeredPane.setLayer(panelFormacion1, 2);
+			
 		} else if (formaciones.getSelectedIndex() == 2) {
 			layeredPane.setLayer(panelFormacion2, 3);
+			
 		} else if (formaciones.getSelectedIndex() == 3) {
 			layeredPane.setLayer(panelFormacion3, 4);
+			
 		} else if (formaciones.getSelectedIndex() == 4) {
 			layeredPane.setLayer(panelFormacion4, 5);
+			
 		}
 
         }

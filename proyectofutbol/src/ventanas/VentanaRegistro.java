@@ -2,6 +2,7 @@ package ventanas;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import base_de_datos.BaseDeDatos;
@@ -42,7 +43,6 @@ public class VentanaRegistro extends JFrame {
 	public static String posicion;
 	public static int dorsal;
 	private JButton ainadirJugador;
-	private JButton eliminarJugador;
 	private JButton editarJugador;
 	
 	/**
@@ -91,7 +91,6 @@ public class VentanaRegistro extends JFrame {
 		JButton bregistrar = new JButton("Registrar");
 		JButton bguardar = new JButton("Guardar");
 		ainadirJugador = new JButton("Añadir Jugador");
-		eliminarJugador = new JButton("Eliminar Jugador");
 		editarJugador = new JButton("Editar Jugador");
 		//Asignacion
 		panelLabels.add(lblNombre, new GridLayout(1, 1));
@@ -111,7 +110,6 @@ public class VentanaRegistro extends JFrame {
 		bborrar.setEnabled(false);
 		bguardar.setEnabled(false);
 		panelMenu.add(ainadirJugador);
-		panelMenu.add(eliminarJugador);
 		panelMenu.add(editarJugador);
 		
 		getContentPane().add( panelMenu, BorderLayout.NORTH );
@@ -129,20 +127,6 @@ public class VentanaRegistro extends JFrame {
 			}
 		});
 		
-		eliminarJugador.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				panelPrincipal.setVisible(false);
-				panelLabels.setVisible(false);
-				bborrar.setEnabled(true);
-				bguardar.setEnabled(true);
-				bregistrar.setEnabled(false);
-				JPanel pEliminar = new JPanel(new BorderLayout());
-				getContentPane().add(pEliminar, BorderLayout.CENTER);
-				JTable tabla = BaseDeDatos.creadorTabla();
-				pEliminar.add(tabla, BorderLayout.CENTER);
-			}
-		});
-		
 		editarJugador.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelPrincipal.setVisible(false);
@@ -153,7 +137,9 @@ public class VentanaRegistro extends JFrame {
 				JPanel pEditar = new JPanel();
 				getContentPane().add(pEditar, BorderLayout.CENTER);
 				JTable tabla = BaseDeDatos.creadorTabla();
-				pEditar.add(tabla);
+				pEditar.add(tabla, BorderLayout.CENTER);
+				pEditar.add(new JScrollPane(tabla));
+				//tabla.updateUI();
 			}
 		});
 		
@@ -186,7 +172,6 @@ public class VentanaRegistro extends JFrame {
 						JOptionPane.showMessageDialog(null, "Error a la hora de registrar jugador", "Registro", JOptionPane.ERROR_MESSAGE);
 					}
 				}
-				
 			}
 		});
 		
