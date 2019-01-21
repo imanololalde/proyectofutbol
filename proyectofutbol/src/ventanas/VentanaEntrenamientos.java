@@ -1,7 +1,5 @@
 package ventanas;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -64,9 +62,9 @@ public class VentanaEntrenamientos extends JFrame {
 	 */
 	public  void inicializar(Entrenador entrenador) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
 		setTitle("Entrenamientos");
 		setSize(800, 537);
+		setLocationRelativeTo(null);
 		String[] ultimoPI= new String[3];
 		String[] ultimoPP=new String[12];
 		String[] ultimoPF=new String[2];
@@ -124,8 +122,6 @@ public class VentanaEntrenamientos extends JFrame {
 		progressBarPP.setBounds(535, 215, 219, 48);
 		contentPane.add(progressBarPP);
 		progressBarPP.setMaximum(40);
-		
-		System.out.println(this.getHeight());
 		
 		JProgressBar progressBarPF = new JProgressBar();
 		progressBarPF.setBounds(535, 360, 219, 48);

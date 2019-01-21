@@ -27,7 +27,18 @@ public class Posiciones extends JLabel {
 		setFont(new Font("SpaceClaim ASME CB", Font.BOLD, 11));
 		setBackground(new Color(255, 0, 0));
 		setOpaque(true);
-		
+	}
+	
+	public ImageIcon definirPosicion(int posicion) {
+		imgPosicion.add(new ImageIcon(Posiciones.class.getResource("/imagenes/POR.png")));
+		imgPosicion.add(new ImageIcon(Posiciones.class.getResource("/imagenes/DEF.png")));
+		imgPosicion.add(new ImageIcon(Posiciones.class.getResource("/imagenes/MED.png")));
+		imgPosicion.add(new ImageIcon(Posiciones.class.getResource("/imagenes/DEL.png")));
+	
+		return imgPosicion.get(posicion);
+	}
+	
+	public void elegirJugador() {
 		JLabel imagen = new JLabel("");
 		imagen.setHorizontalAlignment(SwingConstants.CENTER);
 		imagen.addMouseListener(new MouseAdapter() {
@@ -45,14 +56,5 @@ public class Posiciones extends JLabel {
 				 setVisible(true);
 			}
 		});
-	}
-	
-	public ImageIcon definirPosicion(int posicion) {
-		imgPosicion.add(new ImageIcon(Posiciones.class.getResource("/imagenes/POR.png")));
-		imgPosicion.add(new ImageIcon(Posiciones.class.getResource("/imagenes/DEF.png")));
-		imgPosicion.add(new ImageIcon(Posiciones.class.getResource("/imagenes/MED.png")));
-		imgPosicion.add(new ImageIcon(Posiciones.class.getResource("/imagenes/DEL.png")));
-	
-		return imgPosicion.get(posicion);
 	}
 }

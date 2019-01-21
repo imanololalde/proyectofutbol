@@ -13,7 +13,10 @@ import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
 public class BaseDeDatos {
@@ -115,14 +118,23 @@ public class BaseDeDatos {
 			statement = connection.createStatement();
 			rs = statement.executeQuery("SELECT * FROM jugador");
 			ResultSetMetaData metaDatos = rs.getMetaData();
+			
 			int numeroColumnas = metaDatos.getColumnCount();
 			DefaultTableModel modelo = new DefaultTableModel();
 			JTable tabla = new JTable(modelo);
+			Object[] etiquetas = new Object[numeroColumnas];
+			//Crea las cabeceras del JTable
 			for (int i = 0; i < numeroColumnas; i++) {
-				Object[] etiquetas = new Object[numeroColumnas];
 				etiquetas[i] = metaDatos.getColumnLabel(i + 1);
 				modelo.setColumnIdentifiers(etiquetas);
-				modelo.addRow(etiquetas);
+			}
+			//Crea las filas para el JTable
+			while(rs.next()) {
+				Object[] fila = new Object[numeroColumnas];
+				for (int i = 0; i < numeroColumnas; i++) {
+					fila[i]=rs.getObject(i+1);
+				}
+				modelo.addRow(fila);
 			}
 			rs.close();
 			log(Level.INFO, "Lista de jugadores", null);
@@ -132,7 +144,44 @@ public class BaseDeDatos {
 			return null;
 		}
 	}
+	
+	public static void borrarFilaDeTabla(JTable tabla) {
+		DefaultTableModel dtm = (DefaultTableModel) tabla.getModel();
+		if(tabla.getSelectedRow()==-1) {
+			JOptionPane.showMessageDialog(null, "Debe elegir una fila", "Error", JOptionPane.ERROR_MESSAGE);
+		} else {
+			dtm.removeRow(tabla.getSelectedRow());
+		}
+	}
 
+	public static void datosDesdeTabla(JTable tabla) {
+		DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+		int filas = modelo.getRowCount();
+		
+		for(int i = 0; i < filas; i++) {
+			
+		}
+		modelo.addTableModelListener(new TableModelListener() {
+			@Override
+			public void tableChanged(TableModelEvent e) {
+				if(e.getType() == TableModelEvent.UPDATE){
+					int columna = e.getColumn();
+					int fila = e.getFirstRow();
+					if(columna == 0){
+						String sql = "UPDATE jugador SET nombre = '"+ tabla.getValueAt(fila, columna) +"' WHERE id_usuario = 2;";
+						try {
+							statement = connection.createStatement();
+							rs = statement.executeQuery(sql);
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+				}
+			}
+		});
+	}
+	
 	/**
 	 * Visualiza toda la información guardada que hay del entrenador
 	 * @param Entrenador

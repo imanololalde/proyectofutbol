@@ -18,8 +18,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
+
 
 public class VentanaPartidos extends JFrame  {
 
@@ -62,10 +61,7 @@ public class VentanaPartidos extends JFrame  {
 		JPanel panelFormacion3 = new JPanel();
 		JPanel panelFormacion4 = new JPanel();
 		
-		getContentPane().add(botones, BorderLayout.SOUTH);
-		getContentPane().add(panelPrincipal, BorderLayout.CENTER);
-		
-		layeredPane.add(getContentPane(), 1);
+		layeredPane.add(panelPrincipal, 1);
 		layeredPane.add(panelFormacion1, 2);
 		layeredPane.add(panelFormacion2, 3);
 		layeredPane.add(panelFormacion3, 4);
@@ -85,6 +81,10 @@ public class VentanaPartidos extends JFrame  {
 		botones.add(btnAtras, BorderLayout.EAST);
 		botones.add(formaciones, BorderLayout.CENTER);
 		
+		getContentPane().add(layeredPane);
+		getContentPane().add(botones, BorderLayout.SOUTH);
+		getContentPane().add(panelPrincipal, BorderLayout.CENTER);
+		
 		btnAtras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new VentanaEleccion(entrenador).setVisible(true);
@@ -103,7 +103,26 @@ public class VentanaPartidos extends JFrame  {
 		
 		if(formaciones.getSelectedIndex() == 1) {
 			layeredPane.setLayer(panelFormacion1, 2);
+			panelPrincipal.setOpaque(true);
+			panelPrincipal.setVisible(false);
+			Posiciones portero = new Posiciones("", SwingConstants.CENTER);
+			Posiciones defensa = new Posiciones("", SwingConstants.CENTER);
+			Posiciones centro = new Posiciones("", SwingConstants.CENTER);
+			Posiciones delantero = new Posiciones("", SwingConstants.CENTER);
+			//imagenes
+			portero.definirPosicion(1);
+			defensa.definirPosicion(2);
+			centro.definirPosicion(3);
+			delantero.definirPosicion(4);
+			//nombres
+			portero.elegirJugador();
+			defensa.elegirJugador();
+			centro.elegirJugador();
+			delantero.elegirJugador();
+			//colocacion
+			portero.setLocation(panelFormacion1.getHeight()/2, panelFormacion1.getWidth()/4);
 			
+			panelFormacion1.add(portero);
 		} else if (formaciones.getSelectedIndex() == 2) {
 			layeredPane.setLayer(panelFormacion2, 3);
 			

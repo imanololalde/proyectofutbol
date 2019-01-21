@@ -16,12 +16,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.JComboBox;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
-import java.awt.event.KeyEvent;
-import java.awt.Component;
 
 public class VentanaRegistro extends JFrame {
 
@@ -140,6 +137,16 @@ public class VentanaRegistro extends JFrame {
 				pEditar.add(tabla, BorderLayout.CENTER);
 				pEditar.add(new JScrollPane(tabla));
 				//tabla.updateUI();
+
+				bguardar.addActionListener(
+						(l)->{
+							
+						}
+						);
+				
+				bborrar.addActionListener(
+						(l)->{ BaseDeDatos.borrarFilaDeTabla(tabla); }
+						);
 			}
 		});
 		
@@ -175,16 +182,5 @@ public class VentanaRegistro extends JFrame {
 			}
 		});
 		
-		bguardar.addActionListener(
-				(l)->{
-					
-				}
-				);
-		
-		bborrar.addActionListener(
-				(l)->{
-					
-				}
-				);
 	}
 }
