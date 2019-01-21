@@ -36,6 +36,7 @@ public class ImagenEjercicio extends  JFrame {
 	 * Create the frame.
 	 */
 	public ImagenEjercicio() {
+		setResizable(false);
 		
 		int i=VentanaEntrenamientos.getEleccion();
 		System.out.println(i);
@@ -47,6 +48,7 @@ public class ImagenEjercicio extends  JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
 		
 		JLabel lblNewLabel = new JLabel("New label");
 		if(i<=7) {

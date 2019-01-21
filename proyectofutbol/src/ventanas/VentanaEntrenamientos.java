@@ -18,12 +18,17 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import java.awt.HeadlessException;
+import java.awt.Component;
+import javax.swing.Box;
+import java.awt.Dimension;
 
 public class VentanaEntrenamientos extends JFrame {
 
@@ -73,6 +78,8 @@ public class VentanaEntrenamientos extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaEntrenamientos(){
+		setLocationByPlatform(true);
+		setTitle("Entrenamientos\r\n");
 		String[] ultimoPI= new String[3];
 		String[] ultimoPP=new String[12];
 		String[] ultimoPF=new String[2];
@@ -125,11 +132,14 @@ public class VentanaEntrenamientos extends JFrame {
 		progressBarPI.setBounds(535, 64, 219, 48);
 		contentPane.add(progressBarPI);
 		progressBarPI.setMaximum(30);
+		progressBarPI.doLayout();
 		
 		JProgressBar progressBarPP = new JProgressBar();
 		progressBarPP.setBounds(535, 215, 219, 48);
 		contentPane.add(progressBarPP);
 		progressBarPP.setMaximum(40);
+		
+		System.out.println(this.getHeight());
 		
 		JProgressBar progressBarPF = new JProgressBar();
 		progressBarPF.setBounds(535, 360, 219, 48);
@@ -138,7 +148,7 @@ public class VentanaEntrenamientos extends JFrame {
 		
 		JLabel lblEntrenamientos = new JLabel("Entrenamientos");
 		lblEntrenamientos.setFont(new Font("Trebuchet MS", Font.BOLD, 15));
-		lblEntrenamientos.setBounds(317, 11, 150, 48);
+		lblEntrenamientos.setBounds(317, 11, 111, 19);
 		contentPane.add(lblEntrenamientos);
 		
 		JLabel lblParteInicial = new JLabel("Parte Inicial");
@@ -412,6 +422,85 @@ public class VentanaEntrenamientos extends JFrame {
 		});
 		cambios.setBounds(10, 464, 132, 23);
 		contentPane.add(cambios);
+		
+		contentPane.addComponentListener(new ComponentAdapter() {
+		    public void componentResized(ComponentEvent componentEvent) {
+		        // do stuff
+		    	System.out.println(contentPane.getX());
+		    	if(contentPane.getWidth()<=1000) {
+		    	//parte inicial
+		    		progressBarPI.setBounds(535, 64, 219, 48);
+		    	lblParteInicial_1.setBounds(621, 39, 69, 14);
+		    	PI.setBounds(621, 123, 110, 14);
+		    	//parte PRINCIAPL
+	    		progressBarPP.setBounds(535,  215, 219, 48);
+	    	lblPartePrincipal_1.setBounds(621,184, 94, 14);
+	    	PP.setBounds(621, 274, 110, 14);
+	    	// parte Final
+	    	progressBarPF.setBounds(535, 360, 219, 48);
+	    	PF.setBounds(621, 419, 110, 14);
+	    	lblParteFinal.setBounds(621, 335, 69, 14);
+	    	//botones
+	    	Atras.setBounds(665, 464, 89, 23);
+	    	cambios.setBounds(10, 464, 132, 23);
+	    	//partescomboIni
+	    	eliminarPI.setBounds(126, 114, 89, 23);
+	    	btnInfo.setBounds(236, 114, 89, 23);
+			btnAnadir.setBounds(10, 114, 89, 23);
+			comboBoxPI.setBounds(10, 73, 315, 20);
+			lblParteInicial.setBounds(10, 29, 84, 14);
+			//partescomboPP
+			eliminarPP.setBounds(126, 270, 89, 23);
+			btnInfo_1.setBounds(236, 270, 89, 23);
+			btnAnadir_1.setBounds(10, 270, 89, 23);
+			comboBoxPP.setBounds(10, 231, 315, 20);
+			lblPartePrincipal.setBounds(10, 184, 150, 14);
+			//parte final combo
+			eliminarPF.setBounds(126, 400, 89, 23);
+			btnInfo_2.setBounds(236, 400, 89, 23);
+			btnAnadir_2.setBounds(10, 400, 89, 23);
+			comboBoxPF.setBounds(10, 364, 315, 20);
+			lblParteFinalDuracion.setBounds(10, 335, 150, 14);
+			//LABEL
+			lblEntrenamientos.setBounds(317, 11, 111, 19);
+			}else {
+		    	//parte inicial
+		    	lblParteInicial_1.setBounds(1200, 39, 69*2, 14*2);
+		    	PI.setBounds(1200, 153, 110*2, 14*2);
+		    	progressBarPI.setBounds(1100, 64, 300, 48*2);
+		    	//parte PRINCIAPL
+	    		progressBarPP.setBounds(1100, 308, 300, 48*2);
+	    	lblPartePrincipal_1.setBounds(1200,289, 94, 14);
+	    	PP.setBounds(1200, 419, 110, 14);
+	       	// parte Final
+	    	progressBarPF.setBounds(1100, 520, 300, 48*2);
+	    	PF.setBounds(1200, 624, 110, 14);
+	    	lblParteFinal.setBounds(1200, 495, 69, 14);
+	    	//botones
+	    	Atras.setBounds(1400, 700, 89, 23);
+	    	cambios.setBounds(10, 700, 132, 23);
+	    	//partescomboIni
+	    	eliminarPI.setBounds(126, 134, 89, 23);
+	    	btnInfo.setBounds(236, 134, 89, 23);
+			btnAnadir.setBounds(10, 134, 89, 23);
+			comboBoxPI.setBounds(10, 83, 315, 20);
+			lblParteInicial.setBounds(10, 39, 84, 14);
+			//partescomboPP
+			eliminarPP.setBounds(126, 390, 89, 23);
+			btnInfo_1.setBounds(236, 390, 89, 23);
+			btnAnadir_1.setBounds(10, 390, 89, 23);
+			comboBoxPP.setBounds(10, 341, 315, 20);
+			lblPartePrincipal.setBounds(10, 294, 150, 14);
+			//parte final combo
+			eliminarPF.setBounds(126, 602, 89, 23);
+			btnInfo_2.setBounds(236, 602, 89, 23);
+			btnAnadir_2.setBounds(10, 602, 89, 23);
+			comboBoxPF.setBounds(10, 566, 315, 20);
+			lblParteFinalDuracion.setBounds(10, 527, 150, 14);
+			//LABEL
+			lblEntrenamientos.setBounds(700, 11, 111, 19);
+			} }
+		});
 		
 		
 	}
